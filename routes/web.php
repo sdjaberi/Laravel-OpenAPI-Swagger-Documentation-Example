@@ -1,15 +1,19 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
 Route::redirect('/', '/login');
 Route::get('/home', function () {
     if (session('status')) {
-        return redirect()->route('admin.home')->with('status', session('status'));
+        return redirect()->route('admin.home')
+        ->with('status', session('status'));
     }
 
     return redirect()->route('admin.home');
 });
 
-Auth::routes(['register' => false]);
+Auth::routes(['register' => true]);
 // Admin
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {

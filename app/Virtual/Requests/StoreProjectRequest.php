@@ -1,15 +1,17 @@
 <?php
 
+namespace App\Virtual\Requests;
+
 /**
  * @OA\Schema(
- *      title="Update Project request",
- *      description="Update Project request body data",
+ *      title="Store Project request",
+ *      description="Store Project request body data",
  *      type="object",
  *      required={"name"}
  * )
  */
 
-class UpdateProjectRequest
+class StoreProjectRequest
 {
     /**
      * @OA\Property(

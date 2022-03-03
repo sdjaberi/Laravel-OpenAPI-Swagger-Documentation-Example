@@ -3,16 +3,27 @@
 namespace App\Http\Controllers\Api\V1\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
+use Symfony\Component\HttpFoundation\Response;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Http\Resources\Admin\ProjectResource;
-use App\Project;
-use Gate;
-use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
+use App\Models\Project;
+use App\Repositories\ProjectRepository;
+use App\Repositories\UserRepository;
+
 
 class ProjectsApiController extends Controller
 {
+    private $_projectRepository;
+    private $_userRepository;
+
+    public function __construct(ProjectRepository $projectRepository, UserRepository $userRepository)
+    {
+        $this->_projectRepository = $projectRepository;
+        $this->_userRepository = $userRepository;
+    }
+
     /**
      * @OA\Get(
      *      path="/projects",
@@ -37,9 +48,19 @@ class ProjectsApiController extends Controller
      */
     public function index()
     {
-        abort_if(Gate::denies('project_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        //$projects = $this->_projectRepository->getAllData();
 
-        return new ProjectResource(Project::with(['author'])->get());
+        //dd($projects);
+
+        //Debugbar::info($projects);
+
+        //abort_if(Gate::denies('project_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $projects = $this->_projectRepository->getAllData();
+
+        return new ProjectResource($projects);
+
+        //return new ProjectResource(Project::with(['author'])->get());
     }
 
     /**
@@ -51,7 +72,7 @@ class ProjectsApiController extends Controller
      *      description="Returns project data",
      *      @OA\RequestBody(
      *          required=true,
-     *          @OA\JsonContent(ref="#/components/schemas/StoreProjectRequest")
+     *          @OA\JsonContent(ref="#/components/schemas/requests/StoreProjectRequest")
      *      ),
      *      @OA\Response(
      *          response=201,
@@ -141,7 +162,7 @@ class ProjectsApiController extends Controller
      *      ),
      *      @OA\RequestBody(
      *          required=true,
-     *          @OA\JsonContent(ref="#/components/schemas/UpdateProjectRequest")
+     *          @OA\JsonContent(ref="#/components/schemas/requests/UpdateProjectRequest")
      *      ),
      *      @OA\Response(
      *          response=202,

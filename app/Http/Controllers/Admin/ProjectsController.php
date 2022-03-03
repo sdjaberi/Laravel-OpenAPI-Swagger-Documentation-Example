@@ -6,19 +6,30 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyProjectRequest;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
-use App\Project;
-use App\User;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Models\Project;
+use App\Models\User;
+use ProjectRepository;
+//use UserRepository;
 
 class ProjectsController extends Controller
 {
+    private $_projectRepository;
+    private $_userRepository;
+
+    public function __construct(ProjectRepository $projectRepository) //, UserRepository $userRepository)
+    {
+        $this->_projectRepository = $projectRepository;
+        //$this->_userRepository = $userRepository;
+    }
+
     public function index()
     {
         abort_if(Gate::denies('project_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $projects = Project::all();
+        $projects = $this->_projectRepository->getAllData();
 
         return view('admin.projects.index', compact('projects'));
     }
@@ -34,6 +45,13 @@ class ProjectsController extends Controller
 
     public function store(StoreProjectRequest $request)
     {
+        /*
+        public function storeOrUpdate($id = null,$data);
+        public function view($id);
+        public function delete($id);
+        */
+        //$projects = $this->_projectRepository->getAllData();
+
         $project = Project::create($request->all());
 
         return redirect()->route('admin.projects.index');

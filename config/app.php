@@ -177,6 +177,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         L5Swagger\L5SwaggerServiceProvider::class,
+        Laravel\Passport\PassportServiceProvider::class,
     ],
 
     /*
@@ -229,6 +230,7 @@ return [
         'View'         => Illuminate\Support\Facades\View::class,
         'Bugsnag'      => Bugsnag\BugsnagLaravel\Facades\Bugsnag::class,
 
+        'Debugbar'     => Barryvdh\Debugbar\Facades\Debugbar::class,
     ],
 
 ];

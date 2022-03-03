@@ -31,6 +31,7 @@ class User
      * @var string
      */
     private $name;
+
     /**
      * @OA\Property(
      *     title="Email",
