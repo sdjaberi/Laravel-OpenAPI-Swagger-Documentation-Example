@@ -157,7 +157,7 @@ return [
             'flows' => [
                 "password" => [
                     "authorizationUrl" => config('app.url') . '/api/v1/authorize',
-                    "tokenUrl" => config('app.url') . '/api/v1/token',
+                    "tokenUrl" => config('app.url') . '/api/v1/login',
                     "refreshUrl" => config('app.url') . '/api/v1/refresh',
                     "scopes" => []
                 ],

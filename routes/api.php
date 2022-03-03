@@ -15,37 +15,37 @@ Route::group([
     , function () {
 
     // Permissions
-    Route::apiResource('permissions', 'PermissionsApiController');
+    Route::apiResource('permissions', 'PermissionsController');
 
     // Roles
-    Route::apiResource('roles', 'RolesApiController');
+    Route::apiResource('roles', 'RolesController');
 
     // Users
-    Route::apiResource('users', 'UsersApiController');
+    Route::apiResource('users', 'UsersController');
 
     // Projects
-    Route::apiResource('projects', 'ProjectsApiController');
+    Route::apiResource('projects', 'ProjectsController');
 
 
     Route::group(['prefix' => '']
     ,
     function () {
-        Route::post('login', 'Auth\AuthApiController@login')->name('login');
-        Route::post('register', 'Auth\AuthApiController@register');
+        Route::post('login', 'Auth\AuthController@login')->name('login');
+        Route::post('register', 'Auth\AuthController@register');
         Route::group(['middleware' => 'api']
         , function() {
-            Route::get('logout', 'Auth\AuthApiController@logout');
-            Route::get('user', 'Auth\AuthApiController@user');
-            Route::get('me', 'Auth\AuthApiController@me');
+            Route::get('logout', 'Auth\AuthController@logout');
+            Route::get('user', 'Auth\AuthController@user');
+            Route::get('me', 'Auth\AuthController@me');
         });
     });
 
-    //Route::post('login', 'Auth\AuthApiController@login');
-    Route::post('logout', 'Auth\AuthApiController@logout');
-    //Route::post('me', 'Auth\AuthApiController@me');
+    //Route::post('login', 'Auth\AuthController@login');
+    Route::post('logout', 'Auth\AuthController@logout');
+    //Route::post('me', 'Auth\AuthController@me');
 
-    Route::post('authorize', 'Auth\AuthApiController@authorize');
-    Route::post('token', 'Auth\AuthApiController@token');
-    Route::post('refresh', 'Auth\AuthApiController@refresh');
+    Route::post('authorize', 'Auth\AuthController@authorize');
+    Route::post('token', 'Auth\AuthController@token');
+    Route::post('refresh', 'Auth\AuthController@refresh');
 
 });

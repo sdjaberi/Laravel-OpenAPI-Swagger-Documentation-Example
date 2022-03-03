@@ -3,16 +3,19 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\MassDestroyProjectRequest;
-use App\Http\Requests\StoreProjectRequest;
-use App\Http\Requests\UpdateProjectRequest;
+use App\Http\Requests\Projects\MassDestroyProjectRequest;
+use App\Http\Requests\Projects\StoreProjectRequest;
+use App\Http\Requests\Projects\UpdateProjectRequest;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Models\Project;
 use App\Models\User;
-use ProjectRepository;
+use App\Repositories\ProjectRepository;
 //use UserRepository;
+
+use App\Http\Exceptions\ApiNotFoundException;
+use App\Http\Exceptions\ApiPermissionException;
 
 class ProjectsController extends Controller
 {
@@ -27,8 +30,6 @@ class ProjectsController extends Controller
 
     public function index()
     {
-        abort_if(Gate::denies('project_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $projects = $this->_projectRepository->getAllData();
 
         return view('admin.projects.index', compact('projects'));
@@ -36,7 +37,8 @@ class ProjectsController extends Controller
 
     public function create()
     {
-        abort_if(Gate::denies('project_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        if(!Gate::allows('project_create'))
+            throw new ApiPermissionException;
 
         $authors = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
@@ -45,14 +47,7 @@ class ProjectsController extends Controller
 
     public function store(StoreProjectRequest $request)
     {
-        /*
-        public function storeOrUpdate($id = null,$data);
-        public function view($id);
-        public function delete($id);
-        */
-        //$projects = $this->_projectRepository->getAllData();
-
-        $project = Project::create($request->all());
+        $project = $this->_projectRepository->storeOrUpdate(null, $request);
 
         return redirect()->route('admin.projects.index');
     }
@@ -70,25 +65,23 @@ class ProjectsController extends Controller
 
     public function update(UpdateProjectRequest $request, Project $project)
     {
-        $project->update($request->all());
+        $project = $this->_projectRepository->storeOrUpdate($request['id'], $project);
+
+        return redirect()->route('admin.projects.index');
 
         return redirect()->route('admin.projects.index');
     }
 
     public function show(Project $project)
     {
-        abort_if(Gate::denies('project_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $project->load('author');
+        $project = $this->_projectRepository->view($project->id);
 
         return view('admin.projects.show', compact('project'));
     }
 
     public function destroy(Project $project)
     {
-        abort_if(Gate::denies('project_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $project->delete();
+        $project = $this->_projectRepository->delete($project->id);
 
         return back();
     }

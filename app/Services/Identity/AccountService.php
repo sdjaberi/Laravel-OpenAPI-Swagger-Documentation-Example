@@ -54,7 +54,7 @@ class AccountService implements IAccountService
             return response(['error_message' => 'Incorrect Details. Please try again'], 403);
         }
 
-        dd($loginOut);
+        //dd($loginOut);
 
         $currentUser =auth()->user();
 
