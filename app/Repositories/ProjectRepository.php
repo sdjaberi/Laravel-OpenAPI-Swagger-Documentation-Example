@@ -6,11 +6,14 @@ use App\Models\Project;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Exceptions\ApiNotFoundException;
 use App\Http\Exceptions\ApiPermissionException;
+use Barryvdh\Debugbar\Facades\Debugbar;
+use Barryvdh\Debugbar\Middleware\DebugbarEnabled;
 
 interface IProjectRepository
 {
     public function getAllData();
-    public function storeOrUpdate($id = null,$data);
+    public function store($data);
+    public function update($id = null,$data);
     public function view($id);
     public function delete($id);
 }
@@ -19,57 +22,52 @@ class ProjectRepository implements IProjectRepository
 {
     public function getAllData()
     {
-        if(Gate::allows('project_access'))
-            throw new ApiPermissionException;
-
-        try {
-            return Project::latest()->get();
-        } catch (\Exception $ex) {
-            throw new ApiNotFoundException;
-        }
+        return Project::with('author')->get();
     }
 
-    public function storeOrUpdate($id = null,$data)
+    public function store($data)
     {
-        if(is_null($id)){
-            if(Gate::allows('project_create'))
-                throw new ApiPermissionException;
+        $project = new Project();
+        $project->name = $data['name'];
+        $project->description = $data['description'];
+        $project->author_id = $data['author_id'];
+        $project->save();
 
+        $project->languages()->sync($data['languages']);
 
-            $project = new Project();
-            $project->name = $data['name'];
-            $project->author_id = $data['roll'];
-            $project->save();
+        return $project;
+    }
 
-            return $project;
-        }
-        else
-        {
-            if(Gate::allows('project_edit'))
-                throw new ApiPermissionException;
+    public function update($id = null, $data)
+    {
+        $project = Project::find($id);
 
-            $project = Project::find($id);
-            $project->name = $data['name'];
-            $project->roll = $data['roll'];
-            $project->save();
+        if(!$project)
+            throw new ApiNotFoundException();
 
-            return $project;
-        }
+        $project->name = $data['name'];
+        $project->description = $data['description'];
+        $project->author_id = $data['author_id'];
+        $project->save();
+
+        $project->languages()->sync($data->input('languages', []));
+
+        return $project;
     }
 
     public function view($id)
     {
-        if(Gate::allows('project_show'))
-            throw new ApiPermissionException;
-
         return Project::find($id)->load('author');
     }
 
     public function delete($id)
     {
-        if(Gate::allows('project_delete'))
-            throw new ApiPermissionException;
-
         return Project::find($id)->delete();
     }
+
+    public function deleteAll($ids)
+    {
+        return Project::whereIn('id', $ids)->delete();
+    }
+
 }

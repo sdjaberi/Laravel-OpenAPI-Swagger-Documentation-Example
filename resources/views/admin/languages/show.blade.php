@@ -3,13 +3,13 @@
 
 <div class="card">
     <div class="card-header">
-        {{ trans('global.show') }} {{ trans('cruds.user.title') }}
+        {{ trans('global.show') }} {{ trans('cruds.language.title') }}
     </div>
 
     <div class="card-body">
         <div class="form-group">
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.users.index') }}">
+                <a class="btn btn-default" href="{{ route('admin.languages.index') }}">
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>
@@ -17,50 +17,56 @@
                 <tbody>
                     <tr>
                         <th>
-                            {{ trans('cruds.user.fields.id') }}
+                            {{ trans('cruds.language.fields.id') }}
                         </th>
                         <td>
-                            {{ $user->id }}
+                            {{ $language->id }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.user.fields.name') }}
+                            {{ trans('cruds.language.fields.title') }}
                         </th>
                         <td>
-                            {{ $user->name }}
+                            {{ $language->title }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.user.fields.email') }}
+                            {{ trans('cruds.language.fields.iso_code') }}
                         </th>
                         <td>
-                            {{ $user->email }}
+                            {{ $language->iso_code }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.user.fields.email_verified_at') }}
+                            {{ trans('cruds.language.fields.is_primary') }}
                         </th>
                         <td>
-                            {{ $user->email_verified_at }}
+                            {{ $language->is_primary ? 'Yes' : 'No' }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.user.fields.roles') }}
+                            {{ trans('cruds.language.fields.active') }}
                         </th>
                         <td>
-                            @foreach($user->roles as $key => $roles)
-                                <span class="label label-info">{{ $roles->title }}</span>
-                            @endforeach
+                            {{ $language->active ? 'Yes' : 'No' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.language.fields.text_direction') }}
+                        </th>
+                        <td>
+                            {{ $language->text_direction }}
                         </td>
                     </tr>
                 </tbody>
             </table>
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.users.index') }}">
+                <a class="btn btn-default" href="{{ route('admin.languages.index') }}">
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>
@@ -74,16 +80,18 @@
     </div>
     <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
         <li class="nav-item">
-            <a class="nav-link" href="#author_projects" role="tab" data-toggle="tab">
+            <a class="nav-link" href="#language_projects" role="tab" data-toggle="tab">
                 {{ trans('cruds.project.title') }}
             </a>
         </li>
     </ul>
     <div class="tab-content">
-        <div class="tab-pane" role="tabpanel" id="author_projects">
-            @includeIf('admin.users.relationships.authorProjects', ['projects' => $user->authorProjects])
+        <div class="tab-pane" role="tabpanel" id="language_projects">
+            @includeIf('admin.languages.relationships.languageProjects', ['projects' => $language->projects])
         </div>
     </div>
 </div>
+
+
 
 @endsection

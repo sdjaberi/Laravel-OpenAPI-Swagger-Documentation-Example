@@ -12,7 +12,7 @@ use App\Http\Exceptions\ApiNotFoundException;
 use App\Http\Exceptions\ApiUnAuthException;
 use App\Http\Exceptions\ApiPermissionException;
 
-class StoreProjectRequest extends FormRequest
+class CreateProjectRequest extends FormRequest
 {
     public function authorize()
     {
@@ -27,8 +27,6 @@ class StoreProjectRequest extends FormRequest
 
     public function rules()
     {
-        return [
-            'name' => ['required']
-        ];
+        return [];
     }
 }

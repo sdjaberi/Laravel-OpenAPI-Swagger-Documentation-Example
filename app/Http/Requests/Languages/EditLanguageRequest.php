@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Projects;
+namespace App\Http\Requests\Languages;
 
 use App\Models\Project;
 use Illuminate\Support\Facades\Gate;
@@ -12,14 +12,14 @@ use App\Http\Exceptions\ApiNotFoundException;
 use App\Http\Exceptions\ApiUnAuthException;
 use App\Http\Exceptions\ApiPermissionException;
 
-class StoreProjectRequest extends FormRequest
+class EditLanguageRequest extends FormRequest
 {
     public function authorize()
     {
         if(!Auth::user())
             throw new ApiUnAuthException('Please Login First');
 
-        if(!Gate::allows('project_create'))
+        if(!Gate::allows('language_edit'))
             throw new ApiPermissionException();
 
         return true;
@@ -27,8 +27,6 @@ class StoreProjectRequest extends FormRequest
 
     public function rules()
     {
-        return [
-            'name' => ['required']
-        ];
+        return [];
     }
 }

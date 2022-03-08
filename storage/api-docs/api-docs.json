@@ -1,10 +1,10 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Laravel OpenApi Demo Documentation",
+        "title": "Translator Water-id Documentation",
         "description": "L5 Swagger OpenApi description",
         "contact": {
-            "email": "admin@admin.com"
+            "email": "admin@water-id.com"
         },
         "license": {
             "name": "Apache 2.0",
@@ -14,8 +14,8 @@
     },
     "servers": [
         {
-            "url": "http://restapidemo.local/api/v1",
-            "description": "Demo API Server"
+            "url": "http://translator.local/api/v1",
+            "description": "Water-id Translate API Server"
         }
     ],
     "paths": {
@@ -129,10 +129,34 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthenticated"
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnAuthException"
+                                }
+                            }
+                        }
                     },
                     "403": {
-                        "description": "Forbidden"
+                        "description": "NoPermission",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiPermissionException"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiNotFoundException"
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -165,13 +189,44 @@
                         }
                     },
                     "400": {
-                        "description": "Bad Request"
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiRequestException"
+                                }
+                            }
+                        }
                     },
                     "401": {
-                        "description": "Unauthenticated"
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnAuthException"
+                                }
+                            }
+                        }
                     },
                     "403": {
-                        "description": "Forbidden"
+                        "description": "NoPermission",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiPermissionException"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnprocessableEntityException"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -207,13 +262,34 @@
                         }
                     },
                     "400": {
-                        "description": "Bad Request"
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiRequestException"
+                                }
+                            }
+                        }
                     },
                     "401": {
-                        "description": "Unauthenticated"
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnAuthException"
+                                }
+                            }
+                        }
                     },
                     "403": {
-                        "description": "Forbidden"
+                        "description": "NoPermission",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiPermissionException"
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -257,16 +333,44 @@
                         }
                     },
                     "400": {
-                        "description": "Bad Request"
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiRequestException"
+                                }
+                            }
+                        }
                     },
                     "401": {
-                        "description": "Unauthenticated"
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnAuthException"
+                                }
+                            }
+                        }
                     },
                     "403": {
-                        "description": "Forbidden"
+                        "description": "NoPermission",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiPermissionException"
+                                }
+                            }
+                        }
                     },
                     "404": {
-                        "description": "Resource Not Found"
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiNotFoundException"
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -298,13 +402,34 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthenticated"
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnAuthException"
+                                }
+                            }
+                        }
                     },
                     "403": {
-                        "description": "Forbidden"
+                        "description": "NoPermission",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiPermissionException"
+                                }
+                            }
+                        }
                     },
                     "404": {
-                        "description": "Resource Not Found"
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiNotFoundException"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -358,6 +483,16 @@
                         "description": "The err message",
                         "type": "string",
                         "example": "Unauthenticated"
+                    }
+                },
+                "type": "object"
+            },
+            "ApiUnprocessableEntityException": {
+                "properties": {
+                    "message": {
+                        "description": "The err message",
+                        "type": "string",
+                        "example": "Unprocessable Entity"
                     }
                 },
                 "type": "object"
@@ -561,6 +696,12 @@
                         "type": "integer",
                         "format": "int64",
                         "example": 1
+                    },
+                    "languages": {
+                        "title": "languages",
+                        "description": "Language's ids of the new project",
+                        "type": "array[int64]",
+                        "example": "[1,2]"
                     }
                 },
                 "type": "object"
@@ -590,6 +731,12 @@
                         "type": "integer",
                         "format": "int64",
                         "example": 1
+                    },
+                    "languages": {
+                        "title": "languages",
+                        "description": "Language's ids of the new project",
+                        "type": "array[int64]",
+                        "example": "[1,2]"
                     }
                 },
                 "type": "object"
@@ -639,9 +786,9 @@
                 "scheme": "https",
                 "flows": {
                     "password": {
-                        "authorizationUrl": "http://restapidemo.local/api/v1/authorize",
-                        "tokenUrl": "http://restapidemo.local/api/v1/login",
-                        "refreshUrl": "http://restapidemo.local/api/v1/refresh",
+                        "authorizationUrl": "http://translator.local/api/v1/authorize",
+                        "tokenUrl": "http://translator.local/api/v1/login",
+                        "refreshUrl": "http://translator.local/api/v1/refresh",
                         "scopes": []
                     }
                 }

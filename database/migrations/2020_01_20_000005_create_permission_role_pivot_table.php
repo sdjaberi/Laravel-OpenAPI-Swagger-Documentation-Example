@@ -6,6 +6,11 @@ use Illuminate\Support\Facades\Schema;
 
 class CreatePermissionRolePivotTable extends Migration
 {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
         Schema::create('permission_role', function (Blueprint $table) {

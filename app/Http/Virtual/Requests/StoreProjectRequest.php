@@ -46,4 +46,16 @@ class StoreProjectRequest
      * @var integer
      */
     public $author_id;
+
+    /**
+     * @OA\Property(
+     *      title="languages",
+     *      description="Language's ids of the new project",
+     *      type="array[int64]",
+     *      example="[1,2]"
+     * )
+     *
+     * @var array
+     */
+    public $languages;
 }

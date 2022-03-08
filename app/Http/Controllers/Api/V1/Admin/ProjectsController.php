@@ -5,25 +5,24 @@ namespace App\Http\Controllers\Api\V1\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
+use App\Http\Requests\Projects\IndexProjectRequest;
 use App\Http\Requests\Projects\StoreProjectRequest;
 use App\Http\Requests\Projects\UpdateProjectRequest;
+use App\Http\Requests\Projects\DeleteProjectRequest;
 use App\Http\Resources\Admin\ProjectResource;
 use App\Models\Project;
 use App\Repositories\ProjectRepository;
-use App\Repositories\UserRepository;
 
-use App\Http\Exceptions\ApiNotFoundException;
 use App\Http\Exceptions\ApiPermissionException;
+
 
 class ProjectsController extends Controller
 {
     private $_projectRepository;
-    private $_userRepository;
 
-    public function __construct(ProjectRepository $projectRepository, UserRepository $userRepository)
+    public function __construct(ProjectRepository $projectRepository)//, UserRepository $userRepository)
     {
         $this->_projectRepository = $projectRepository;
-        $this->_userRepository = $userRepository;
     }
 
     /**
@@ -41,20 +40,25 @@ class ProjectsController extends Controller
      *      @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiUnAuthException")
      *      ),
      *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      )
-     *     )
+     *          response="403",
+     *          description="NoPermission",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiPermissionException")
+     *      ),
+     *      @OA\Response(
+     *          response="404",
+     *          description="Not Found",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiNotFoundException")
+     *      ),
+     * )
      */
-    public function index()
+    public function index(IndexProjectRequest $request)
     {
         $projects = $this->_projectRepository->getAllData();
 
         return new ProjectResource($projects);
-
-        //return new ProjectResource(Project::with(['author'])->get());
     }
 
     /**
@@ -74,26 +78,34 @@ class ProjectsController extends Controller
      *          @OA\JsonContent(ref="#/components/schemas/Project")
      *       ),
      *      @OA\Response(
-     *          response=400,
-     *          description="Bad Request"
+     *          response="400",
+     *          description="Bad Request",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiRequestException")
      *      ),
      *      @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiUnAuthException")
      *      ),
      *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      )
+     *          response="403",
+     *          description="NoPermission",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiPermissionException")
+     *      ),
+     *      @OA\Response(
+     *          response="422",
+     *          description="Unprocessable Entity",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiUnprocessableEntityException")
+     *      ),
      * )
      */
     public function store(StoreProjectRequest $request)
     {
-        $project = Project::create($request->all());
+        $project = $this->_projectRepository->store($request->all());
 
         return (new ProjectResource($project))
             ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
+            ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
     /**
@@ -118,32 +130,30 @@ class ProjectsController extends Controller
      *          @OA\JsonContent(ref="#/components/schemas/Project")
      *       ),
      *      @OA\Response(
-     *          response=400,
-     *          description="Bad Request"
+     *          response="400",
+     *          description="Bad Request",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiRequestException")
      *      ),
      *      @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiUnAuthException")
      *      ),
      *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      )
+     *          response="403",
+     *          description="NoPermission",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiPermissionException")
+     *      ),
      * )
      */
-    public function show(Project $project)
+    public function show($id)
     {
-        if(!Gate::allows('project_show'))
-            throw new ApiPermissionException;
+        if(Gate::allows('project_show'))
+            throw new ApiPermissionException();
 
-        try
-        {
-            return new ProjectResource($project->load(['author']));
+        $project = $this->_projectRepository->view($id);
 
-        } catch (\Exception $exception)
-        {
-            throw new ApiNotFoundException();
-        }
+        return new ProjectResource($project);
     }
 
     /**
@@ -172,26 +182,30 @@ class ProjectsController extends Controller
      *          @OA\JsonContent(ref="#/components/schemas/Project")
      *       ),
      *      @OA\Response(
-     *          response=400,
-     *          description="Bad Request"
+     *          response="400",
+     *          description="Bad Request",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiRequestException")
      *      ),
      *      @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiUnAuthException")
      *      ),
      *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
+     *          response="403",
+     *          description="NoPermission",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiPermissionException")
      *      ),
      *      @OA\Response(
-     *          response=404,
-     *          description="Resource Not Found"
-     *      )
+     *          response="404",
+     *          description="Unprocessable Entity",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiNotFoundException")
+     *      ),
      * )
      */
-    public function update(UpdateProjectRequest $request, Project $project)
+    public function update(UpdateProjectRequest $request, $id)
     {
-        $project->update($request->all());
+        $project = $this->_projectRepository->update($id, $request->all());
 
         return (new ProjectResource($project))
             ->response()
@@ -222,22 +236,23 @@ class ProjectsController extends Controller
      *      @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiUnAuthException")
      *      ),
      *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
+     *          response="403",
+     *          description="NoPermission",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiPermissionException")
      *      ),
      *      @OA\Response(
-     *          response=404,
-     *          description="Resource Not Found"
-     *      )
+     *          response="404",
+     *          description="Resource Not Found",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiNotFoundException")
+     *      ),
      * )
      */
-    public function destroy(Project $project)
+    public function destroy(DeleteProjectRequest $request, $id)
     {
-        abort_if(Gate::denies('project_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $project->delete();
+        $project = $this->_projectRepository->delete($id);
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

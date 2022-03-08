@@ -12,6 +12,7 @@ class ApiException extends HttpException
     const NO_FOUND_ERROR = FoundationResponse::HTTP_NOT_FOUND;
     const SYS_ERROR = FoundationResponse::HTTP_INTERNAL_SERVER_ERROR;
     const BAD_REQUEST = FoundationResponse::HTTP_BAD_REQUEST;
+    const UNPROCESSABLE_ENTITY = FoundationResponse::HTTP_UNPROCESSABLE_ENTITY;
 
     /**
      * ApiException constructor.

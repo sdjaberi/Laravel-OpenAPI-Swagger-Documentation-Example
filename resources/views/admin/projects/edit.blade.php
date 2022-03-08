@@ -45,6 +45,24 @@
                 <span class="help-block">{{ trans('cruds.project.fields.author_helper') }}</span>
             </div>
             <div class="form-group">
+                <label class="required" for="languages">{{ trans('cruds.project.fields.languages') }}</label>
+                <div style="padding-bottom: 4px">
+                    <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
+                    <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
+                </div>
+                <select class="form-control select2 {{ $errors->has('languages') ? 'is-invalid' : '' }}" name="languages[]" id="languages" multiple required>
+                    @foreach($languages as $id => $languages)
+                        <option value="{{ $id }}" {{ (in_array($id, old('languages', [])) || $project->languages->contains($id)) ? 'selected' : '' }}>{{ $languages }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('languages'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('languages') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.project.fields.languages_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

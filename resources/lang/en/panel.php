@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'site_title' => 'OpenAPI Demo',
+    'site_title' => 'Translator',
 ];

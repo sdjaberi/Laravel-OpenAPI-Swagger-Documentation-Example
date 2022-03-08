@@ -30,4 +30,9 @@ class Project extends Model
     {
         return $this->belongsTo(User::class, 'author_id');
     }
+
+    public function languages()
+    {
+        return $this->belongsToMany(Language::class);
+    }
 }

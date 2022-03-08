@@ -7,19 +7,17 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
-use App\Http\Exceptions\ApiRequestException;
-use App\Http\Exceptions\ApiNotFoundException;
-use App\Http\Exceptions\ApiUnAuthException;
 use App\Http\Exceptions\ApiPermissionException;
+use App\Http\Exceptions\ApiUnAuthException;
 
-class StoreProjectRequest extends FormRequest
+class DeleteProjectRequest extends FormRequest
 {
     public function authorize()
     {
         if(!Auth::user())
             throw new ApiUnAuthException('Please Login First');
 
-        if(!Gate::allows('project_create'))
+        if(!Gate::allows('project_delete'))
             throw new ApiPermissionException();
 
         return true;
@@ -27,8 +25,6 @@ class StoreProjectRequest extends FormRequest
 
     public function rules()
     {
-        return [
-            'name' => ['required']
-        ];
+        return [];
     }
 }

@@ -47,6 +47,16 @@
                             {{ $project->author->name ?? '' }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.project.fields.languages') }}
+                        </th>
+                        <td>
+                            @foreach($project->languages as $key => $languages)
+                                <span class="label label-info">{{ $languages->title."(". $languages->iso_code .")" }}</span>
+                            @endforeach
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">
@@ -54,6 +64,24 @@
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        {{ trans('global.relatedData') }}
+    </div>
+    <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
+        <li class="nav-item">
+            <a class="nav-link" href="#project_languages" role="tab" data-toggle="tab">
+                {{ trans('cruds.language.title') }}
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane" role="tabpanel" id="project_languages">
+            @includeIf('admin.projects.relationships.projectLanguages', ['languages' => $project->languages])
         </div>
     </div>
 </div>

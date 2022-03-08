@@ -7,10 +7,10 @@ class Controller
     /**
      * @OA\Info(
      *      version="1.0.0",
-     *      title="Laravel OpenApi Demo Documentation",
+     *      title="Translator Water-id Documentation",
      *      description="L5 Swagger OpenApi description",
      *      @OA\Contact(
-     *          email="admin@admin.com"
+     *          email="admin@water-id.com"
      *      ),
      *      @OA\License(
      *          name="Apache 2.0",
@@ -20,7 +20,7 @@ class Controller
      *
      * @OA\Server(
      *      url=L5_SWAGGER_CONST_HOST,
-     *      description="Demo API Server"
+     *      description="Translator Water-id API Server"
      * )
 
      *
