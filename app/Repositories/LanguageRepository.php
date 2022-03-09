@@ -26,9 +26,10 @@ class LanguageRepository implements ILanguageRepository
         $language = new Language();
         $language->title = $data['title'];
         $language->iso_code = $data['iso_code'];
+        $language->local_name = $data['local_name'];
         $language->text_direction = $data['text_direction'];
         $language->active = !$data['active'] ? 1 : 0;
-        $language->is_primary = !$data['is_primary'] ? 1 : 0;
+        $language->is_primary = $data['is_primary'] ? 1 : 0;
         $language->save();
 
         return $language;
@@ -43,6 +44,7 @@ class LanguageRepository implements ILanguageRepository
 
         $language->title = $data['title'];
         $language->iso_code = $data['iso_code'];
+        $language->local_name = $data['local_name'];
         $language->text_direction = $data['text_direction'];
         $language->active = $data['active'] ? 1 : 0;
         $language->is_primary = $data['is_primary'] ? 1 : 0;

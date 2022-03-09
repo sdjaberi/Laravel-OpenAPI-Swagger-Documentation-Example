@@ -44,4 +44,9 @@ Route::group(
     // Languages
     Route::delete('languages/destroy', 'LanguagesController@massDestroy')->name('languages.massDestroy');
     Route::resource('languages', 'LanguagesController');
+
+    // Categories
+    Route::delete('categories/destroy', 'CategoriesController@massDestroy')->name('categories.massDestroy');
+    Route::resource('categories', 'CategoriesController');
+
 });

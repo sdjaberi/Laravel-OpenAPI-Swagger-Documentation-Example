@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'site_title' => 'Translator',
+    'site_title' => 'Water-id Translator',
 ];

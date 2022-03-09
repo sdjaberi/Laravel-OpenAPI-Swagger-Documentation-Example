@@ -1,5 +1,3 @@
-@extends('layouts.admin')
-@section('content')
 @can('language_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
@@ -9,6 +7,7 @@
         </div>
     </div>
 @endcan
+
 <div class="card">
     <div class="card-header">
         {{ trans('cruds.language.title_singular') }} {{ trans('global.list') }}
@@ -16,7 +15,7 @@
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-Project">
+            <table class=" table table-bordered table-striped table-hover datatable datatable-Language">
                 <thead>
                     <tr>
                         <th width="10">
@@ -35,13 +34,13 @@
                             {{ trans('cruds.language.fields.local_name') }}
                         </th>
                         <th>
+                            {{ trans('cruds.language.fields.text_direction') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.language.fields.is_primary') }}
                         </th>
                         <th>
                             {{ trans('cruds.language.fields.active') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.language.fields.text_direction') }}
                         </th>
                         <th>
                             &nbsp;
@@ -63,21 +62,17 @@
                             <td>
                                 {{ $language->iso_code ?? '' }}
                             </td>
-                            <td class="{{ $language->text_direction === 'rtl' ? 'text-right': 'text-left' }}">
+                            <td>
                                 {{ $language->local_name ?? '' }}
                             </td>
                             <td>
-                                {{ $language->is_primary == 1 ? 'Yes' : 'No' }}
+                                {{ $language->text_direction ?? '' }}
                             </td>
                             <td>
-                                {{ $language->active == 1 ? 'Yes' : 'No' }}
+                                {{ $language->is_primary ?? '' }}
                             </td>
                             <td>
-                                @if($language->text_direction == 'ltr')
-                                    <i class="fas fa-paragraph-ltr">ltr</i>
-                                @else
-                                    <i class="fas fa-paragraph-rtl">rtl</i>
-                                @endif
+                                {{ $language->active ?? '' }}
                             </td>
                             <td>
                                 @can('language_show')
@@ -110,19 +105,16 @@
     </div>
 </div>
 
-
-
-@endsection
 @section('scripts')
 @parent
 <script>
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('language_delete')
+@can('phrase_delete')
   let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
   let deleteButton = {
     text: deleteButtonTrans,
-    url: "{{ route('admin.languages.massDestroy') }}",
+    url: "{{ route('admin.phrases.massDestroy') }}",
     className: 'btn-danger',
     action: function (e, dt, node, config) {
       var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
@@ -152,7 +144,7 @@
     order: [[ 1, 'desc' ]],
     pageLength: 100,
   });
-  $('.datatable-Project:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  $('.datatable-Phrase:not(.ajaxTable)').DataTable({ buttons: dtButtons })
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
         $($.fn.dataTable.tables(true)).DataTable()
             .columns.adjust();

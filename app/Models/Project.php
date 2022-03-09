@@ -35,4 +35,9 @@ class Project extends Model
     {
         return $this->belongsToMany(Language::class);
     }
+
+    public function categories()
+    {
+        return $this->hasMany(Category::class);
+    }
 }

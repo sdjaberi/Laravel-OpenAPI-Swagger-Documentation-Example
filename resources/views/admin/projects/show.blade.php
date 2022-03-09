@@ -78,10 +78,18 @@
                 {{ trans('cruds.language.title') }}
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#project_categories" role="tab" data-toggle="tab">
+                {{ trans('cruds.category.title') }}
+            </a>
+        </li>
     </ul>
     <div class="tab-content">
         <div class="tab-pane" role="tabpanel" id="project_languages">
             @includeIf('admin.projects.relationships.projectLanguages', ['languages' => $project->languages])
+        </div>
+        <div class="tab-pane" role="tabpanel" id="project_categories">
+            @includeIf('admin.projects.relationships.projectCategories', ['categories' => $project->categories])
         </div>
     </div>
 </div>

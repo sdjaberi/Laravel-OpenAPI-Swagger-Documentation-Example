@@ -66,6 +66,7 @@
                                 @endforeach
                             </td>
                             <td>
+
                                 @can('project_show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.projects.show', $project->id) }}">
                                         {{ trans('global.view') }}

@@ -52,20 +52,44 @@
                     </ul>
                 </li>
             @endcan
-            @can('project_access')
-                <li class="nav-item">
-                    <a href="{{ route("admin.projects.index") }}" class="nav-link {{ request()->is('admin/projects') || request()->is('admin/projects/*') ? 'active' : '' }}">
-                        <i class="fa-fw fas fa-tasks nav-icon">
+
+            @can('project_management_access')
+                <li class="nav-item nav-dropdown">
+                    <a class="nav-link  nav-dropdown-toggle" href="#">
+                        <i class="fa-fw fas fa-th-list nav-icon">
 
                         </i>
-                        {{ trans('cruds.project.title') }}
+                        {{ trans('cruds.projectManagement.title') }}
                     </a>
+                    <ul class="nav-dropdown-items">
+                        @can('project_access')
+                            <li class="nav-item">
+                                <a href="{{ route("admin.projects.index") }}" class="nav-link {{ request()->is('admin/projects') || request()->is('admin/projects/*') ? 'active' : '' }}">
+                                    <i class="fa-fw fas fa-tasks nav-icon">
+
+                                    </i>
+                                    {{ trans('cruds.project.title') }}
+                                </a>
+                            </li>
+                        @endcan
+                        @can('category_access')
+                            <li class="nav-item">
+                                <a href="{{ route("admin.categories.index") }}" class="nav-link {{ request()->is('admin/categories') || request()->is('admin/categories/*') ? 'active' : '' }}">
+                                    <i class="fa-fw fas fa-list-alt nav-icon">
+
+                                    </i>
+                                    {{ trans('cruds.category.title') }}
+                                </a>
+                            </li>
+                        @endcan
+                    </ul>
                 </li>
             @endcan
+
             @can('language_access')
             <li class="nav-item">
                 <a href="{{ route("admin.languages.index") }}" class="nav-link {{ request()->is('admin/languages') || request()->is('admin/languages/*') ? 'active' : '' }}">
-                    <i class="fa-fw fas fa-language nav-icon">
+                    <i class="fa-fw fas fa-globe nav-icon">
 
                     </i>
                     {{ trans('cruds.language.title') }}

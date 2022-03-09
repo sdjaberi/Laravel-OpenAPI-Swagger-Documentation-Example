@@ -8,10 +8,8 @@ use App\Http\Requests\Projects\CreateProjectRequest;
 use App\Http\Requests\Projects\MassDestroyProjectRequest;
 use App\Http\Requests\Projects\StoreProjectRequest;
 use App\Http\Requests\Projects\UpdateProjectRequest;
-use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 use App\Models\Project;
-use App\Models\User;
 use App\Repositories\ProjectRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\LanguageRepository;
@@ -42,9 +40,8 @@ class ProjectsController extends Controller
     {
         $authors = $this->_userRepository->getAllData()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
         $languages = $this->_languageRepository->getAllData()->pluck('title', 'id');
-        $text_direction = (object) array("ltr","rtl",trans('global.pleaseSelect'));
 
-        return view('admin.projects.create', compact('authors', 'languages', 'text_direction'));
+        return view('admin.projects.create', compact('authors', 'languages'));
     }
 
     public function store(StoreProjectRequest $request)
@@ -76,6 +73,7 @@ class ProjectsController extends Controller
         $project = $this->_projectRepository->view($project->id);
 
         $project->load('languages');
+        $project->load('categories');
 
         return view('admin.projects.show', compact('project'));
     }
@@ -89,7 +87,7 @@ class ProjectsController extends Controller
 
     public function massDestroy(MassDestroyProjectRequest $request)
     {
-        $projects = $this->_projectRepository->deleteAll(request('ids'));
+        $projects = $this->_projectRepository->deleteAll($request('ids'));
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

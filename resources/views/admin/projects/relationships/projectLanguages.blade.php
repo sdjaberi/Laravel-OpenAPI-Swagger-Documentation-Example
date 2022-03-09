@@ -31,6 +31,9 @@
                             {{ trans('cruds.language.fields.iso_code') }}
                         </th>
                         <th>
+                            {{ trans('cruds.language.fields.local_name') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.language.fields.text_direction') }}
                         </th>
                         <th>
@@ -58,6 +61,9 @@
                             </td>
                             <td>
                                 {{ $language->iso_code ?? '' }}
+                            </td>
+                            <td>
+                                {{ $language->local_name ?? '' }}
                             </td>
                             <td>
                                 {{ $language->text_direction ?? '' }}
@@ -104,11 +110,11 @@
 <script>
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('user_delete')
+@can('language_delete')
   let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
   let deleteButton = {
     text: deleteButtonTrans,
-    url: "{{ route('admin.users.massDestroy') }}",
+    url: "{{ route('admin.languages.massDestroy') }}",
     className: 'btn-danger',
     action: function (e, dt, node, config) {
       var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
@@ -138,7 +144,7 @@
     order: [[ 1, 'desc' ]],
     pageLength: 100,
   });
-  $('.datatable-User:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  $('.datatable-Language:not(.ajaxTable)').DataTable({ buttons: dtButtons })
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
         $($.fn.dataTable.tables(true)).DataTable()
             .columns.adjust();

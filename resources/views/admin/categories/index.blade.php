@@ -1,17 +1,17 @@
 @extends('layouts.admin')
 @section('content')
-@can('language_create')
+@can('category_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.languages.create") }}">
-                {{ trans('global.add') }} {{ trans('cruds.language.title_singular') }}
+            <a class="btn btn-success" href="{{ route("admin.categories.create") }}">
+                {{ trans('global.add') }} {{ trans('cruds.category.title_singular') }}
             </a>
         </div>
     </div>
 @endcan
 <div class="card">
     <div class="card-header">
-        {{ trans('cruds.language.title_singular') }} {{ trans('global.list') }}
+        {{ trans('cruds.category.title_singular') }} {{ trans('global.list') }}
     </div>
 
     <div class="card-body">
@@ -23,25 +23,16 @@
 
                         </th>
                         <th>
-                            {{ trans('cruds.language.fields.id') }}
+                            {{ trans('cruds.category.fields.name') }}
                         </th>
                         <th>
-                            {{ trans('cruds.language.fields.title') }}
+                            {{ trans('cruds.category.fields.description') }}
                         </th>
                         <th>
-                            {{ trans('cruds.language.fields.iso_code') }}
+                            {{ trans('cruds.category.fields.icon') }}
                         </th>
                         <th>
-                            {{ trans('cruds.language.fields.local_name') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.language.fields.is_primary') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.language.fields.active') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.language.fields.text_direction') }}
+                            {{ trans('cruds.category.fields.project') }}
                         </th>
                         <th>
                             &nbsp;
@@ -49,51 +40,43 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($languages as $key => $language)
-                        <tr data-entry-id="{{ $language->id }}">
+                    @foreach($categories as $key => $category)
+                        <tr data-entry-id="{{ $category->name }}">
                             <td>
 
                             </td>
                             <td>
-                                {{ $language->id ?? '' }}
+                                {{ $category->name ?? '' }}
                             </td>
                             <td>
-                                {{ $language->title ?? '' }}
+                                {{ $category->description ?? '' }}
                             </td>
                             <td>
-                                {{ $language->iso_code ?? '' }}
-                            </td>
-                            <td class="{{ $language->text_direction === 'rtl' ? 'text-right': 'text-left' }}">
-                                {{ $language->local_name ?? '' }}
-                            </td>
-                            <td>
-                                {{ $language->is_primary == 1 ? 'Yes' : 'No' }}
-                            </td>
-                            <td>
-                                {{ $language->active == 1 ? 'Yes' : 'No' }}
+                                @if ($category->icon)
+                                <i class="fa-fw {{ $category->icon }} nav-icon">
+
+                                </i>
+                                {{ $category->icon }}
+                            @endif
                             </td>
                             <td>
-                                @if($language->text_direction == 'ltr')
-                                    <i class="fas fa-paragraph-ltr">ltr</i>
-                                @else
-                                    <i class="fas fa-paragraph-rtl">rtl</i>
-                                @endif
+                                {{ $category->project->name ?? '' }}
                             </td>
                             <td>
-                                @can('language_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.languages.show', $language->id) }}">
+                                @can('category_show')
+                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.categories.show', $category->name) }}">
                                         {{ trans('global.view') }}
                                     </a>
                                 @endcan
 
-                                @can('language_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.languages.edit', $language->id) }}">
+                                @can('category_edit')
+                                    <a class="btn btn-xs btn-info" href="{{ route('admin.categories.edit', $category->name) }}">
                                         {{ trans('global.edit') }}
                                     </a>
                                 @endcan
 
-                                @can('language_delete')
-                                    <form action="{{ route('admin.languages.destroy', $language->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                @can('category_delete')
+                                    <form action="{{ route('admin.categories.destroy', $category->name) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
@@ -118,11 +101,11 @@
 <script>
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('language_delete')
+@can('category_delete')
   let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
   let deleteButton = {
     text: deleteButtonTrans,
-    url: "{{ route('admin.languages.massDestroy') }}",
+    url: "{{ route('admin.categories.massDestroy') }}",
     className: 'btn-danger',
     action: function (e, dt, node, config) {
       var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {

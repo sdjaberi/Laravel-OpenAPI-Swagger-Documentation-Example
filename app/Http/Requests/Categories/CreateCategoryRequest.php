@@ -1,35 +1,25 @@
 <?php
 
-namespace App\Http\Requests\Projects;
+namespace App\Http\Requests\Categories;
 
-use App\Models\Project;
+use App\Models\Category;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
+use App\Http\Exceptions\ApiRequestException;
 use App\Http\Exceptions\ApiNotFoundException;
 use App\Http\Exceptions\ApiUnAuthException;
 use App\Http\Exceptions\ApiPermissionException;
 
-class IndexProjectRequest extends FormRequest
+class CreateCategoryRequest extends FormRequest
 {
     public function authorize()
     {
         if(!Auth::user())
             throw new ApiUnAuthException('Please Login First');
 
-        if(!Gate::allows('project_access'))
-            throw new ApiPermissionException();
-
-        return true;
-    }
-
-    public function bearerToken()
-    {
-        if(!Auth::user())
-            throw new ApiUnAuthException('Please Login First');
-
-        if(!Gate::allows('project_access'))
+        if(!Gate::allows('category_create'))
             throw new ApiPermissionException();
 
         return true;

@@ -5,8 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use ProjectRepository;
 use UserRepository;
-use ProjectRepository2;
-use UserRepository2;
+use LanguageRepository;
+use CategoryRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -19,8 +19,8 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         $this->app->bind(ProjectRepository::class);
         $this->app->bind(UserRepository::class);
-        $this->app->bind(ProjectRepository2::class);
-        $this->app->bind(UserRepository2::class);
+        $this->app->bind(LanguageRepository::class);
+        $this->app->bind(CategoryRepository::class);
     }
 
     /**

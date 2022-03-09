@@ -41,6 +41,14 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.language.fields.local_name') }}
+                        </th>
+                        <td>
+                            {{ $language->local_name }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.language.fields.is_primary') }}
                         </th>
                         <td>

@@ -7,7 +7,7 @@ class Controller
     /**
      * @OA\Info(
      *      version="1.0.0",
-     *      title="Translator Water-id Documentation",
+     *      title="Water-id Translator Documentation",
      *      description="L5 Swagger OpenApi description",
      *      @OA\Contact(
      *          email="admin@water-id.com"
@@ -20,7 +20,7 @@ class Controller
      *
      * @OA\Server(
      *      url=L5_SWAGGER_CONST_HOST,
-     *      description="Translator Water-id API Server"
+     *      description="Water-id Translator API Server"
      * )
 
      *

@@ -30,7 +30,16 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.language.fields.iso_code_helper') }}</span>
             </div>
-
+            <div class="form-group">
+                <label class="required" for="local_name">{{ trans('cruds.language.fields.local_name') }}</label>
+                <input class="form-control {{ $errors->has('local_name') ? 'is-invalid' : '' }}" type="text" name="local_name" id="local_name" value="{{ old('iso_code', $language->local_name) }}">
+                @if($errors->has('local_name'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('local_name') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.language.fields.local_name_helper') }}</span>
+            </div>
             <div class="form-group">
                 <label for="is_primary" >{{ trans('cruds.language.fields.is_primary') }}</label>
                 <input class="form-control {{ $errors->has('is_primary') ? 'is-invalid' : '' }}" type="checkbox" name="is_primary" id="is_primary"
@@ -53,7 +62,6 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.language.fields.active_helper') }}</span>
             </div>
-
             <div class="form-group">
                 <label for="text_direction">{{ trans('cruds.language.fields.text_direction') }}</label>
                 <select class="form-control select2 {{ $errors->has('text_direction') ? 'is-invalid' : '' }}" name="text_direction" id="text_direction" required>
