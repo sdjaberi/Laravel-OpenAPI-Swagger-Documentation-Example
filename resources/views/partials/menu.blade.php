@@ -86,6 +86,40 @@
                 </li>
             @endcan
 
+
+            @can('translation_management_access')
+                <li class="nav-item nav-dropdown">
+                    <a class="nav-link  nav-dropdown-toggle" href="#">
+                        <i class="fa-fw fas fa-language nav-icon">
+
+                        </i>
+                        {{ trans('cruds.translationManagement.title') }}
+                    </a>
+                    <ul class="nav-dropdown-items">
+                        @can('phrase_access')
+                            <li class="nav-item">
+                                <a href="{{ route("admin.phrases.index") }}" class="nav-link {{ request()->is('admin/phrases') || request()->is('admin/phrases/*') ? 'active' : '' }}">
+                                    <i class="fa-fw fa fa-quote-left nav-icon">
+
+                                    </i>
+                                    {{ trans('cruds.phrase.title') }}
+                                </a>
+                            </li>
+                        @endcan
+                        @can('translation_access')
+                            <li class="nav-item">
+                                <a href="{{ route("admin.translations.index") }}" class="nav-link {{ request()->is('admin/translations') || request()->is('admin/translations/*') ? 'active' : '' }}">
+                                    <i class="fa-fw fa fa-exchange nav-icon">
+
+                                    </i>
+                                    {{ trans('cruds.translation.title') }}
+                                </a>
+                            </li>
+                        @endcan
+                    </ul>
+                </li>
+            @endcan
+
             @can('language_access')
             <li class="nav-item">
                 <a href="{{ route("admin.languages.index") }}" class="nav-link {{ request()->is('admin/languages') || request()->is('admin/languages/*') ? 'active' : '' }}">

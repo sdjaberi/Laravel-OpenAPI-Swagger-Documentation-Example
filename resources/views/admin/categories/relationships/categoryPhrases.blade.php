@@ -1,8 +1,8 @@
-@can('language_create')
+@can('phrase_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.languages.create") }}">
-                {{ trans('global.add') }} {{ trans('cruds.language.title_singular') }}
+            <a class="btn btn-success" href="{{ route("admin.phrases.create") }}">
+                {{ trans('global.add') }} {{ trans('cruds.phrase.title_singular') }}
             </a>
         </div>
     </div>
@@ -10,37 +10,28 @@
 
 <div class="card">
     <div class="card-header">
-        {{ trans('cruds.language.title_singular') }} {{ trans('global.list') }}
+        {{ trans('cruds.phrase.title_singular') }} {{ trans('global.list') }}
     </div>
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-Language">
+            <table class=" table table-bordered table-striped table-hover datatable datatable-Phrase">
                 <thead>
                     <tr>
                         <th width="10">
 
                         </th>
                         <th>
-                            {{ trans('cruds.language.fields.id') }}
+                            {{ trans('cruds.phrase.fields.id') }}
                         </th>
                         <th>
-                            {{ trans('cruds.language.fields.title') }}
+                            {{ trans('cruds.phrase.fields.base_id') }}
                         </th>
                         <th>
-                            {{ trans('cruds.language.fields.iso_code') }}
+                            {{ trans('cruds.phrase.fields.phrase') }}
                         </th>
                         <th>
-                            {{ trans('cruds.language.fields.local_name') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.language.fields.text_direction') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.language.fields.is_primary') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.language.fields.active') }}
+                            {{ trans('cruds.project.title_singular') }} => {{ trans('cruds.phrase.fields.category_name') }}
                         </th>
                         <th>
                             &nbsp;
@@ -48,47 +39,38 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($languages as $key => $language)
-                        <tr data-entry-id="{{ $language->id }}">
+                    @foreach($phrases as $key => $phrase)
+                        <tr data-entry-id="{{ $phrase->id }}">
                             <td>
 
                             </td>
                             <td>
-                                {{ $language->id ?? '' }}
+                                {{ $phrase->id ?? '' }}
                             </td>
                             <td>
-                                {{ $language->title ?? '' }}
+                                {{ $phrase->base_id ?? '' }}
                             </td>
                             <td>
-                                {{ $language->iso_code ?? '' }}
+                                {{ $phrase->phrase ?? '' }}
                             </td>
                             <td>
-                                {{ $language->local_name ?? '' }}
+                                {{ $phrase->category->project->name ?? '' }} => {{ $phrase->category->name ?? '' }}
                             </td>
                             <td>
-                                {{ $language->text_direction ?? '' }}
-                            </td>
-                            <td>
-                                {{ $language->is_primary ?? '' }}
-                            </td>
-                            <td>
-                                {{ $language->active ?? '' }}
-                            </td>
-                            <td>
-                                @can('language_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.languages.show', $language->id) }}">
+                                @can('phrase_show')
+                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.phrases.show', $phrase->id) }}">
                                         {{ trans('global.view') }}
                                     </a>
                                 @endcan
 
-                                @can('language_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.languages.edit', $language->id) }}">
+                                @can('phrase_edit')
+                                    <a class="btn btn-xs btn-info" href="{{ route('admin.phrases.edit', $phrase->id) }}">
                                         {{ trans('global.edit') }}
                                     </a>
                                 @endcan
 
-                                @can('language_delete')
-                                    <form action="{{ route('admin.languages.destroy', $language->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                @can('phrase_delete')
+                                    <form action="{{ route('admin.phrases.destroy', $phrase->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">

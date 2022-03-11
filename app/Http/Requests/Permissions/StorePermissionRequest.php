@@ -2,16 +2,21 @@
 
 namespace App\Http\Requests\Permissions;
 
-use App\Models\Permission;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
-use Symfony\Component\HttpFoundation\Response;
+use App\Http\Exceptions\ApiPermissionException;
+use App\Http\Exceptions\ApiUnAuthException;
 
 class StorePermissionRequest extends FormRequest
 {
     public function authorize()
     {
-        abort_if(Gate::denies('permission_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        if(!Auth::user())
+            throw new ApiUnAuthException('Please Login First');
+
+        if(!Gate::allows('permission_create'))
+            throw new ApiPermissionException();
 
         return true;
     }

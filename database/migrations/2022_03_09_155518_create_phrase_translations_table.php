@@ -13,11 +13,11 @@ class CreateTranslationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('translations', function (Blueprint $table) {
+        Schema::create('phrase_translations', function (Blueprint $table) {
 
             $table->increments('id');
 
-            $table->longText('translate_phrase')->nullable();
+            $table->longText('translation')->nullable();
 
             $table->unsignedInteger('language_id');
             $table->foreign('language_id', 'language_fk_896910')->references('id')->on('languages')->onDelete('cascade');
@@ -28,7 +28,7 @@ class CreateTranslationsTable extends Migration
             $table->unsignedInteger('user_id')->nullable();
             $table->foreign('user_id', 'user_fk_896910')->references('id')->on('users');
 
-            //$table->unique(['translate_phrase', 'language_id']);
+            //$table->unique(['phrase_id', 'language_id']);
 
             $table->timestamps();
 
@@ -43,6 +43,6 @@ class CreateTranslationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('translations');
+        Schema::dropIfExists('phrase_translations');
     }
 }

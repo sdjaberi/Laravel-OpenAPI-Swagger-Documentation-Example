@@ -33,9 +33,9 @@ class Category extends Model
 
     public function project()
     {
-        return $this->belongsTo(Project::class, 'project_id');
+        return $this->belongsTo(Project::class);
     }
-/*
+
     public function users()
     {
         return $this->belongsToMany(User::class);
@@ -45,5 +45,4 @@ class Category extends Model
     {
         return $this->hasMany(Phrase::class);
     }
-    */
 }

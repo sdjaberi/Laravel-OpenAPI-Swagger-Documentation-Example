@@ -35,6 +35,9 @@
                             {{ trans('cruds.category.fields.project') }}
                         </th>
                         <th>
+                            {{ trans('cruds.category.fields.phrases') }}
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -57,10 +60,13 @@
 
                                 </i>
                                 {{ $category->icon }}
-                            @endif
+                                @endif
                             </td>
                             <td>
                                 {{ $category->project->name ?? '' }}
+                            </td>
+                            <td>
+                                {{ count($category->phrases) ?? '' }}
                             </td>
                             <td>
                                 @can('category_show')

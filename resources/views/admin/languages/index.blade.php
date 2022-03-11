@@ -16,7 +16,7 @@
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-Project">
+            <table class=" table table-bordered table-striped table-hover datatable datatable-Language">
                 <thead>
                     <tr>
                         <th width="10">
@@ -152,7 +152,7 @@
     order: [[ 1, 'desc' ]],
     pageLength: 100,
   });
-  $('.datatable-Project:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  $('.datatable-Language:not(.ajaxTable)').DataTable({ buttons: dtButtons })
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
         $($.fn.dataTable.tables(true)).DataTable()
             .columns.adjust();

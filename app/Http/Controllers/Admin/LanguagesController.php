@@ -9,9 +9,7 @@ use App\Http\Requests\Languages\CreateLanguageRequest;
 use App\Http\Requests\Languages\MassDestroyLanguageRequest;
 use App\Http\Requests\Languages\StoreLanguageRequest;
 use App\Http\Requests\Languages\UpdateLanguageRequest;
-use App\Http\Requests\Projects\CreateProjectRequest;
 use App\Http\Controllers\Controller;
-use App\Repositories\ProjectRepository;
 use App\Repositories\LanguageRepository;
 
 class LanguagesController extends Controller

@@ -52,6 +52,14 @@
                             {{ $category->project->name ?? '' }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.category.fields.phrases') }}
+                        </th>
+                        <td>
+                            {{ count($category->phrases) ?? '' }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">
@@ -63,7 +71,7 @@
     </div>
 </div>
 
-<!--
+
 <div class="card">
     <div class="card-header">
         {{ trans('global.relatedData') }}
@@ -77,11 +85,11 @@
     </ul>
     <div class="tab-content">
         <div class="tab-pane" role="tabpanel" id="category_phrases">
-            includeIf('admin.categories.relationships.categoryPhrases', ['phrases' => $category->phrases])
+            @includeIf('admin.categories.relationships.categoryPhrases', ['phrases' => $category->phrases])
         </div>
     </div>
 </div>
--->
+
 
 
 

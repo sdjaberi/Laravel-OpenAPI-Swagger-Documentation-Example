@@ -6,12 +6,19 @@ use App\Models\Role;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Exceptions\ApiUnAuthException;
+use App\Http\Exceptions\ApiPermissionException;
 
 class MassDestroyRoleRequest extends FormRequest
 {
     public function authorize()
     {
-        abort_if(Gate::denies('role_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        if(!Auth::user())
+            throw new ApiUnAuthException('Please Login First');
+
+        if(!Gate::allows('role_delete'))
+            throw new ApiPermissionException();
 
         return true;
     }

@@ -3,74 +3,72 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Permissions\IndexPermissionRequest;
+use App\Http\Requests\Permissions\CreatePermissionRequest;
 use App\Http\Requests\Permissions\MassDestroyPermissionRequest;
 use App\Http\Requests\Permissions\StorePermissionRequest;
 use App\Http\Requests\Permissions\UpdatePermissionRequest;
 use App\Models\Permission;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Repositories\PermissionRepository;
 
 class PermissionsController extends Controller
 {
-    public function index()
-    {
-        abort_if(Gate::denies('permission_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+    private $_permissionRepository;
 
-        $permissions = Permission::all();
+    public function __construct(PermissionRepository $permissionRepository)
+    {
+        $this->_permissionRepository = $permissionRepository;
+    }
+
+    public function index(IndexPermissionRequest $request)
+    {
+        $permissions = $this->_permissionRepository->getAllData();
 
         return view('admin.permissions.index', compact('permissions'));
     }
 
-    public function create()
+    public function create(CreatePermissionRequest $request)
     {
-        abort_if(Gate::denies('permission_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return view('admin.permissions.create');
     }
 
     public function store(StorePermissionRequest $request)
     {
-        $permission = Permission::create($request->all());
+        $permission = $this->_permissionRepository->store($request);
 
         return redirect()->route('admin.permissions.index');
     }
 
     public function edit(Permission $permission)
     {
-        abort_if(Gate::denies('permission_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return view('admin.permissions.edit', compact('permission'));
     }
 
     public function update(UpdatePermissionRequest $request, Permission $permission)
     {
-        $permission->update($request->all());
+        $permission = $this->_permissionRepository->update($permission->id, $request);
 
         return redirect()->route('admin.permissions.index');
     }
 
     public function show(Permission $permission)
     {
-        abort_if(Gate::denies('permission_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $permission->load('permissionsRoles');
+        $permission = $this->_permissionRepository->view($permission->id);
 
         return view('admin.permissions.show', compact('permission'));
     }
 
     public function destroy(Permission $permission)
     {
-        abort_if(Gate::denies('permission_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $permission->delete();
+        $permission = $this->_permissionRepository->delete($permission->id);
 
         return back();
     }
 
     public function massDestroy(MassDestroyPermissionRequest $request)
     {
-        Permission::whereIn('id', request('ids'))->delete();
+        $permissions = $this->_permissionRepository->deleteAll($request('ids'));
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

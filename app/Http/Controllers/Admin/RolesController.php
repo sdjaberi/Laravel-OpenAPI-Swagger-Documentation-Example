@@ -3,48 +3,51 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Roles\IndexRoleRequest;
+use App\Http\Requests\Roles\CreateRoleRequest;
 use App\Http\Requests\Roles\MassDestroyRoleRequest;
 use App\Http\Requests\Roles\StoreRoleRequest;
 use App\Http\Requests\Roles\UpdateRoleRequest;
-use App\Models\Permission;
 use App\Models\Role;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Repositories\RoleRepository;
+use App\Repositories\PermissionRepository;
 
 class RolesController extends Controller
 {
-    public function index()
-    {
-        abort_if(Gate::denies('role_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+    private $_roleRepository;
+    private $_permissionRepository;
 
-        $roles = Role::all();
+    public function __construct(RoleRepository $roleRepository, PermissionRepository $permissionRepository)
+    {
+        $this->_roleRepository = $roleRepository;
+        $this->_permissionRepository = $permissionRepository;
+    }
+
+    public function index(IndexRoleRequest $request)
+    {
+        $roles = $this->_roleRepository->getAllData();
 
         return view('admin.roles.index', compact('roles'));
     }
 
-    public function create()
+    public function create(CreateRoleRequest $request)
     {
-        abort_if(Gate::denies('role_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $permissions = Permission::all()->pluck('title', 'id');
+        $permissions = $this->_permissionRepository->getAllData()->pluck('title', 'id');
 
         return view('admin.roles.create', compact('permissions'));
     }
 
     public function store(StoreRoleRequest $request)
     {
-        $role = Role::create($request->all());
-        $role->permissions()->sync($request->input('permissions', []));
+        $role = $this->_roleRepository->store($request);
 
         return redirect()->route('admin.roles.index');
     }
 
     public function edit(Role $role)
     {
-        abort_if(Gate::denies('role_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $permissions = Permission::all()->pluck('title', 'id');
+        $permissions = $this->_permissionRepository->getAllData()->pluck('title', 'id');
 
         $role->load('permissions');
 
@@ -53,33 +56,30 @@ class RolesController extends Controller
 
     public function update(UpdateRoleRequest $request, Role $role)
     {
-        $role->update($request->all());
-        $role->permissions()->sync($request->input('permissions', []));
+        $role = $this->_roleRepository->update($role->id, $request);
 
         return redirect()->route('admin.roles.index');
     }
 
     public function show(Role $role)
     {
-        abort_if(Gate::denies('role_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $role = $this->_roleRepository->view($role->id);
 
-        $role->load('permissions', 'rolesUsers');
+        $role->load('permissions','rolesUsers');
 
         return view('admin.roles.show', compact('role'));
     }
 
-    public function destroy(Role $role)
+    public function destroy(MassDestroyRoleRequest $request, Role $role)
     {
-        abort_if(Gate::denies('role_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $role->delete();
+        $role = $this->_roleRepository->delete($role->id);
 
         return back();
     }
 
     public function massDestroy(MassDestroyRoleRequest $request)
     {
-        Role::whereIn('id', request('ids'))->delete();
+        $roles = $this->_roleRepository->deleteAll($request('ids'));
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

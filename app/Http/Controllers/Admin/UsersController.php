@@ -3,83 +3,97 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Users\IndexUserRequest;
+use App\Http\Requests\Users\CreateUserRequest;
 use App\Http\Requests\Users\MassDestroyUserRequest;
 use App\Http\Requests\Users\StoreUserRequest;
 use App\Http\Requests\Users\UpdateUserRequest;
-use App\Models\Role;
 use App\Models\User;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Repositories\UserRepository;
+use App\Repositories\RoleRepository;
+use App\Repositories\CategoryRepository;
+use App\Repositories\LanguageRepository;
 
 class UsersController extends Controller
 {
-    public function index()
-    {
-        abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+    private $_userRepository;
+    private $_roleRepository;
+    private $_categoryRepository;
+    private $_languageRepository;
 
-        $users = User::all();
+    public function __construct(
+        UserRepository $userRepository,
+        RoleRepository $roleRepository,
+        CategoryRepository $categoryRepository,
+        LanguageRepository $languageRepository)
+    {
+        $this->_userRepository = $userRepository;
+        $this->_roleRepository = $roleRepository;
+        $this->_categoryRepository = $categoryRepository;
+        $this->_languageRepository = $languageRepository;
+    }
+
+    public function index(IndexUserRequest $request)
+    {
+        $users = $this->_userRepository->getAllData();
 
         return view('admin.users.index', compact('users'));
     }
 
-    public function create()
+    public function create(CreateUserRequest $request)
     {
-        abort_if(Gate::denies('user_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $roles = $this->_roleRepository->getAllData()->pluck('title', 'id');
+        $categories = $this->_categoryRepository->getAllData()->pluck('name', 'name');
+        $languages = $this->_languageRepository->getAllData()->pluck('title', 'id');
 
-        $roles = Role::all()->pluck('title', 'id');
-
-        return view('admin.users.create', compact('roles'));
+        return view('admin.users.create', compact('roles','categories','languages'));
     }
 
     public function store(StoreUserRequest $request)
     {
-        $user = User::create($request->all());
-        $user->roles()->sync($request->input('roles', []));
+        $user = $this->_userRepository->store($request);
 
         return redirect()->route('admin.users.index');
     }
 
     public function edit(User $user)
     {
-        abort_if(Gate::denies('user_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $roles = $this->_roleRepository->getAllData()->pluck('title', 'id');
+        $categories = $this->_categoryRepository->getAllData()->pluck('name', 'name');
+        $languages = $this->_languageRepository->getAllData()->pluck('title', 'id');
 
-        $roles = Role::all()->pluck('title', 'id');
+        $user->load('roles', 'categories', 'languages');
 
-        $user->load('roles');
-
-        return view('admin.users.edit', compact('roles', 'user'));
+        return view('admin.users.edit', compact('roles', 'categories', 'languages', 'user'));
     }
 
     public function update(UpdateUserRequest $request, User $user)
     {
-        $user->update($request->all());
-        $user->roles()->sync($request->input('roles', []));
+        $user = $this->_userRepository->update($user->id, $request);
 
         return redirect()->route('admin.users.index');
     }
 
     public function show(User $user)
     {
-        abort_if(Gate::denies('user_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $user = $this->_userRepository->view($user->id);
 
-        $user->load('roles', 'authorProjects');
+        $user->load('roles', 'languages','categories');
 
         return view('admin.users.show', compact('user'));
     }
 
     public function destroy(User $user)
     {
-        abort_if(Gate::denies('user_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $user->delete();
+        $user = $this->_userRepository->delete($user->id);
 
         return back();
     }
 
     public function massDestroy(MassDestroyUserRequest $request)
     {
-        User::whereIn('id', request('ids'))->delete();
+        $users = $this->_userRepository->deleteAll($request('ids'));
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

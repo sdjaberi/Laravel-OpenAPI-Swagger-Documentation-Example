@@ -17,6 +17,8 @@ interface ICategoryRepository
     public function upsert($data);
     public function view($name);
     public function delete($name);
+    public function deleteAll($names);
+
 }
 
 class CategoryRepository implements ICategoryRepository

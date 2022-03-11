@@ -76,4 +76,19 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class);
     }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, "user_category");
+    }
+
+    public function languages()
+    {
+        return $this->belongsToMany(Language::class, "user_language");
+    }
+
+    public function userTranslations()
+    {
+        return $this->hasMany(Translation::class, 'user_id', 'id');
+    }
 }

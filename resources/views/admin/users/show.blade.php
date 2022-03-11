@@ -53,8 +53,36 @@
                         </th>
                         <td>
                             @foreach($user->roles as $key => $roles)
-                                <span class="label label-info">{{ $roles->title }}</span>
+                                <span class="badge badge-info">{{ $roles->title }}</span>
                             @endforeach
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.user.fields.categories') }}
+                        </th>
+                        <td>
+                            @foreach($user->categories as $key => $category)
+                                <span class="badge badge-success">{{ $category->name }}</span>
+                            @endforeach
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.user.fields.languages') }}
+                        </th>
+                        <td>
+                            @foreach($user->languages as $key => $language)
+                                <span class="badge badge-warning">{{ $language->title }} ({{ $language->iso_code }})</span>
+                            @endforeach
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.user.fields.userTranslations') }}
+                        </th>
+                        <td>
+                            {{ count($user->userTranslations) ?? '' }}
                         </td>
                     </tr>
                 </tbody>
@@ -78,10 +106,26 @@
                 {{ trans('cruds.project.title') }}
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#user_languages" role="tab" data-toggle="tab">
+                {{ trans('cruds.language.title') }}
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#user_categories" role="tab" data-toggle="tab">
+                {{ trans('cruds.category.title') }}
+            </a>
+        </li>
     </ul>
     <div class="tab-content">
         <div class="tab-pane" role="tabpanel" id="author_projects">
             @includeIf('admin.users.relationships.authorProjects', ['projects' => $user->authorProjects])
+        </div>
+        <div class="tab-pane" role="tabpanel" id="user_languages">
+            @includeIf('admin.users.relationships.userLanguages', ['languages' => $user->languages])
+        </div>
+        <div class="tab-pane" role="tabpanel" id="user_categories">
+            @includeIf('admin.users.relationships.userCategories', ['categories' => $user->categories])
         </div>
     </div>
 </div>

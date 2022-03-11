@@ -29,4 +29,9 @@ class Language extends Model
     {
         return $this->belongsToMany(Project::class);
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
 }

@@ -24,17 +24,6 @@ class IndexProjectRequest extends FormRequest
         return true;
     }
 
-    public function bearerToken()
-    {
-        if(!Auth::user())
-            throw new ApiUnAuthException('Please Login First');
-
-        if(!Gate::allows('project_access'))
-            throw new ApiPermissionException();
-
-        return true;
-    }
-
     public function rules()
     {
         return [];

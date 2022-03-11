@@ -3,14 +3,17 @@
 namespace App\Repositories;
 
 use App\Models\User;
+use App\Http\Exceptions\ApiNotFoundException;
 
 interface IUserRepository
 {
     public function getAllData();
-    public function storeOrUpdate($id = null,$data);
+    public function store($data);
+    public function update($id = null,$data);
     public function view($id);
     public function viewByEmail($id);
     public function delete($id);
+    public function deleteAll($ids);
 }
 
 class UserRepository implements IUserRepository
@@ -20,25 +23,38 @@ class UserRepository implements IUserRepository
         return User::latest()->get();
     }
 
-    public function storeOrUpdate($id = null,$data)
+    public function store($data)
     {
-        if(is_null($id))
-        {
-            $user = new User();
-            $user->name = $data['name'];
-            $user->email = $data['email'];
-            $user->password = bcrypt($data['password']);
+        $user = new User();
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+        $user->password = bcrypt($data['password']);
+        $user->save();
 
-            return $user->save();
-        }
-        else
-        {
-            $user = User::find($id);
-            $user->name = $data['name'];
-            $user->password = bcrypt($data['password']);
+        $user->roles()->sync($data['roles']);
+        $user->languages()->sync($data['languages']);
+        $user->categories()->sync($data['categories']);
 
-            return $user->save();
-        }
+        return $user;
+    }
+
+    public function update($id = null, $data)
+    {
+        $user = User::find($id);
+
+        if(!$user)
+            throw new ApiNotFoundException();
+
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+        $user->password = bcrypt($data['password']);
+        $user->save();
+
+        $user->roles()->sync($data['roles']);
+        $user->languages()->sync($data['languages']);
+        $user->categories()->sync($data['categories']);
+
+        return $user;
     }
 
     public function view($id)
@@ -54,5 +70,10 @@ class UserRepository implements IUserRepository
     public function delete($id)
     {
         return User::find($id)->delete();
+    }
+
+    public function deleteAll($ids)
+    {
+        return User::whereIn('id', $ids)->delete();
     }
 }

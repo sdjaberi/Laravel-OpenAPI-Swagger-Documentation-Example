@@ -32,10 +32,16 @@
                             {{ trans('cruds.user.fields.email') }}
                         </th>
                         <th>
-                            {{ trans('cruds.user.fields.email_verified_at') }}
+                            {{ trans('cruds.user.fields.roles') }}
                         </th>
                         <th>
-                            {{ trans('cruds.user.fields.roles') }}
+                            {{ trans('cruds.user.fields.categories') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.user.fields.languages') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.user.fields.userTranslations') }}
                         </th>
                         <th>
                             &nbsp;
@@ -58,12 +64,22 @@
                                 {{ $user->email ?? '' }}
                             </td>
                             <td>
-                                {{ $user->email_verified_at ?? '' }}
+                                @foreach($user->roles as $key => $role)
+                                    <span class="badge bg-info">{{ $role->title }}</span>
+                                @endforeach
                             </td>
                             <td>
-                                @foreach($user->roles as $key => $item)
-                                    <span class="badge badge-info">{{ $item->title }}</span>
+                                @foreach($user->categories as $key => $category)
+                                    <span class="badge bg-success">{{ $category->name }}</span>
                                 @endforeach
+                            </td>
+                            <td>
+                                @foreach($user->languages as $key => $language)
+                                    <span class="badge bg-warning">{{ $language->title }}</span>
+                                @endforeach
+                            </td>
+                            <td>
+                                {{ count($user->userTranslations) ?? '' }}
                             </td>
                             <td>
                                 @can('user_show')

@@ -22,8 +22,6 @@ class ProjectsController extends Controller
 
     public function __construct(ProjectRepository $projectRepository, UserRepository $userRepository , LanguageRepository $languageRepository)
     {
-        //$this->middleware('auth')->except(['index', 'show']);
-
         $this->_projectRepository = $projectRepository;
         $this->_userRepository = $userRepository;
         $this->_languageRepository = $languageRepository;
@@ -72,13 +70,12 @@ class ProjectsController extends Controller
     {
         $project = $this->_projectRepository->view($project->id);
 
-        $project->load('languages');
-        $project->load('categories');
+        $project->load('languages','categories');
 
         return view('admin.projects.show', compact('project'));
     }
 
-    public function destroy(Project $project)
+    public function destroy(MassDestroyProjectRequest $request, Project $project)
     {
         $project = $this->_projectRepository->delete($project->id);
 

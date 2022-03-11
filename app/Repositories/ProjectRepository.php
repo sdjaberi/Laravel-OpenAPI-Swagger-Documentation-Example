@@ -16,6 +16,7 @@ interface IProjectRepository
     public function update($id = null,$data);
     public function view($id);
     public function delete($id);
+    public function deleteAll($ids);
 }
 
 class ProjectRepository implements IProjectRepository
