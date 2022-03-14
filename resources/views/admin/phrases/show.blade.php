@@ -63,16 +63,22 @@
     <div class="card-header">
         {{ trans('global.relatedData') }}
     </div>
-    <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
-        <li class="nav-item">
-            <a class="nav-link" href="#phrase_translations" role="tab" data-toggle="tab">
-                {{ trans('cruds.translation.title') }}
-            </a>
-        </li>
-    </ul>
-    <div class="tab-content">
-        <div class="tab-pane" role="tabpanel" id="phrase_translations">
-            @includeIf('admin.phrases.relationships.phraseTranslations', ['translations' => $phrase->translations])
+
+    <div class="card-body">
+        <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="#phrase_translations" role="tab" data-toggle="tab">
+                    <i class="fa-fw fa fa-exchange nav-icon">
+
+                    </i>
+                    {{ trans('cruds.translation.title') }}
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane" role="tabpanel" id="phrase_translations">
+                @includeIf('admin.phrases.relationships.phraseTranslations', ['translations' => $phrase->translations])
+            </div>
         </div>
     </div>
 </div>

@@ -13,6 +13,7 @@ interface ILanguageRepository
     public function view($id);
     public function delete($id);
     public function deleteAll($ids);
+    public function getPrimaryLanguage();
 }
 
 class LanguageRepository implements ILanguageRepository
@@ -67,5 +68,10 @@ class LanguageRepository implements ILanguageRepository
     public function deleteAll($ids)
     {
         return Language::whereIn('id', $ids)->delete();
+    }
+
+    public function getPrimaryLanguage()
+    {
+        return Language::where('is_primary', 1)->first();
     }
 }

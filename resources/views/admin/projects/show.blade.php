@@ -72,24 +72,33 @@
     <div class="card-header">
         {{ trans('global.relatedData') }}
     </div>
-    <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
-        <li class="nav-item">
-            <a class="nav-link" href="#project_languages" role="tab" data-toggle="tab">
-                {{ trans('cruds.language.title') }}
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#project_categories" role="tab" data-toggle="tab">
-                {{ trans('cruds.category.title') }}
-            </a>
-        </li>
-    </ul>
-    <div class="tab-content">
-        <div class="tab-pane" role="tabpanel" id="project_languages">
-            @includeIf('admin.projects.relationships.projectLanguages', ['languages' => $project->languages])
-        </div>
-        <div class="tab-pane" role="tabpanel" id="project_categories">
-            @includeIf('admin.projects.relationships.projectCategories', ['categories' => $project->categories])
+
+    <div class="card-body">
+        <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="#project_languages" role="tab" data-toggle="tab">
+                    <i class="fa-fw fas fa-globe nav-icon">
+
+                    </i>
+                    {{ trans('cruds.language.title') }}
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#project_categories" role="tab" data-toggle="tab">
+                    <i class="fa-fw fas fa-list-alt nav-icon">
+
+                    </i>
+                    {{ trans('cruds.category.title') }}
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane" role="tabpanel" id="project_languages">
+                @includeIf('admin.projects.relationships.projectLanguages', ['languages' => $project->languages])
+            </div>
+            <div class="tab-pane" role="tabpanel" id="project_categories">
+                @includeIf('admin.projects.relationships.projectCategories', ['categories' => $project->categories])
+            </div>
         </div>
     </div>
 </div>

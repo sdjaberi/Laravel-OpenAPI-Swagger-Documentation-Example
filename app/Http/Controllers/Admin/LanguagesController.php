@@ -67,6 +67,7 @@ class LanguagesController extends Controller
         $language = $this->_languageRepository->view($language->id);
 
         $language->load('projects');
+        $language->load('users');
 
         return view('admin.languages.show', compact('language'));
     }

@@ -56,16 +56,22 @@
     <div class="card-header">
         {{ trans('global.relatedData') }}
     </div>
-    <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
-        <li class="nav-item">
-            <a class="nav-link" href="#roles_users" role="tab" data-toggle="tab">
-                {{ trans('cruds.user.title') }}
-            </a>
-        </li>
-    </ul>
-    <div class="tab-content">
-        <div class="tab-pane" role="tabpanel" id="roles_users">
-            @includeIf('admin.roles.relationships.rolesUsers', ['users' => $role->rolesUsers])
+
+    <div class="card-body">
+        <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="#roles_users" role="tab" data-toggle="tab">
+                    <i class="fa-fw fas fa-user nav-icon">
+
+                    </i>
+                    {{ trans('cruds.user.title') }}
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane" role="tabpanel" id="roles_users">
+                @includeIf('admin.roles.relationships.rolesUsers', ['users' => $role->rolesUsers])
+            </div>
         </div>
     </div>
 </div>

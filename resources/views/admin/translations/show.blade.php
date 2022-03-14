@@ -66,26 +66,6 @@
     </div>
 </div>
 
-<!--
-<div class="card">
-    <div class="card-header">
-        {{ trans('global.relatedData') }}
-    </div>
-    <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
-        <li class="nav-item">
-            <a class="nav-link" href="#translation_languages" role="tab" data-toggle="tab">
-                {{ trans('cruds.language.title') }}
-            </a>
-        </li>
-    </ul>
-    <div class="tab-content">
-        <div class="tab-pane" role="tabpanel" id="translation_languages">
-            includeIf('admin.translations.relationships.translationLanguages', ['languages' => $translation->languages])
-        </div>
-    </div>
-</div>
--->
-
 
 
 @endsection

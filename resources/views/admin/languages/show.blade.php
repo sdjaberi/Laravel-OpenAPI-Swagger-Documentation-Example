@@ -86,16 +86,33 @@
     <div class="card-header">
         {{ trans('global.relatedData') }}
     </div>
-    <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
-        <li class="nav-item">
-            <a class="nav-link" href="#language_projects" role="tab" data-toggle="tab">
-                {{ trans('cruds.project.title') }}
-            </a>
-        </li>
-    </ul>
-    <div class="tab-content">
-        <div class="tab-pane" role="tabpanel" id="language_projects">
-            @includeIf('admin.languages.relationships.languageProjects', ['projects' => $language->projects])
+
+    <div class="card-body">
+        <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="#language_projects" role="tab" data-toggle="tab">
+                    <i class="fa-fw fas fa-tasks nav-icon">
+
+                    </i>
+                    {{ trans('cruds.project.title') }}
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#language_users" role="tab" data-toggle="tab">
+                    <i class="fa-fw fas fa-user nav-icon">
+
+                    </i>
+                    {{ trans('cruds.user.title') }}
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane" role="tabpanel" id="language_projects">
+                @includeIf('admin.languages.relationships.languageProjects', ['projects' => $language->projects])
+            </div>
+            <div class="tab-pane" role="tabpanel" id="language_users">
+                @includeIf('admin.languages.relationships.languageUsers', ['users' => $language->users])
+            </div>
         </div>
     </div>
 </div>

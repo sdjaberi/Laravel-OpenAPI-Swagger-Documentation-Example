@@ -12,16 +12,25 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Models\Category;
 use App\Repositories\CategoryRepository;
 use App\Repositories\ProjectRepository;
+use App\Repositories\TranslationRepository;
+use App\Repositories\LanguageRepository;
+use App\Http\Resources\Admin\CategoryResource;
+use App\Models\Phrase;
+use Illuminate\Support\Facades\Auth;
 
 class CategoriesController extends Controller
 {
     private $_categoryRepository;
     private $_projectRepository;
+    private $_translationRepository;
+    private $_languageRepository;
 
-    public function __construct(CategoryRepository $categoryRepository, ProjectRepository $projectRepository)
+    public function __construct(CategoryRepository $categoryRepository, ProjectRepository $projectRepository, TranslationRepository $translationRepository, LanguageRepository $languageRepository)
     {
         $this->_categoryRepository = $categoryRepository;
         $this->_projectRepository = $projectRepository;
+        $this->_translationRepository = $translationRepository;
+        $this->_languageRepository = $languageRepository;
     }
 
     public function index(IndexCategoryRequest $request)
@@ -68,6 +77,7 @@ class CategoriesController extends Controller
         $category = $this->_categoryRepository->view($category->name);
 
         $category->load('phrases');
+        $category->load('users');
 
         return view('admin.categories.show', compact('category'));
     }
@@ -85,4 +95,61 @@ class CategoriesController extends Controller
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
+
+
+
+    ///--------- Custom Actions -----------////
+
+    public function translate($name, $to = "German")
+    {
+        //dd($name);
+
+        $category = $this->_categoryRepository->view($name);
+
+        $category->load('phrases');
+        $category->project->load('languages');
+
+        $phrases = $category->phrases;
+
+        $languageFrom = $this->_languageRepository->getPrimaryLanguage();
+        $languagesTo = $category->project->languages->where('id', '!=', $languageFrom->id);
+        $languageTo = $this->_languageRepository->getAllData()->where("title", $to)->first();
+
+
+        $translations = collect();
+        foreach ($phrases as $phrase) {
+            $translation =
+                $this->
+                    _translationRepository->
+                        getAllData()
+                        ->where('language_id', $languageTo->id)
+                        ->where('phrase_id', $phrase->id)
+                        ->first();
+
+            $translations->push($translation);
+        }
+
+        //$phrases->_translationRepository->getAllData();
+
+
+        //$translations = $this->_translationRepository->getAllData();
+
+        //$projects = $this->_projectRepository->getAllData()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        //return view('admin.categories.edit', compact('category', 'projects'));
+
+        //return new CategoryResource($category);
+
+
+        return view('admin.categories.translate')
+            ->with('category', $category)
+            ->with('phrases',  $phrases)
+            ->with('from', $languageFrom)
+            ->with('to',   $languageTo)
+            ->with('languagesTo',  $languagesTo)
+            ->with('translations', $translations)
+            ->with('user',   Auth::user());
+
+    }
+
 }

@@ -100,32 +100,44 @@
     <div class="card-header">
         {{ trans('global.relatedData') }}
     </div>
-    <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
-        <li class="nav-item">
-            <a class="nav-link" href="#author_projects" role="tab" data-toggle="tab">
-                {{ trans('cruds.project.title') }}
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#user_languages" role="tab" data-toggle="tab">
-                {{ trans('cruds.language.title') }}
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#user_categories" role="tab" data-toggle="tab">
-                {{ trans('cruds.category.title') }}
-            </a>
-        </li>
-    </ul>
-    <div class="tab-content">
-        <div class="tab-pane" role="tabpanel" id="author_projects">
-            @includeIf('admin.users.relationships.authorProjects', ['projects' => $user->authorProjects])
-        </div>
-        <div class="tab-pane" role="tabpanel" id="user_languages">
-            @includeIf('admin.users.relationships.userLanguages', ['languages' => $user->languages])
-        </div>
-        <div class="tab-pane" role="tabpanel" id="user_categories">
-            @includeIf('admin.users.relationships.userCategories', ['categories' => $user->categories])
+
+    <div class="card-body">
+        <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="#author_projects" role="tab" data-toggle="tab">
+                    <i class="fa-fw fas fa-tasks nav-icon">
+
+                    </i>
+                    {{ trans('cruds.project.title') }}
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#user_languages" role="tab" data-toggle="tab">
+                    <i class="fa-fw fa fa-quote-left nav-icon">
+
+                    </i>
+                    {{ trans('cruds.language.title') }}
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#user_categories" role="tab" data-toggle="tab">
+                    <i class="fa-fw fas fa-list-alt nav-icon">
+
+                    </i>
+                    {{ trans('cruds.category.title') }}
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane" role="tabpanel" id="author_projects">
+                @includeIf('admin.users.relationships.authorProjects', ['projects' => $user->authorProjects])
+            </div>
+            <div class="tab-pane" role="tabpanel" id="user_languages">
+                @includeIf('admin.users.relationships.userLanguages', ['languages' => $user->languages])
+            </div>
+            <div class="tab-pane" role="tabpanel" id="user_categories">
+                @includeIf('admin.users.relationships.userCategories', ['categories' => $user->categories])
+            </div>
         </div>
     </div>
 </div>

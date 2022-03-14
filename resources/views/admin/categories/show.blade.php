@@ -76,16 +76,33 @@
     <div class="card-header">
         {{ trans('global.relatedData') }}
     </div>
-    <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
-        <li class="nav-item">
-            <a class="nav-link" href="#category_phrases" role="tab" data-toggle="tab">
-                {{ trans('cruds.phrase.title') }}
-            </a>
-        </li>
-    </ul>
-    <div class="tab-content">
-        <div class="tab-pane" role="tabpanel" id="category_phrases">
-            @includeIf('admin.categories.relationships.categoryPhrases', ['phrases' => $category->phrases])
+
+    <div class="card-body">
+        <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="#category_phrases" role="tab" data-toggle="tab">
+                    <i class="fa-fw fa fa-quote-left nav-icon">
+
+                    </i>
+                    {{ trans('cruds.phrase.title') }}
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#category_users" role="tab" data-toggle="tab">
+                    <i class="fa-fw fas fa-user nav-icon">
+
+                    </i>
+                    {{ trans('cruds.user.title') }}
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane" role="tabpanel" id="category_phrases">
+                @includeIf('admin.categories.relationships.categoryPhrases', ['phrases' => $category->phrases])
+            </div>
+            <div class="tab-pane" role="tabpanel" id="category_users">
+                @includeIf('admin.categories.relationships.categoryUsers', ['users' => $category->users])
+            </div>
         </div>
     </div>
 </div>

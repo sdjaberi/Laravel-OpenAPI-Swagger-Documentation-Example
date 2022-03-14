@@ -3,6 +3,8 @@
 return [
     'general' => [
         'localizationOverview' => 'Localization overview',
+        'from' => 'From',
+        'to' => 'To',
     ],
     'userManagement' => [
         'title'          => 'User',
@@ -104,6 +106,7 @@ return [
     'category'        => [
         'title'          => 'Categories',
         'title_singular' => 'Category',
+        'translations'   => 'Translations',
         'fields'         => [
             'name'               => 'Name',
             'name_helper'        => '',

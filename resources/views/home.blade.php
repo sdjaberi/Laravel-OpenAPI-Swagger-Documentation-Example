@@ -109,7 +109,12 @@
                                                 }
 
                                             @endphp
-                                            <span class="badge bg-{{ $badgeClass }}">{{ $tanslationPercentage }}</span>
+
+                                            @can('translation_edit')
+                                                <a class="btn btn-xs" href="{{ route('admin.categories.translate', $category->name, 'translate', $language->title, 'salam') }}">
+                                                    <span class="badge bg-{{ $badgeClass }}">{{ $tanslationPercentage }}</span>
+                                                </a>
+                                            @endcan
 
                                         </td>
                                         @endforeach
@@ -130,7 +135,31 @@
 @parent
 <script>
     $(function () {
-        $('.datatable-Home:not(.ajaxTable)').DataTable();
+        $('.datatable-Home:not(.ajaxTable)').DataTable({
+            fixedColumns: {
+            leftColumns: 1,
+            rightColumns: 1
+            },
+            select: {
+                style: 'single',
+                info: false,
+                selector: 'td:not(.status)'
+            },
+            columnDefs: [
+            {
+                targets: -1,
+                className: "dt-body-center status"
+            }
+            ],
+            scrollX:        true,
+            scrollCollapse: true,
+            orderCellsTop: true,
+            order: [[0, 'asc']],
+            colReorder: {
+            realtime: false,
+            },
+            autoWidth: false,
+        });
     });
 
 </script>

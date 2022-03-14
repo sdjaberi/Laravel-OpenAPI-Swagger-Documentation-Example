@@ -14,6 +14,7 @@ use App\Repositories\TranslationRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\LanguageRepository;
 use App\Repositories\PhraseRepository;
+use Illuminate\Http\Request;
 
 class TranslationsController extends Controller
 {
@@ -90,5 +91,41 @@ class TranslationsController extends Controller
         $translations = $this->_translationRepository->deleteAll($request('ids'));
 
         return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+
+
+    //------------------------------------- Custom Actions ----------------------------------//
+
+    /**
+     * @param Request $request
+     * @param TranslationStoreRequest $storeRequest
+     * @return object
+     */
+    public function ajaxStore(Request $request, StoreTranslationRequest $storeRequest): object
+    {
+        /*  Validate requested data */
+        $storeRequest->validated();
+
+        /* Store data */
+        $translation = $this->_translationRepository->store($request);
+
+        return response()->json(["data" => $translation], 200);
+    }
+
+    /**
+     * @param Request $request
+     * @param TranslationUpdateRequest $updateRequest
+     * @param $id
+     * @return object
+     */
+    public function ajaxUpdate(Request $request, UpdateTranslationRequest $updateRequest, $id): object
+    {
+        /*  Validate requested data */
+        $updateRequest->validated();
+
+        $translation = $this->_translationRepository->update($id, $request);
+
+        return response()->json(["data" => $translation], 200);
     }
 }

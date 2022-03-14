@@ -41,9 +41,16 @@ class StoreTranslationRequest extends FormRequest
         });
 
         return [
-            'translation' => ['required'],
-            'phrase_id' => ['required', $uniquenessRule],
-            'language_id' => ['required', $uniquenessRule],
+            'phrase_id' => ['required'],
+            'language_id' => ['required'],
+            'phrase_language' => [$uniquenessRule],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'phrase_language.unique' => 'Given phrase_id and language_id are not unique',
         ];
     }
 }

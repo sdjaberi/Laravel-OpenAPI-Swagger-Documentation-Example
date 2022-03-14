@@ -47,6 +47,7 @@ Route::group(
 
     // Categories
     Route::delete('categories/destroy', 'CategoriesController@massDestroy')->name('categories.massDestroy');
+    Route::get('categories/{name}/translate/{to?}', 'CategoriesController@translate')->name('categories.translate');
     Route::resource('categories', 'CategoriesController');
 
     // Phrases
@@ -55,6 +56,8 @@ Route::group(
 
     // Translations
     Route::delete('translations/destroy', 'TranslationsController@massDestroy')->name('translations.massDestroy');
+    Route::post('translations/ajaxStore', 'TranslationsController@ajaxStore')->name('translations.ajaxStore');
+    Route::put('translations/ajaxUpdate/{id}', 'TranslationsController@ajaxUpdate')->name('translations.ajaxUpdate');
     Route::resource('translations', 'TranslationsController');
 
 });
