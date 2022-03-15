@@ -10,6 +10,43 @@
                     {{ trans('global.dashboard') }}
                 </a>
             </li>
+
+            @php
+            $LogedInUserProjects = Auth::user()->categories->map(function ($item) {
+                    return $item->project;
+                })
+                ->unique('id');
+            @endphp
+            <li class="nav-item nav-dropdown">
+                <a class="nav-link  nav-dropdown-toggle" href="#">
+                    <i class="fa-fw fas fa-check nav-icon">
+
+                    </i>
+                    {{ trans('cruds.general.overview') }}
+                </a>
+                <ul class="nav-dropdown-items">
+                    @foreach($LogedInUserProjects as $project)
+                    <li class="nav-item nav-dropdown">
+                        <a class="nav-link  nav-dropdown-toggle" href="#">
+                            {{ $project->name }}
+                        </a>
+                        <ul class="nav-dropdown-items">
+                            @foreach(Auth::user()->categories->where('project_id', $project->id) as $category)
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.categories.translate', $category->name) }}" class="nav-link {{ request()->is('admin/categories') && request()->is("admin/categories/". $category->name ."/translate") ? 'active' : '' }}">
+                                        <i class="fa-fw {{$category->icon}} nav-icon">
+
+                                        </i>
+                                        {{ $category->name }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </li>
+                    @endforeach
+                </ul>
+            </li>
+
             @can('user_management_access')
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link  nav-dropdown-toggle" href="#">
@@ -116,20 +153,20 @@
                                 </a>
                             </li>
                         @endcan
+                        @can('language_access')
+                            <li class="nav-item">
+                                <a href="{{ route("admin.languages.index") }}" class="nav-link {{ request()->is('admin/languages') || request()->is('admin/languages/*') ? 'active' : '' }}">
+                                    <i class="fa-fw fas fa-globe nav-icon">
+
+                                    </i>
+                                    {{ trans('cruds.language.title') }}
+                                </a>
+                            </li>
+                        @endcan
                     </ul>
                 </li>
             @endcan
 
-            @can('language_access')
-            <li class="nav-item">
-                <a href="{{ route("admin.languages.index") }}" class="nav-link {{ request()->is('admin/languages') || request()->is('admin/languages/*') ? 'active' : '' }}">
-                    <i class="fa-fw fas fa-globe nav-icon">
-
-                    </i>
-                    {{ trans('cruds.language.title') }}
-                </a>
-            </li>
-            @endcan
             <li class="nav-item">
                 <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
                     <i class="nav-icon fas fa-fw fa-sign-out-alt">

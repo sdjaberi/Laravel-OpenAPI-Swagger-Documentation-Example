@@ -59,7 +59,6 @@
         @include('partials.menu')
         <main class="main">
 
-
             <div style="padding-top: 20px" class="container-fluid">
                 @if(session('message'))
                     <div class="row mb-2">
@@ -80,7 +79,6 @@
                 @yield('content')
 
             </div>
-
 
         </main>
         <form id="logoutform" action="{{ route('logout') }}" method="POST" style="display: none;">

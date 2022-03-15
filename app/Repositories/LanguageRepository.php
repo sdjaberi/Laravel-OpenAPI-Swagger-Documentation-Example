@@ -8,6 +8,7 @@ use App\Http\Exceptions\ApiNotFoundException;
 interface ILanguageRepository
 {
     public function getAllData();
+    public function getAllActiveData();
     public function store($data);
     public function update($id = null,$data);
     public function view($id);
@@ -21,6 +22,11 @@ class LanguageRepository implements ILanguageRepository
     public function getAllData()
     {
         return Language::all();
+    }
+
+    public function getAllActiveData()
+    {
+        return Language::all()->where('active', 1);
     }
 
     public function store($data)

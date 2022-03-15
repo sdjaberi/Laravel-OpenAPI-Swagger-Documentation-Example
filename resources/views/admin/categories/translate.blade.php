@@ -28,6 +28,8 @@
         <table id="CategoryTable" class="table table-bordered table-striped table-hover datatable datatable-Category">
             <thead>
             <tr>
+                <th class="th-sm">{{ trans('cruds.phrase.fields.base_id') }}
+                </th>
                 <th class="th-sm">{{ $from->title }}
                 </th>
                 <th class="th-sm">{{ $to->title }}
@@ -37,9 +39,10 @@
             <tbody>
             @foreach($phrases as $phrase)
                 <tr>
-                    <td style="width: 50%">{{ $phrase->phrase }}</td>
+                    <td style="width: 7%">{{ $phrase->base_id }}</td>
+                    <td style="width: 43%">{{ $phrase->phrase }}</td>
 
-                    <td id="td-{{ $phrase->id }} {{ $to->text_direction === 'rtl' ? 'text-right': 'text-left' }}">
+                    <td id="td-{{ $phrase->id }} {{ $to->text_direction === 'rtl' ? 'text-right': 'text-left' }}" style="{{ $to->text_direction === 'rtl' ? 'direction: rtl': '' }}>
                         @if($translation = $translations->where('phrase_id', $phrase->id)->first())
                             <div class="form-group">
                                 <textarea class="form-control update-translation {{ $to->text_direction === 'rtl' ? 'text-right': 'text-left' }}"
@@ -97,7 +100,7 @@
             scrollX:        true,
             scrollCollapse: true,
             orderCellsTop: true,
-            order: [[1, 'des']],
+            order: [[0, 'asc']],
             colReorder: {
             realtime: false,
             },
@@ -169,6 +172,12 @@
         }
     }
 
+    //FocusIn
+    $(document).on('focusin', '.update-translation', function () {
+        let element = this;
+        element.setAttribute('style', 'border: 2px solid yellow');
+    });
+
     // STORE
     $(document).on('focusout', '.store-translation', function () {
         let element = this;
@@ -192,6 +201,7 @@
                 },
                 success: function (response) {
                     element.setAttribute('data-id', response.data.id);
+                    element.setAttribute('data-value', response.data.translation);
 
                     element.className = "form-control update-translation animated pulse";
                     element.setAttribute('style', 'border: 1px solid #00C851');
@@ -202,6 +212,8 @@
                 }
             });
         }
+        else
+            element.removeAttribute('style');
     });
 
     // UPDATE
@@ -217,7 +229,7 @@
 
         let translation = new Translation(id, userId, phraseId, languageId, translation_txt);
 
-        if($(this).val() != translation_txt_old) {
+        if($(this).val().trim() != translation_txt_old) {
             $.ajax({
                 url: "/admin/translations/ajaxUpdate/" + translation._id ,
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -231,17 +243,21 @@
                 },
                 success: function (response) {
                     element.setAttribute('data-id', response.data.id);
+                    element.setAttribute('data-value', response.data.translation);
 
                     $('.update-translation, .store-translation').removeClass('disabled');
                     element.className = "form-control update-translation animated pulse";
                     element.removeAttribute('style');
                     element.setAttribute('style', 'border: 1px solid #00C851');
+
                 },
                 error: function (error) {
                     alert("update-translation error " + error);
                 }
             });
         }
+        else
+            element.removeAttribute('style');
     });
 
 

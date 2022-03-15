@@ -5,6 +5,7 @@ return [
         'localizationOverview' => 'Localization overview',
         'from' => 'From',
         'to' => 'To',
+        'overview' => 'Overview',
     ],
     'userManagement' => [
         'title'          => 'User',

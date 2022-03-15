@@ -26,6 +26,9 @@
                             {{ trans('cruds.translation.fields.id') }}
                         </th>
                         <th>
+                            {{ trans('cruds.phrase.fields.base_id') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.translation.fields.translation') }}
                         </th>
                         <th>
@@ -52,6 +55,11 @@
                                 {{ $translation->id ?? '' }}
                             </td>
                             <td>
+                                {{ $translation->phrase->base_id ?? '' }}
+                            </td>
+                            <td
+                                class="{{ $translation->language->text_direction === 'rtl' ? 'text-right': 'text-left' }}"
+                                style="{{ $translation->language->text_direction === 'rtl' ? 'direction: rtl': '' }}">
                                 {{ $translation->translation ?? '' }}
                             </td>
                             <td>

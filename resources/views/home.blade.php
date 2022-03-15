@@ -3,21 +3,6 @@
 <div class="content">
     <div class="row">
         <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                    Dashboard
-                </div>
-
-                <div class="card-body">
-                    @if(session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    You are logged in!
-                </div>
-            </div>
 
             <div class="card">
                 <div class="card-header">
@@ -26,8 +11,26 @@
 
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class=" table table-bordered table-striped table-hover datatable datatable-Home">
+                        <table class="stripe row-border order-column table table-bordered datatable datatable-Home">
                             <thead>
+                                <tr>
+                                    <th> </th>
+                                    <th rowspan="1">Title</th>
+                                    @php $projectIds = array(); @endphp
+
+                                    @foreach($categories as $key => $category)
+                                    @php $colspan = count($category->project->categories); @endphp
+
+                                        @if (!in_array($category->project_id, $projectIds))
+                                        @php array_push($projectIds, $category->project_id);  @endphp
+
+                                            <th colspan=" {{ $colspan }} ">
+                                                {{  $category->project->name  }}
+                                            </th>
+                                        @endif
+
+                                    @endforeach
+                                </tr>
                                 <tr>
                                     <th>
                                         {{ trans('cruds.language.fields.id') }}
@@ -37,14 +40,7 @@
                                     </th>
                                     @foreach($categories as $key => $category)
                                     <th>
-                                        {{ $category->project->name }}
-                                        <br>
                                         {{ $category->name }}
-                                        @if ($category->icon)
-                                        <i class="fa-fw {{ $category->icon }} nav-icon">
-
-                                        </i>
-                                        @endif
                                     </th>
                                     @endforeach
                                 </tr>
@@ -57,6 +53,13 @@
                                         </td>
                                         <td>
                                             {{ $language->title ?? '' }}
+
+                                            @if (!$language->active)
+                                                <i class="red fa-fw fas fa-exclamation-triangle" data-toggle="tooltip" title="Deactive Language">
+
+                                                </i>
+                                            @endif
+
                                         </td>
 
                                         @foreach($categories as $key => $category)
@@ -88,7 +91,8 @@
                                                         }
                                                     }
 
-                                                    $remainedTranslations = count($phrases) * $categoryLanguagesCount;
+                                                    $totalRemainedTranslations = count($phrases) * $categoryLanguagesCount;
+                                                    $remainedTranslations = count($phrases);
 
                                                     $tanslationPercentage = $remainedTranslations != 0 ?  $translationsCount / $remainedTranslations * 100 : 100;
 
@@ -111,8 +115,9 @@
                                             @endphp
 
                                             @can('translation_edit')
-                                                <a class="btn btn-xs" href="{{ route('admin.categories.translate', $category->name, 'translate', $language->title, 'salam') }}">
-                                                    <span class="badge bg-{{ $badgeClass }}">{{ $tanslationPercentage }}</span>
+                                            @php $hasLink = !$category->project->languages->where('id', $language->id)->isEmpty();  @endphp
+                                                <a href="@if($hasLink){{ route('admin.categories.translate', [$category->name, $language->title]) }}@else # @endif">
+                                                    <span class="badge badge-lg bg-{{ $badgeClass }}">{{ $tanslationPercentage }}</span>
                                                 </a>
                                             @endcan
 
@@ -126,6 +131,24 @@
                     </div>
                 </div>
             </div>
+
+
+            <div class="card">
+                <div class="card-header">
+                    Dashboard
+                </div>
+
+                <div class="card-body">
+                    @if(session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+
+                    You are logged in!
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
@@ -135,10 +158,9 @@
 @parent
 <script>
     $(function () {
-        $('.datatable-Home:not(.ajaxTable)').DataTable({
+        $('.datatable-Home').DataTable({
             fixedColumns: {
-            leftColumns: 1,
-            rightColumns: 1
+                left: 2
             },
             select: {
                 style: 'single',
@@ -151,13 +173,9 @@
                 className: "dt-body-center status"
             }
             ],
-            scrollX:        true,
-            scrollCollapse: true,
-            orderCellsTop: true,
+            scrollX: true,
+            scrollY: true,
             order: [[0, 'asc']],
-            colReorder: {
-            realtime: false,
-            },
             autoWidth: false,
         });
     });

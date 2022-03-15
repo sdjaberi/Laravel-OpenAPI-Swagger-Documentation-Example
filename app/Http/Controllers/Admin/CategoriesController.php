@@ -8,6 +8,7 @@ use App\Http\Requests\Categories\CreateCategoryRequest;
 use App\Http\Requests\Categories\MassDestroyCategoryRequest;
 use App\Http\Requests\Categories\StoreCategoryRequest;
 use App\Http\Requests\Categories\UpdateCategoryRequest;
+use App\Http\Requests\Categories\CategoryTranslationRequest;
 use Symfony\Component\HttpFoundation\Response;
 use App\Models\Category;
 use App\Repositories\CategoryRepository;
@@ -100,9 +101,12 @@ class CategoriesController extends Controller
 
     ///--------- Custom Actions -----------////
 
-    public function translate($name, $to = "German")
+    public function translate($name, $to = "German", CategoryTranslationRequest $categoryTranslationRequest)
     {
         //dd($name);
+
+        /*  Validate requested data */
+        $categoryTranslationRequest->validated();
 
         $category = $this->_categoryRepository->view($name);
 
@@ -114,7 +118,6 @@ class CategoriesController extends Controller
         $languageFrom = $this->_languageRepository->getPrimaryLanguage();
         $languagesTo = $category->project->languages->where('id', '!=', $languageFrom->id);
         $languageTo = $this->_languageRepository->getAllData()->where("title", $to)->first();
-
 
         $translations = collect();
         foreach ($phrases as $phrase) {

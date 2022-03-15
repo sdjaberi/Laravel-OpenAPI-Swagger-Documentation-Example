@@ -47,7 +47,10 @@ class UserRepository implements IUserRepository
 
         $user->name = $data['name'];
         $user->email = $data['email'];
-        $user->password = bcrypt($data['password']);
+
+        if(strlen(trim($data['password'])) > 0)
+            $user->password = bcrypt($data['password']);
+
         $user->save();
 
         $user->roles()->sync($data['roles']);
