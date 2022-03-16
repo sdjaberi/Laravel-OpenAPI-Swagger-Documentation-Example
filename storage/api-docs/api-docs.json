@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Translator Water-id Documentation",
+        "title": "Water-id Translator Documentation",
         "description": "L5 Swagger OpenApi description",
         "contact": {
             "email": "admin@water-id.com"
@@ -15,7 +15,7 @@
     "servers": [
         {
             "url": "http://translator.local/api/v1",
-            "description": "Water-id Translate API Server"
+            "description": "Water-id Translator API Server"
         }
     ],
     "paths": {
@@ -158,7 +158,14 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "passport": [
+                            "*"
+                        ]
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -228,7 +235,14 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "passport": [
+                            "*"
+                        ]
+                    }
+                ]
             }
         },
         "/projects/{id}": {
@@ -291,7 +305,14 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "passport": [
+                            "*"
+                        ]
+                    }
+                ]
             },
             "put": {
                 "tags": [
@@ -372,7 +393,14 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "passport": [
+                            "*"
+                        ]
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -431,7 +459,14 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [
+                            "*"
+                        ]
+                    }
+                ]
             }
         }
     },
@@ -779,6 +814,11 @@
             }
         },
         "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            },
             "passport": {
                 "type": "oauth2",
                 "description": "Laravel passport oauth2 security.",

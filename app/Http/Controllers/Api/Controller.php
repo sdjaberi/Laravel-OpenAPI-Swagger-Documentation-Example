@@ -5,6 +5,18 @@ namespace App\Http\Controllers\Api\V1\Admin;
 class Controller
 {
     /**
+     *@OA\SecurityScheme(
+
+*securityScheme="bearerAuth",
+
+*type="http",
+
+*scheme="bearer",
+
+*bearerFormat="JWT",
+
+*)
+     *
      * @OA\Info(
      *      version="1.0.0",
      *      title="Water-id Translator Documentation",

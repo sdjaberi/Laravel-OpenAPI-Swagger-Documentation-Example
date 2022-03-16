@@ -3,9 +3,11 @@
 namespace App\Services\Identity;
 
 use App\Models\User;
-use App\Services\Identity\Models\loginIn;
-use App\Services\Identity\Models\loginOut;
+use App\Services\Identity\Models\LoginIn;
+use App\Services\Identity\Models\LoginOut;
 use App\Services\Base\Mapper;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 interface IAccountService
 {
@@ -17,7 +19,8 @@ interface IAccountService
     public function delete($id);
     */
 
-    public function login(loginIn $model) : loginOut;
+    public function login(LoginIn $model) : LoginOut;
+    public function me() : User;
 
     /*
 
@@ -43,25 +46,61 @@ class AccountService implements IAccountService
         $this->_mapper = $mapper;
     }
 
-    public function login(loginIn $model) : loginOut
+    public function login(LoginIn $model) : LoginOut
     {
-        //$login = $_mapper->Map($model, new UserViewModel());
-        $loginOut = $this->_mapper->Map($model, new loginOut());
+        $loginOut = $this->_mapper->Map($model, new LoginOut());
 
         $credentials = (array) $model;
 
-        if (!auth()->attempt($credentials)) {
+        if (!Auth::attempt($credentials)) {
             return response(['error_message' => 'Incorrect Details. Please try again'], 403);
         }
 
-        //dd($loginOut);
+        $user = Auth::user();
 
-        $currentUser =auth()->user();
+        if (!app()->runningInConsole() && $user) {
+            $roles            = Role::with('permissions')->get();
+            $permissionsArray = [];
 
-        $loginOut->token = $currentUser->createToken('API Token')->accessToken;
-        $loginOut->user = $currentUser;
+            foreach ($roles as $role) {
+                foreach ($role->permissions as $permissions) {
+                    $permissionsArray[$permissions->title][] = $role->id;
+                }
+            }
+
+            $userPermission = array();
+
+            foreach ($permissionsArray as $title => $roles) {
+                if (count(array_intersect($user->roles->pluck('id')->toArray(), $roles)) > 0)
+                    array_push($userPermission, $title);
+            }
+        }
+
+        $tokenResult = $user->createToken('Personal Access Token', );
+        $token = $tokenResult->token;
+
+        $token->expires_at = Carbon::now()->addWeeks(1);
+
+        $token->save();
+
+        $loginOut->user = $user;
+        $loginOut->id = $token->id;
+        $loginOut->role = $user->roles;
+        $loginOut->token = $tokenResult->accessToken;
+        $loginOut->expires_at = $token->expires_at;
+        $loginOut->token_type = 'Bearer';
 
         return $loginOut;
+    }
+
+    public function me() : User
+    {
+        $currentUser = Auth::user();
+
+        if (!$currentUser)
+            return response(['error_message' => 'Incorrect Details. Please try again'], 403);
+
+        return $currentUser;
     }
 
     public function storeOrUpdate($id = null,$data)

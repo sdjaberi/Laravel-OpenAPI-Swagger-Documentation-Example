@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Api\V1\Admin\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Services\Identity\Models\loginIn;
-use App\Services\Identity\Models\loginOut;
+use App\Services\Identity\Models\Login;
+use App\Services\Identity\Models\LoginIn;
+use App\Services\Identity\Models\LoginOut;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Identity\AccountService;
@@ -59,16 +60,10 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
-        //$request->all();
+        $request->validated();
 
-        //$params = $request->validated();
-
-        //$login = this->_mapper->Map($request->all(), new UserViewModel());
-
-        //dd($request);
-
-        $loginIn = new loginIn;
-        $loginIn->email = $request['email'];
+        $loginIn = new LoginIn;
+        $loginIn->email = $request['username'];
         $loginIn->password = $request['password'];
 
         $result = $this->_accountService->login($loginIn);
@@ -95,14 +90,12 @@ class AuthController extends Controller
      */
     public function me()
     {
-        dd(auth()->user());
-        if (!$user = auth()->user()) {
+        $result = $this->_accountService->me();
+
+        if (!$result )
             return response(['error_message' => 'Incorrect Details. Please try again'], 401);
-        }
 
-        $token = auth()->login($user);
-
-        return response()->json(['user' => $user, 'token' => $token, 'message' => 'Logged in user Return!']);
+        return response([$result , 'message' => 'Logged in user Return!']);
     }
 
     /**

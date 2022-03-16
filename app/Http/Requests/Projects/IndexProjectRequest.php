@@ -18,8 +18,8 @@ class IndexProjectRequest extends FormRequest
         if(!Auth::user())
             throw new ApiUnAuthException('Please Login First');
 
-        if(!Gate::allows('project_access'))
-            throw new ApiPermissionException();
+        //if(!Gate::allows('project_access'))
+            //throw new ApiPermissionException();
 
         return true;
     }

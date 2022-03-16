@@ -53,7 +53,7 @@ class Mapper
             //
 
             $className = get_class($target);
-            throw new \Exception("Could not auto-map property $name on $className.");
+            //throw new \Exception("Could not auto-map property $name on $className.");
         }
 
         return $target;
@@ -68,7 +68,7 @@ class Mapper
     {
         $value[0] = strtoupper($value[0]);
 
-        $func = create_function('$c', 'return strtoupper($c[1]);');
+        $func = function($c) { return strtoupper($c[1]); };
 
         return preg_replace_callback('/_([a-z])/', $func, $value);
     }

@@ -2,37 +2,15 @@
 
 namespace App\Services\Identity\Models;
 
-use App\Services\Base\Models\IDto;
+use App\Services\Base\IDto;
 
-class loginIn extends IDto
-{
-    /**
-     * @var string
-     */
-    public $email;
-
-    /**
-     * @var string
-     */
-    public $password;
-}
-
-class loginOut extends IDto
+class LoginOut extends IDto
 {
     /**
      * @var integer
      */
     public $id;
 
-    /**
-     * @var string
-     */
-    public $email;
-
-    /**
-     * @var string
-     */
-    public $name;
     /**
      * @var object
      */
@@ -47,7 +25,7 @@ class loginOut extends IDto
     /**
      * @var integer
      */
-    public $ttl;
+    public $expires_at;
 
     // ---
     /**
@@ -55,10 +33,12 @@ class loginOut extends IDto
      */
     public $refreshToken;
 
+    // ---
     /**
-     * @var integer
+     * @var string
      */
-    public $refreshTtl;
+    public $token_type;
+
 
     //----------------------------
 

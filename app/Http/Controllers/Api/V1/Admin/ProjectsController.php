@@ -30,6 +30,7 @@ class ProjectsController extends Controller
      *      path="/projects",
      *      operationId="getProjectsList",
      *      tags={"Projects"},
+     *      security={{"passport": {"*"}}},
      *      summary="Get list of projects",
      *      description="Returns list of projects",
      *      @OA\Response(
@@ -66,6 +67,7 @@ class ProjectsController extends Controller
      *      path="/projects",
      *      operationId="storeProject",
      *      tags={"Projects"},
+     *      security={{"passport": {"*"}}},
      *      summary="Store new project",
      *      description="Returns project data",
      *      @OA\RequestBody(
@@ -113,6 +115,7 @@ class ProjectsController extends Controller
      *      path="/projects/{id}",
      *      operationId="getProjectById",
      *      tags={"Projects"},
+     *      security={{"passport": {"*"}}},
      *      summary="Get project information",
      *      description="Returns project data",
      *      @OA\Parameter(
@@ -145,6 +148,7 @@ class ProjectsController extends Controller
      *          @OA\JsonContent(ref="#/components/schemas/ApiPermissionException")
      *      ),
      * )
+     *
      */
     public function show($id)
     {
@@ -161,6 +165,7 @@ class ProjectsController extends Controller
      *      path="/projects/{id}",
      *      operationId="updateProject",
      *      tags={"Projects"},
+     *      security={{"passport": {"*"}}},
      *      summary="Update existing project",
      *      description="Returns updated project data",
      *      @OA\Parameter(
@@ -217,6 +222,7 @@ class ProjectsController extends Controller
      *      path="/projects/{id}",
      *      operationId="deleteProject",
      *      tags={"Projects"},
+     *      security={{"bearerAuth": {"*"}}},
      *      summary="Delete existing project",
      *      description="Deletes a record and returns no content",
      *      @OA\Parameter(

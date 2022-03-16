@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services\Base\Models;
+namespace App\Services\Base;
 
-interface IDto
+class IDto
 {
 
 }

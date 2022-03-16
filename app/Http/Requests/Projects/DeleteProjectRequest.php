@@ -14,11 +14,13 @@ class DeleteProjectRequest extends FormRequest
 {
     public function authorize()
     {
+        //dd($this->input('id'));
+
         if(!Auth::user())
             throw new ApiUnAuthException('Please Login First');
 
-        if(!Gate::allows('project_delete'))
-            throw new ApiPermissionException();
+        //if(!Gate::allows('project_delete'))
+            //throw new ApiPermissionException();
 
         return true;
     }
