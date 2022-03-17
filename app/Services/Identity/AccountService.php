@@ -8,6 +8,8 @@ use App\Services\Identity\Models\LoginOut;
 use App\Services\Base\Mapper;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Repositories\RoleRepository;
+
 
 interface IAccountService
 {
@@ -40,10 +42,12 @@ interface IAccountService
 class AccountService implements IAccountService
 {
     private $_mapper;
+    private $_roleRepository;
 
-    public function __construct(Mapper $mapper)
+    public function __construct(Mapper $mapper, RoleRepository $roleRepository)
     {
         $this->_mapper = $mapper;
+        $this->_roleRepository = $roleRepository;
     }
 
     public function login(LoginIn $model) : LoginOut
@@ -59,7 +63,7 @@ class AccountService implements IAccountService
         $user = Auth::user();
 
         if (!app()->runningInConsole() && $user) {
-            $roles            = Role::with('permissions')->get();
+            $roles            = $this->_roleRepository->getAllData();
             $permissionsArray = [];
 
             foreach ($roles as $role) {
@@ -68,19 +72,17 @@ class AccountService implements IAccountService
                 }
             }
 
-            $userPermission = array();
+            $userPermissions = array();
 
-            foreach ($permissionsArray as $title => $roles) {
-                if (count(array_intersect($user->roles->pluck('id')->toArray(), $roles)) > 0)
-                    array_push($userPermission, $title);
-            }
+            foreach ($user->roles as $role)
+                array_push($userPermissions, $role->permissions);
+
+            $userPermissions = array_unique($userPermissions);
         }
 
-        $tokenResult = $user->createToken('Personal Access Token', );
+        $tokenResult = $user->createToken('Personal Access Token', $userPermissions);
         $token = $tokenResult->token;
-
         $token->expires_at = Carbon::now()->addWeeks(1);
-
         $token->save();
 
         $loginOut->user = $user;

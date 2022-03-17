@@ -8,13 +8,14 @@ use App\Http\Exceptions\ApiNotFoundException;
 interface ILanguageRepository
 {
     public function getAllData();
+    public function getAllNotPrimaryData();
     public function getAllActiveData();
+    public function getPrimaryData();
     public function store($data);
     public function update($id = null,$data);
     public function view($id);
     public function delete($id);
     public function deleteAll($ids);
-    public function getPrimaryLanguage();
 }
 
 class LanguageRepository implements ILanguageRepository
@@ -24,9 +25,20 @@ class LanguageRepository implements ILanguageRepository
         return Language::all();
     }
 
+    public function getAllNotPrimaryData()
+    {
+        return Language::where('is_primary', 0);
+
+    }
+
     public function getAllActiveData()
     {
-        return Language::all()->where('active', 1);
+        return Language::where('active', 1);
+    }
+
+    public function getPrimaryData()
+    {
+        return Language::where('is_primary', 1)->first();
     }
 
     public function store($data)
@@ -74,10 +86,5 @@ class LanguageRepository implements ILanguageRepository
     public function deleteAll($ids)
     {
         return Language::whereIn('id', $ids)->delete();
-    }
-
-    public function getPrimaryLanguage()
-    {
-        return Language::where('is_primary', 1)->first();
     }
 }

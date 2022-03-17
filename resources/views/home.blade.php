@@ -46,7 +46,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($languages->sortBy('id') as $key => $language)
+                                @foreach($languages as $key => $language)
                                     <tr>
                                         <td>
                                             {{ $language->id ?? '' }}
@@ -55,7 +55,13 @@
                                             {{ $language->title ?? '' }}
 
                                             @if (!$language->active)
-                                                <i class="red fa-fw fas fa-exclamation-triangle" data-toggle="tooltip" title="Deactive Language">
+                                                <i class="fa-fw fas fa-exclamation-triangle" data-toggle="tooltip" title="Deactive Language">
+
+                                                </i>
+                                            @endif
+
+                                            @if ($language->is_primary)
+                                                <i class="fa-fw fas fa-flag" data-toggle="tooltip" title="Primary Language">
 
                                                 </i>
                                             @endif
@@ -71,7 +77,7 @@
                                                 $categoryLanguages = $category->project->languages;
                                                 $categoryLanguagesCount = count($categoryLanguages);
 
-                                                if(count($categoryLanguages->where('id', $language->id)) < 1)
+                                                if(count($categoryLanguages->where('id', $language->id)) < 1 || $language->is_primary)
                                                 {
                                                     $tanslationPercentage = "---";
                                                     $badgeClass = "Secondary";
@@ -109,16 +115,15 @@
                                                     }
 
                                                     $tanslationPercentage = $tanslationPercentage. "%";
-
                                                 }
 
                                             @endphp
 
                                             @can('translation_edit')
-                                            @php $hasLink = !$category->project->languages->where('id', $language->id)->isEmpty();  @endphp
-                                                <a href="@if($hasLink){{ route('admin.categories.translate', [$category->name, $language->title]) }}@else # @endif">
+                                            @php $hasLink = (!$category->project->languages->where('id', $language->id)->isEmpty() && !$language->is_primary);  @endphp
+                                            @if($hasLink) <a href="{{ route('admin.categories.translate', [$category->name, $language->title]) }}"> @endif
                                                     <span class="badge badge-lg bg-{{ $badgeClass }}">{{ $tanslationPercentage }}</span>
-                                                </a>
+                                            @if($hasLink) </a> @endif
                                             @endcan
 
                                         </td>

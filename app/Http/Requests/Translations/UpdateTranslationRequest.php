@@ -26,31 +26,33 @@ class UpdateTranslationRequest extends FormRequest
 
     public function rules()
     {
-        $id = $this->input('id');
-        $phrase_id = $this->input('phrase_id');
-        $language_id = $this->input('language_id');
+        $id = (int)$this->route()->translation->id;
+        $phrase_id = (int)$this->input('phrase_id');
+        $language_id = (int)$this->input('language_id');
 
-        $uniquenessRule = Rule::unique('phrase_translations')
+        $uniquenessRule =
+        Rule::unique('phrase_translations')
             ->where(
-                function ($query) use($id, $phrase_id,$language_id) {
-                    return
+                fn ($query) =>
                         $query
-                        ->where('phrase_id', $phrase_id)
-                        ->where('language_id', $language_id)
-                        ->where('id', $id);
-        });
+                            ->where([
+                                'language_id' => $language_id,
+                                'phrase_id' => $phrase_id,
+                                ])
+                    )
+            ->ignore($id);
 
         return [
-            'phrase_id'   => ['required'],
+            'translation' => ['required'],
+            'phrase_id'   => ['required', $uniquenessRule],
             'language_id' => ['required'],
-            'phrase_language' => [$uniquenessRule],
         ];
     }
 
     public function messages()
     {
         return [
-            'phrase_language.unique' => 'Given phrase_id and language_id are not unique',
+            'phrase_id.unique' => 'Given phrase_id and language_id are not unique',
         ];
     }
 }

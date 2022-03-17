@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePhrasesTable extends Migration
+class CreatePhraseCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,13 @@ class CreatePhrasesTable extends Migration
      */
     public function up()
     {
-        Schema::create('phrases', function (Blueprint $table) {
+        Schema::create('phrase_categories', function (Blueprint $table) {
 
             $table->increments('id');
 
-            $table->unsignedInteger('base_id')->nullable();
+            $table->string('name');
 
-            $table->longText('phrase');
-
-            $table->string('category_name')->index();
-            $table->foreign('category_name', 'category_fk_896900')->references('name')->on('categories')->onDelete('cascade');
+            $table->longText('filename')->nullable();
 
             $table->timestamps();
 
@@ -37,6 +34,6 @@ class CreatePhrasesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('phrases');
+        Schema::dropIfExists('phrase_categories');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePhrasesTable extends Migration
+class CreateLanguagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,18 @@ class CreatePhrasesTable extends Migration
      */
     public function up()
     {
-        Schema::create('phrases', function (Blueprint $table) {
-
+        Schema::create('languages', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->unsignedInteger('base_id')->nullable();
+            $table->string('title')->unique();
 
-            $table->longText('phrase');
+            $table->string('iso_code', 2)->unique();
 
-            $table->string('category_name')->index();
-            $table->foreign('category_name', 'category_fk_896900')->references('name')->on('categories')->onDelete('cascade');
+            $table->string('text_direction', 3)->default('ltr');
+
+            $table->boolean('is_primary')->default(false);
+
+            $table->boolean('active')->default(true);
 
             $table->timestamps();
 
@@ -37,6 +39,6 @@ class CreatePhrasesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('phrases');
+        Schema::dropIfExists('languages');
     }
 }

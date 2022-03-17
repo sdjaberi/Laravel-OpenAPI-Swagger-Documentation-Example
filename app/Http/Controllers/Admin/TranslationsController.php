@@ -8,6 +8,7 @@ use App\Http\Requests\Translations\CreateTranslationRequest;
 use App\Http\Requests\Translations\MassDestroyTranslationRequest;
 use App\Http\Requests\Translations\StoreTranslationRequest;
 use App\Http\Requests\Translations\UpdateTranslationRequest;
+use App\Http\Requests\Translations\UpdateTranslationAjaxRequest;
 use Symfony\Component\HttpFoundation\Response;
 use App\Models\Translation;
 use App\Repositories\TranslationRepository;
@@ -41,14 +42,17 @@ class TranslationsController extends Controller
     public function create(CreateTranslationRequest $request)
     {
         $authors = $this->_userRepository->getAllData()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-        $languages = $this->_languageRepository->getAllData()->pluck('title', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $languages = $this->_languageRepository->getAllNotPrimaryData()->pluck('title', 'id')->prepend(trans('global.pleaseSelect'), '');
         $phrases = $this->_phraseRepository->getAllData()->pluck('phrase', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $primaryLanguage = $this->_languageRepository->getPrimaryData()->take(1)->pluck('title', 'id');
 
-        return view('admin.translations.create', compact('authors', 'languages', 'phrases'));
+        return view('admin.translations.create', compact('authors', 'languages', 'phrases', 'primaryLanguage'));
     }
 
     public function store(StoreTranslationRequest $request)
     {
+        //dd($request->all());
+
         $translation = $this->_translationRepository->store($request);
 
         return redirect()->route('admin.translations.index');
@@ -57,16 +61,20 @@ class TranslationsController extends Controller
     public function edit(Translation $translation)
     {
         $authors = $this->_userRepository->getAllData()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-        $languages = $this->_languageRepository->getAllData()->pluck('title', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $languages = $this->_languageRepository->getAllNotPrimaryData()->pluck('title', 'id')->prepend(trans('global.pleaseSelect'), '');
         $phrases = $this->_phraseRepository->getAllData()->pluck('phrase', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $primaryLanguage = $this->_languageRepository->getPrimaryData()->take(1)->pluck('title', 'id');
 
         $translation->load('author', 'language', 'phrase');
 
-        return view('admin.translations.edit', compact('authors', 'languages', 'phrases', 'translation'));
+        return view('admin.translations.edit', compact('authors', 'languages', 'phrases', 'translation', 'primaryLanguage'));
     }
 
     public function update(UpdateTranslationRequest $request, Translation $translation)
     {
+        /*  Validate requested data */
+        //$request->validated();
+
         $translation = $this->_translationRepository->update($translation->id, $request);
 
         return redirect()->route('admin.translations.index');
@@ -119,7 +127,7 @@ class TranslationsController extends Controller
      * @param $id
      * @return object
      */
-    public function ajaxUpdate(Request $request, UpdateTranslationRequest $updateRequest, $id): object
+    public function ajaxUpdate(Request $request, UpdateTranslationAjaxRequest $updateRequest, $id): object
     {
         /*  Validate requested data */
         $updateRequest->validated();

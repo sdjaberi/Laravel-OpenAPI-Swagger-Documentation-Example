@@ -7,20 +7,18 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
-use App\Http\Exceptions\ApiRequestException;
-use App\Http\Exceptions\ApiNotFoundException;
-use App\Http\Exceptions\ApiUnAuthException;
 use App\Http\Exceptions\ApiPermissionException;
+use App\Http\Exceptions\ApiUnAuthException;
 use Illuminate\Validation\Rule;
 
-class StoreTranslationRequest extends FormRequest
+class UpdateTranslationAjaxRequest extends FormRequest
 {
     public function authorize()
     {
         if(!Auth::user())
             throw new ApiUnAuthException('Please Login First');
 
-        if(!Gate::allows('translation_create'))
+        if(!Gate::allows('translation_edit'))
             throw new ApiPermissionException();
 
         return true;
@@ -28,20 +26,25 @@ class StoreTranslationRequest extends FormRequest
 
     public function rules()
     {
-        $phrase_id = $this->input('phrase_id');
-        $language_id = $this->input('language_id');
+        $id = (int)$this->input('id');
+        $phrase_id = (int)$this->input('phrase_id');
+        $language_id = (int)$this->input('language_id');
 
-        $uniquenessRule = Rule::unique('phrase_translations')
+        $uniquenessRule =
+        Rule::unique('phrase_translations')
             ->where(
-                function ($query) use($phrase_id,$language_id) {
-                    return
+                fn ($query) =>
                         $query
-                            ->where('phrase_id', $phrase_id)
-                            ->where('language_id', $language_id);
-        });
+                            ->where([
+                                'language_id' => $language_id,
+                                'phrase_id' => $phrase_id,
+                                ])
+                    )
+            ->ignore($id);
 
         return [
-            'phrase_id' => ['required', $uniquenessRule],
+            'translation' => ['required'],
+            'phrase_id'   => ['required', $uniquenessRule],
             'language_id' => ['required'],
         ];
     }

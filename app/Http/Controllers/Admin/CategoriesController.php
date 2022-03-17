@@ -103,8 +103,6 @@ class CategoriesController extends Controller
 
     public function translate($name, $to = "German", CategoryTranslationRequest $categoryTranslationRequest)
     {
-        //dd($name);
-
         /*  Validate requested data */
         $categoryTranslationRequest->validated();
 
@@ -115,9 +113,13 @@ class CategoriesController extends Controller
 
         $phrases = $category->phrases;
 
-        $languageFrom = $this->_languageRepository->getPrimaryLanguage();
-        $languagesTo = $category->project->languages->where('id', '!=', $languageFrom->id);
-        $languageTo = $this->_languageRepository->getAllData()->where("title", $to)->first();
+        $languageFrom = $this->_languageRepository->getPrimaryData();
+
+        $languagesTo = $category->project->languages
+            ->where('id', '!=', $languageFrom->id);
+
+        $languageTo = $this->_languageRepository->getAllNotPrimaryData()
+            ->where("title", $to)->first();
 
         $translations = collect();
         foreach ($phrases as $phrase) {
@@ -131,18 +133,6 @@ class CategoriesController extends Controller
 
             $translations->push($translation);
         }
-
-        //$phrases->_translationRepository->getAllData();
-
-
-        //$translations = $this->_translationRepository->getAllData();
-
-        //$projects = $this->_projectRepository->getAllData()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        //return view('admin.categories.edit', compact('category', 'projects'));
-
-        //return new CategoryResource($category);
-
 
         return view('admin.categories.translate')
             ->with('category', $category)
