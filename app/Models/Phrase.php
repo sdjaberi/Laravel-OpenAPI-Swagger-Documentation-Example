@@ -34,4 +34,9 @@ class Phrase extends Model
     {
         return $this->hasMany(Translation::class);
     }
+
+    public function phraseCategory()
+    {
+        return $this->belongsTo(PhraseCategory::class);
+    }
 }

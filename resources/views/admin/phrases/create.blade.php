@@ -43,6 +43,20 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.phrase.fields.category_name_helper') }}</span>
             </div>
+            <div class="form-group">
+                <label for="phrase_category_id">{{ trans('cruds.phrase.fields.phrase_category_id') }}</label>
+                <select class="form-control select2 {{ $errors->has('phrase_category_id') ? 'is-invalid' : '' }}" name="phrase_category_id" id="phrase_category_id">
+                    @foreach($phraseCategories as $id => $phraseCategory)
+                        <option value="{{ $id }}" {{ old('phrase_category_id') == $id ? 'selected' : '' }}>{{ $phraseCategory }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('phrase_category_id'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('phrase_category_id') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.phrase.fields.phrase_category_id_helper') }}</span>
+            </div>
 
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">

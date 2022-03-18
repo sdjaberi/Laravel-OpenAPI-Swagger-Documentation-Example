@@ -12,16 +12,22 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Models\Phrase;
 use App\Repositories\PhraseRepository;
 use App\Repositories\CategoryRepository;
+use App\Repositories\PhraseCategoryRepository;
 
 class PhrasesController extends Controller
 {
     private $_phraseRepository;
     private $_categoryRepository;
+    private $_phraseCategoryRepository;
 
-    public function __construct(PhraseRepository $phraseRepository, CategoryRepository $categoryRepository)
+    public function __construct(
+        PhraseRepository $phraseRepository,
+        CategoryRepository $categoryRepository,
+        PhraseCategoryRepository $phraseCategoryRepository)
     {
         $this->_phraseRepository = $phraseRepository;
         $this->_categoryRepository = $categoryRepository;
+        $this->_phraseCategoryRepository = $phraseCategoryRepository;
     }
 
     public function index(IndexPhraseRequest $request)
@@ -34,8 +40,9 @@ class PhrasesController extends Controller
     public function create(CreatePhraseRequest $request)
     {
         $categories = $this->_categoryRepository->getAllData()->pluck('name','name')->prepend(trans('global.pleaseSelect'), '');
+        $phraseCategories = $this->_phraseCategoryRepository->getAllData()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.phrases.create', compact('categories'));
+        return view('admin.phrases.create', compact('categories', 'phraseCategories'));
     }
 
     public function store(StorePhraseRequest $request)
@@ -48,10 +55,12 @@ class PhrasesController extends Controller
     public function edit(Phrase $phrase)
     {
         $categories = $this->_categoryRepository->getAllData()->pluck('name','name')->prepend(trans('global.pleaseSelect'), '');
+        $phraseCategories = $this->_phraseCategoryRepository->getAllData()->pluck('name','id')->prepend(trans('global.pleaseSelect'), '');
 
         $phrase->load('category');
+        $phrase->load('phraseCategory');
 
-        return view('admin.phrases.edit', compact('categories', 'phrase'));
+        return view('admin.phrases.edit', compact('categories', 'phraseCategories', 'phrase'));
     }
 
     public function update(UpdatePhraseRequest $request, Phrase $phrase)

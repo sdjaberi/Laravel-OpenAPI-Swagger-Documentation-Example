@@ -6,6 +6,9 @@ return [
         'from' => 'From',
         'to' => 'To',
         'overview' => 'Overview',
+        'fileLanguage' => 'File Language',
+        'importData' => 'Import Data',
+        'exportData' => 'Export Data',
     ],
     'userManagement' => [
         'title'          => 'User',
@@ -108,6 +111,14 @@ return [
         'title'          => 'Categories',
         'title_singular' => 'Category',
         'translations'   => 'Translations',
+        'exportImport'   => [
+            'title'                 => 'Import / Export',
+            'export'                => 'Export',
+            'import'                => 'Import',
+            'chooseLanguage'        => 'Choose Language',
+            'chooseCategory'        => 'Choose Category',
+            'phraseCategoryStatus'  => 'Phrase Category Enable',
+        ],
         'fields'         => [
             'name'               => 'Name',
             'name_helper'        => '',
@@ -169,6 +180,8 @@ return [
             'phrase_helper'               => '',
             'category_name'               => 'Category',
             'category_name_helper'        => '',
+            'phrase_category_id'          => 'Phrase Category',
+            'phrase_category_id_helper'   => '',
             'translations'                => 'Translations',
             'translations_helper'         => '',
             'created_at'                  => 'Created at',

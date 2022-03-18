@@ -47,6 +47,14 @@
                             {{ $phrase->category->project->name ?? '' }} => {{ $phrase->category->name ?? '' }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.phrase.fields.phrase_category_id') }}
+                        </th>
+                        <td>
+                            {{ $phrase->phraseCategory->name ?? '' }} => {{ json_encode($phrase->phraseCategory->filename) ?? '' }}
+                        </td>
+                    </tr>
 
                 </tbody>
             </table>

@@ -38,6 +38,9 @@
                             {{ trans('cruds.category.fields.phrases') }}
                         </th>
                         <th>
+                            {{ trans('cruds.category.exportImport.title') }}
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -67,6 +70,20 @@
                             </td>
                             <td>
                                 {{ count($category->phrases) ?? '' }}
+                            </td>
+                            <td>
+                                @can('import')
+                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.categories.import', $category->name) }}">
+                                        <i class="fas fa-file-import"></i>
+                                        {{ trans('cruds.category.exportImport.import') }}
+                                    </a>
+                                @endcan
+                                @can('export')
+                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.categories.export', $category->name) }}">
+                                        <i class="fas fa-file-export"></i>
+                                        {{ trans('cruds.category.exportImport.export') }}
+                                    </a>
+                                @endcan
                             </td>
                             <td>
                                 @can('translation_edit')

@@ -35,6 +35,9 @@
                             {{ trans('cruds.project.title_singular') }} => {{ trans('cruds.phrase.fields.category_name') }}
                         </th>
                         <th>
+                            {{ trans('cruds.phrase.fields.phrase_category_id') }}
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -56,6 +59,9 @@
                             </td>
                             <td>
                                 {{ $phrase->category->project->name ?? '' }} => {{ $phrase->category->name ?? '' }}
+                            </td>
+                            <td>
+                                {{ $phrase->phraseCategory->name ?? '' }}
                             </td>
                             <td>
                                 @can('phrase_show')

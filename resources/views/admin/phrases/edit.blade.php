@@ -31,7 +31,7 @@
                 <span class="help-block">{{ trans('cruds.phrase.fields.phrase_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="category_name">{{ trans('cruds.phrase.fields.category_name') }}</label>
+                <label class="required" for="category_name">{{ trans('cruds.phrase.fields.category_name') }}</label>
                 <select class="form-control select2 {{ $errors->has('category_name') ? 'is-invalid' : '' }}" name="category_name" id="category_name" required>
                     @foreach($categories as $name => $category)
                         <option value="{{ $name }}" {{ ($phrase->category ? $phrase->category->name : old('category_name')) == $name ? 'selected' : '' }}>{{ $category }}</option>
@@ -44,6 +44,23 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.phrase.fields.category_name_helper') }}</span>
             </div>
+            <div class="form-group">
+                <label for="phrase_category_id">{{ trans('cruds.phrase.fields.phrase_category_id') }}</label>
+                <select class="form-control select2 {{ $errors->has('phrase_category_id') ? 'is-invalid' : '' }}" name="phrase_category_id" id="phrase_category_id">
+                    @foreach($phraseCategories as $id => $phraseCategory)
+                        <option value="{{ $id }}" {{ ($phrase->phraseCategory ? $phrase->phraseCategory->id : old('phrase_category_id')) == $id ? 'selected' : '' }}>{{ $phraseCategory }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('phrase_category_id'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('phrase_category_id') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.phrase.fields.phrase_category_id_helper') }}</span>
+            </div>
+
+
+
 
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">

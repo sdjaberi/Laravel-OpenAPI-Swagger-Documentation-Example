@@ -1,6 +1,10 @@
 @extends('layouts.admin')
 @section('content')
 
+@php
+    ini_set('memory_limit','512M');
+@endphp
+
 <div class="card">
     <div class="card-header">
         <h2 class="card-title pt-1 font-bold text-center">

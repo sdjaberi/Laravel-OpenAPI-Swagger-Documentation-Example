@@ -48,6 +48,8 @@ Route::group(
     // Categories
     Route::delete('categories/destroy', 'CategoriesController@massDestroy')->name('categories.massDestroy');
     Route::get('categories/{name}/translate/{to?}', 'CategoriesController@translate')->name('categories.translate');
+    Route::match(['get', 'post'], 'categories/{name}/import', 'CategoriesController@import')->name('categories.import');
+    Route::match(['get', 'post'], 'categories/{name}/export/{to?}', 'CategoriesController@export')->name('categories.export');
     Route::resource('categories', 'CategoriesController');
 
     // Phrases

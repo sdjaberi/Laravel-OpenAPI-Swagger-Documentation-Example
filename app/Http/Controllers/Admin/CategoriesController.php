@@ -9,15 +9,36 @@ use App\Http\Requests\Categories\MassDestroyCategoryRequest;
 use App\Http\Requests\Categories\StoreCategoryRequest;
 use App\Http\Requests\Categories\UpdateCategoryRequest;
 use App\Http\Requests\Categories\CategoryTranslationRequest;
+use App\Http\Requests\Categories\CategoryImportRequest;
+use App\Http\Requests\Categories\CategoryExportRequest;
 use Symfony\Component\HttpFoundation\Response;
 use App\Models\Category;
 use App\Repositories\CategoryRepository;
 use App\Repositories\ProjectRepository;
 use App\Repositories\TranslationRepository;
 use App\Repositories\LanguageRepository;
+use App\Repositories\PhraseRepository;
+use App\Repositories\PhraseCategoryRepository;
 use App\Http\Resources\Admin\CategoryResource;
 use App\Models\Phrase;
+use App\Models\PhraseCategory;
+use App\Models\Translation;
 use Illuminate\Support\Facades\Auth;
+use DOMDocument;
+use DOMImplementation;
+use Illuminate\Contracts\Filesystem\FileNotFoundException as FilesystemFileNotFoundException;
+use Illuminate\Support;
+use Illuminate\Http\File;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Laravie\Parser\FileNotFoundException;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use stdClass;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use ZipArchive;
 
 class CategoriesController extends Controller
 {
@@ -25,13 +46,23 @@ class CategoriesController extends Controller
     private $_projectRepository;
     private $_translationRepository;
     private $_languageRepository;
+    private $_phraseRepository;
+    private $_phraseCategoryRepository;
 
-    public function __construct(CategoryRepository $categoryRepository, ProjectRepository $projectRepository, TranslationRepository $translationRepository, LanguageRepository $languageRepository)
+    public function __construct(
+        CategoryRepository $categoryRepository,
+        ProjectRepository $projectRepository,
+        TranslationRepository $translationRepository,
+        LanguageRepository $languageRepository,
+        PhraseRepository $phraseRepository,
+        PhraseCategoryRepository $phraseCategoryRepository)
     {
         $this->_categoryRepository = $categoryRepository;
         $this->_projectRepository = $projectRepository;
         $this->_translationRepository = $translationRepository;
         $this->_languageRepository = $languageRepository;
+        $this->_phraseRepository = $phraseRepository;
+        $this->_phraseCategoryRepository = $phraseCategoryRepository;
     }
 
     public function index(IndexCategoryRequest $request)
@@ -121,18 +152,9 @@ class CategoriesController extends Controller
         $languageTo = $this->_languageRepository->getAllNotPrimaryData()
             ->where("title", $to)->first();
 
-        $translations = collect();
-        foreach ($phrases as $phrase) {
-            $translation =
-                $this->
-                    _translationRepository->
-                        getAllData()
-                        ->where('language_id', $languageTo->id)
-                        ->where('phrase_id', $phrase->id)
-                        ->first();
+        $phrasesIds = $phrases->pluck('id');
 
-            $translations->push($translation);
-        }
+        $translations = Translation::whereIn('phrase_id',$phrasesIds)->get();
 
         return view('admin.categories.translate')
             ->with('category', $category)
@@ -142,7 +164,281 @@ class CategoriesController extends Controller
             ->with('languagesTo',  $languagesTo)
             ->with('translations', $translations)
             ->with('user',   Auth::user());
+    }
 
+    public function import($name, CategoryImportRequest $categoryImportRequest)
+    {
+        $method = $categoryImportRequest->method();
+
+        if($method == 'GET'){
+            return $this->importGet($name, $categoryImportRequest);
+        }
+
+        if($method == 'POST'){
+            //dd('POST', $name, $categoryImportRequest, $categoryImportRequest->file, \request()->file);
+            return $this->importPost($name, $categoryImportRequest);
+
+        }
+    }
+
+    public function importGet($name, CategoryImportRequest $categoryImportRequest)
+    {
+        /*  Validate requested data */
+        $categoryImportRequest->validated();
+
+        $category = $this->_categoryRepository->view($name);
+
+        $category->project->load('languages');
+
+        $languageFrom = $this->_languageRepository->getPrimaryData();
+
+        $categories = $this->_categoryRepository->getAllData()->pluck('name', 'name');
+
+        return view('admin.categories.import')
+            ->with('categories', $categories)
+            ->with('category', $category)
+            ->with('from', $languageFrom);
+    }
+
+    public function importPost($name, CategoryImportRequest $categoryImportRequest)
+    {
+
+        // Validate requested data
+        $categoryImportRequest->validated();
+
+        $categoryName = $name;
+        $file = $categoryImportRequest->myfile;
+        $fileName = date("m-d-Y H:i:s.u") . '_' . $file->getClientOriginalName();
+
+        // Save file on storage
+        try
+        {
+            Storage::disk('public')->putFileAs('qt', new File($file), $fileName);
+        }
+        catch (FileException $exception)
+        {
+            return response()->json(["status" => "Error"], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        // Read file from storage
+        try
+        {
+            $file = Storage::disk('public')->get('/qt/' . $fileName);
+        }
+        catch (FilesystemFileNotFoundException $exception)
+        {
+            return response()->json(["status" => "Error"], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        $xmlFile = new \SimpleXMLElement($file);
+
+        $items = (array)$xmlFile->xpath('context');
+
+        foreach ($items as $context) {
+
+            $messages = (array)$context->xpath('message');
+
+            foreach ($messages as $message) {
+
+                $phraseCategoryName = $context->name;
+                $phrase = $message->source;
+
+                $phraseEntity = $this->_phraseRepository->find($phrase, $categoryName, $phraseCategoryName);
+
+                if(!$phraseEntity) {
+
+                    $phraseDto = new stdClass();
+                    $phraseDto->phrase = $phrase;
+                    $phraseDto->category_name = $categoryName;
+
+                    $phraseCategoryEntity = $this->_phraseCategoryRepository->findByName($phraseCategoryName);
+
+                    if(!$phraseCategoryEntity)
+                    {
+                        $phraseCategoryDto = new stdClass();
+                        $phraseCategoryDto->name = $phraseCategoryName;
+
+                        $locationsArray = array();
+                        foreach ($context->message as $message)
+                        array_push($locationsArray, $message->location);
+
+                        $phraseCategoryDto->filename = json_encode($locationsArray);
+
+                        $phraseCategoryEntity = $this->_phraseCategoryRepository->store($phraseCategoryDto);
+                    }
+
+                    $phraseDto->phrase_category_id = $phraseCategoryEntity->id;
+
+                    $phraseEntity = $this->_phraseRepository->store($phraseDto);
+                }
+
+            }
+        }
+
+        return redirect()->route('admin.categories.translate',['name' => $name]);
+        //return response()->json(["success" => "ok"], JsonResponse::HTTP_OK);
+    }
+
+
+
+    public function export($name, $to = 'German', CategoryExportRequest $categoryExportRequest)
+    {
+        /*  Validate requested data */
+        $method = $categoryExportRequest->method();
+
+        if($method == 'GET'){
+            return $this->exportGet($name, $to, $categoryExportRequest);
+        }
+
+        if($method == 'POST'){
+            //dd('POST', $name, $categoryImportRequest, $categoryImportRequest->file, \request()->file);
+            return $this->exportPost($name, $to, $categoryExportRequest);
+
+        }
+    }
+
+    public function exportGet($name, $to, CategoryExportRequest $categoryExportRequest)
+    {
+        /*  Validate requested data */
+        $categoryExportRequest->validated();
+
+        $category = $this->_categoryRepository->view($name);
+
+        $category->project->load('languages');
+
+        $languageFrom = $this->_languageRepository->getPrimaryData();
+
+        $languagesTo = $category->project->languages
+            ->where('id', '!=', $languageFrom->id);
+
+        $languageTo = $this->_languageRepository->getAllNotPrimaryData()
+            ->where("title", $to)->first();
+
+        $categories = $this->_categoryRepository->getAllData()->pluck('name', 'name');
+
+        $phrasesIds = $category->phrases->pluck('phrase_id');
+
+        $phrasesCategoryIds = $category->phrases->pluck('phrase_category_id');
+
+        $phrasesCategories = PhraseCategory::whereIn('id', $phrasesCategoryIds)->get();
+
+        $translations = Translation::whereIn('phrase_id', $phrasesIds)->get();
+
+        return view('admin.categories.export')
+            ->with('categories', $categories)
+            ->with('category', $category)
+            ->with('from', $languageFrom)
+            ->with('to', $languageTo)
+            ->with('phrasesCategories', $phrasesCategories)
+            ->with('translations', $translations)
+            ->with('languagesTo', $languagesTo);
+    }
+
+    public function exportPost($name, $to, CategoryExportRequest $categoryExportRequest)
+    {
+        set_time_limit(10000);
+
+        // Validate requested data
+        $categoryExportRequest->validated();
+
+        $categoryName = $name;
+        $category = $this->_categoryRepository->view($name);
+        //$phrases = $category->phrases;
+        $languageTo = $this->_languageRepository->getAllNotPrimaryData()
+            ->where("title", $to)->first();
+
+
+	    $file_extension_name = "sw";
+        //strtolower(Str::words(Category::find($category)->name, 1,''));
+
+        //$languages = Language::all();
+        //foreach ($languages as $language) {
+
+            $xml = new DOMDocument('1.0', 'utf-8');
+            $xml->preserveWhiteSpace = false;
+            $xml->formatOutput = true;
+            $implementation = new DOMImplementation();
+
+            $xml->appendChild($implementation->createDocumentType('TS'));
+            $doctype = $xml->createElement('TS');
+            $doctype->setAttribute('version', '2.1');
+            $doctype->setAttribute('language', $languageTo->title);
+
+            $sequences = QtSequence::with('location')->where('category_id', $category)->get();
+            $names = $sequences->pluck('name')->toArray();
+
+            $translations = QtTranslation::with('sequence', 'sequence.location')->where('category_id', $category)->where('language_id', $language->id)->get();
+            //dd($translations);
+
+            foreach (array_unique($names) as $name) {
+                $context = $xml->createElement('context');
+                $nameXML = $xml->createElement('name', $name);
+                $context->appendChild($nameXML);
+                $filtered = collect($sequences);
+                $filtered->where('name', $name);
+
+                foreach ($filtered->where('name', $name) as $sequence) {
+                    $message = $xml->createElement('message');
+                    foreach ($sequence->location as $locationAttr) {
+                        $location = $xml->createElement('location');
+                        $location->setAttribute('filename', $locationAttr->filename);
+                        $location->setAttribute('line', $locationAttr->line);
+                        $message->appendChild($location);
+                    }
+
+                    $source = $xml->createElement('source', $sequence->source);
+                    $context->appendChild($message);
+                    $message->appendChild($source);
+
+                    $phrase = $translations->where('qt_sequence_id', $sequence->id)->first();
+
+                    if($phrase == null) {
+                        $translation = $xml->createElement('translation');
+                        $translation->setAttribute('type', 'unfinished');
+                        $translation->appendChild($xml->createTextNode(''));
+                    } else {
+                        $translation = $xml->createElement('translation', $phrase->phrase);
+                    }
+
+                    $message->appendChild($translation);
+                    $doctype->appendChild($context);
+                }
+            }
+
+            $xml->appendChild($doctype);
+
+            $xml->saveXML();
+
+            if($category == 5) {
+                $xml->save('./storage/xml/PL02_' . $language->iso_code . ".ts");
+            } else $xml->save('./storage/xml/' . $file_extension_name . "." . $language->iso_code . '.ts');
+        //}
+
+        return true;
+
+        $zip_file = "QtTranslations.zip";
+        $zip = new ZipArchive();
+        $zip->open($zip_file, ZipArchive::CREATE | ZipArchive::OVERWRITE);
+
+        $path = storage_path('app/public/xml/');
+
+        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));
+
+        foreach ($files as $name => $file) {
+            if (!$file->isDir()) {
+                $filePath = $file->getRealPath();
+
+                $relativePath = 'translations/' . substr($filePath, strlen($path) + 1);
+
+                $zip->addFile($filePath, $relativePath);
+            }
+        }
+        $zip->close();
+
+        return response()->download($zip_file);
+
+        //return redirect()->route('admin.categories.translate',['name' => $name]);
+        //return response()->json(["success" => "ok"], JsonResponse::HTTP_OK);
     }
 
 }
