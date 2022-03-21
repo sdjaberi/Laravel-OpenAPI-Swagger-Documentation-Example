@@ -47,7 +47,7 @@
                     <td style="width: 43%">{{ $phrase->phrase }}</td>
 
                     <td id="td-{{ $phrase->id }} {{ $to->text_direction === 'rtl' ? 'text-right': 'text-left' }}" style="{{ $to->text_direction === 'rtl' ? 'direction: rtl': '' }}>
-                        @if($translation = $translations->where('phrase_id', $phrase->id)->first())
+                        @if($translation = $translations->where('phrase_id', $phrase->id)->where('language_id', $to->id)->first())
                             <div class="form-group">
                                 <textarea class="form-control update-translation {{ $to->text_direction === 'rtl' ? 'text-right': 'text-left' }}"
                                           {{ $to->text_direction === 'rtl' ? 'dir=rtl': '' }}

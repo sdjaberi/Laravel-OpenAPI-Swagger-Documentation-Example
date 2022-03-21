@@ -13,7 +13,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
 
-        \App\Http\Middleware\Cors::class,
+        //\App\Http\Middleware\Cors::class,
     ];
 
     protected $middlewareGroups = [
@@ -47,7 +47,7 @@ class Kernel extends HttpKernel
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'auth.basic'       => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
 
-        'cors'             => \App\Http\Middleware\Cors::class,
+        //'cors'             => \App\Http\Middleware\Cors::class,
         'swfix'            => \App\Http\Middleware\SwaggerFix::class,
     ];
 }

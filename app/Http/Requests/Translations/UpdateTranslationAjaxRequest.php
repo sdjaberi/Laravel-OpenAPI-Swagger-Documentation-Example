@@ -43,7 +43,6 @@ class UpdateTranslationAjaxRequest extends FormRequest
             ->ignore($id);
 
         return [
-            'translation' => ['required'],
             'phrase_id'   => ['required', $uniquenessRule],
             'language_id' => ['required'],
         ];

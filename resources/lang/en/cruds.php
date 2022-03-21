@@ -9,6 +9,7 @@ return [
         'fileLanguage' => 'File Language',
         'importData' => 'Import Data',
         'exportData' => 'Export Data',
+        'all' => 'All',
     ],
     'userManagement' => [
         'title'          => 'User',
