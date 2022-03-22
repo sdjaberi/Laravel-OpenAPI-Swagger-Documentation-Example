@@ -1,0 +1,2348 @@
+id,category_name,phrase
+1,Website,Homepage
+2,Website,Register
+3,Website,Login
+4,Website,Remember me
+5,Website,Forgot password
+6,Website,E-Mail
+7,Website,Password
+8,Website,Confirm password
+9,Website,Sign in
+10,Website,Logout
+11,Website,Name
+12,Website,Dashboard
+13,Website,Choose category
+14,Website,Parse
+15,Website,Import Translation
+16,Website,Import Translation XML
+17,Website,Import Translation JSON
+18,Website,Export Translations
+19,Website,Export Translations XML
+20,Website,Export Translations JSON
+21,Website,Missing translations
+22,Website,Close
+23,Website,Error
+24,Website,Translation
+25,Website,Sequence
+26,Website,Localization overview
+27,Website,Language
+28,Website,Go to
+29,Website,Categories
+30,Website,Category
+31,Website,Edit
+32,Website,Delete
+33,Website,Update category
+34,Website,Save changes
+35,Website,Are you sure you want to delete this Category ?
+36,Website,Yes
+37,Website,No
+38,Website,Languages
+39,Website,ISO-CODE
+40,Website,Update Language
+41,Website,Dismiss
+42,Website,Users
+43,Website,Role
+44,Website,Update
+45,Website,Translate from
+46,Website,Translate to
+47,Website,Category Overview
+48,Website,Overview
+49,Website,Sequence Import / Export
+50,Website,only english files
+51,Website,Translation stored
+52,Website,"Something went wrong, please try again"
+53,Website,Successfully updated translation
+54,Website,Translation cannot be empty
+55,Website,Updated successfully
+56,Website,Category deleted successfully
+57,Website,Cannot delete non-existing category
+58,Website,Successfully imported translation
+59,Website,But
+60,Website,Some translations are missing
+61,Website,Look at the list bellow
+62,Website,The given data was invalid
+63,Website,Try again
+64,Website,Remove user
+65,Website,Are you sure you want to delete this user?
+66,Website,User successfully deleted
+67,Website,Update user
+68,Website,Successfully added language to user
+69,Website,Successfully removed Language from User
+70,Website,User must have at least 1 Language
+71,Website,Successfully changed user role
+72,Website,User successfully added to category
+73,Website,Category successfully removed from the user
+74,Website,User must have at least 1 Category
+75,Website,Name cannot be empty
+76,Website,Username successfully updated
+77,Website,"Error while updating, please try again"
+78,Website,Email Successfully updated
+79,Website,Password Successfully updated
+80,Website,Password cannot be empty
+81,Website,Email cannot be empty
+82,Website,Email is not valid
+83,Website,Download missing translations
+84,Website,Loading...
+85,Website,No data available in table
+86,Website,Showing _START_ to _END_ of _TOTAL_ entries
+87,Website,(filtered from _MAX_ total entries)
+88,Website,Processing...
+89,Website,No matching records found
+90,Website,First
+91,Website,Last
+92,Website,: activate to sort column ascending
+93,Website,: activate to sort column descending
+94,App & Software Translation,poolapp_OTA_error_file_invalid
+95,App & Software Translation,poolapp_OTA_error_file_open
+96,App & Software Translation,poolapp_OTA_error_file_read
+97,App & Software Translation,poolapp_ble_scan_error_adapter_offline
+98,App & Software Translation,labcom_poollab_import_err_notcon
+99,App & Software Translation,labcom_poollab_import_err_account
+100,App & Software Translation,labcom_poollab_import_err_db
+101,App & Software Translation,desktop_chemistry_error_get
+102,App & Software Translation,desktop_chemistry_error_set
+103,App & Software Translation,desktop_ui_operator_name_for_imported_measurements
+104,App & Software Translation,desktop_report_measurement_journal
+105,App & Software Translation,desktop_report_date_of_report
+106,App & Software Translation,desktop_report_selected_timeframe
+107,App & Software Translation,desktop_report_selected_account
+108,App & Software Translation,desktop_report_date
+109,App & Software Translation,desktop_report_time
+110,App & Software Translation,desktop_report_serial
+111,App & Software Translation,desktop_report_operator
+112,App & Software Translation,desktop_report_parameter
+113,App & Software Translation,desktop_report_result
+114,App & Software Translation,desktop_report_status
+115,App & Software Translation,desktop_report_unit
+116,App & Software Translation,desktop_report_dsr_title
+117,App & Software Translation,desktop_report_poolsize
+118,App & Software Translation,desktop_ui_dsr_report_ucname
+119,App & Software Translation,desktop_ui_dsr_report_uctarget
+120,App & Software Translation,desktop_ui_dsr_report_ucamount
+121,App & Software Translation,desktop_ui_dsr_report_selected_parameter
+122,App & Software Translation,desktop_ui_dsr_legal_notice_title
+123,App & Software Translation,desktop_ui_dsr_legal_text
+124,App & Software Translation,desktop_report_calib_title
+125,App & Software Translation,desktop_report_calib_text_poollab
+126,App & Software Translation,desktop_report_calib_serial
+127,App & Software Translation,desktop_report_calib_fw
+128,App & Software Translation,desktop_report_calib_db
+129,App & Software Translation,desktop_report_calib_result
+130,App & Software Translation,desktop_report_calib_performed
+131,App & Software Translation,desktop_report_calib_company
+132,App & Software Translation,desktop_report_dcw_exception
+133,App & Software Translation,desktop_ui_measurement_time_changed
+134,App & Software Translation,desktop_ui_value_error
+135,App & Software Translation,desktop_ui_value_underrange
+136,App & Software Translation,desktop_ui_value_overrange
+137,App & Software Translation,desktop_ui_value_status_not_set
+138,App & Software Translation,desktop_ui_value_status_low
+139,App & Software Translation,desktop_ui_value_status_high
+140,App & Software Translation,desktop_ui_value_status_ok
+141,App & Software Translation,desktop_ui_dbi_error_account_changed_title
+142,App & Software Translation,desktop_ui_dbi_error_account_changed_body
+143,App & Software Translation,desktop_ui_dbi_error_privilege_title
+144,App & Software Translation,desktop_ui_dbi_error_privilege_body
+145,App & Software Translation,desktop_ui_dbi_error_no_internet_title
+146,App & Software Translation,desktop_ui_dbi_error_no_internet_body
+147,App & Software Translation,desktop_ui_dbi_error_proxy_title
+148,App & Software Translation,desktop_ui_dbi_error_proxy_body
+149,App & Software Translation,desktop_ui_dbi_error_server_offline_title
+150,App & Software Translation,desktop_ui_dbi_error_server_offline_body
+151,App & Software Translation,desktop_ui_dbi_error_login_title
+152,App & Software Translation,desktop_ui_dbi_error_login_body
+153,App & Software Translation,desktop_ui_dbi_error_su_title
+154,App & Software Translation,desktop_ui_dbi_error_su_body
+155,App & Software Translation,desktop_ui_dbi_error_share_user_title
+156,App & Software Translation,desktop_ui_dbi_error_share_user_body
+157,App & Software Translation,desktop_ui_dbi_error_file_io
+158,App & Software Translation,desktop_ui_dbi_error_file_io_body
+159,App & Software Translation,desktop_ui_dbi_error_file_old_db_file_io
+160,App & Software Translation,desktop_ui_dbi_error_file_old_db_file_io_body
+161,App & Software Translation,desktop_ui_dbi_error_file_old_db_file_io_body_2
+162,App & Software Translation,desktop_ui_dbi_error_protocol_title
+163,App & Software Translation,desktop_ui_dbi_error_protocol_body
+164,App & Software Translation,desktop_ui_dsr_unit_microgram
+165,App & Software Translation,desktop_ui_dsr_unit_milligram
+166,App & Software Translation,desktop_ui_dsr_unit_gram
+167,App & Software Translation,desktop_ui_dsr_unit_kilogram
+168,App & Software Translation,desktop_ui_dsr_unit_microliter
+169,App & Software Translation,desktop_ui_dsr_unit_milliliter
+170,App & Software Translation,desktop_ui_dsr_unit_liter
+171,App & Software Translation,desktop_ui_dsr_unit_pieces
+172,App & Software Translation,desktop_ui_dsr_increase
+173,App & Software Translation,desktop_ui_dsr_decrease
+174,App & Software Translation,desktop_ui_wtpdialog_type_poweder
+175,App & Software Translation,desktop_ui_wtpdialog_type_pill
+176,App & Software Translation,desktop_ui_wtpdialog_type_liquid
+177,App & Software Translation,desktop_ui_wtpdialog_type_other
+178,App & Software Translation,desktop_model_fatal_invalid_packet
+179,App & Software Translation,desktop_model_error_invariant_invalid
+180,App & Software Translation,desktop_model_fatal_invariant_invalid
+181,App & Software Translation,desktop_model_fatal_feature_not_supported
+182,App & Software Translation,labconnect_last_measurement_never
+183,App & Software Translation,labconnect_num_measurements_none
+184,App & Software Translation,desktop_ui_measurements_activity
+185,App & Software Translation,labconnect_accountlistitem_measurements
+186,App & Software Translation,poolapp_dialog_enter_new_value
+187,App & Software Translation,poolapp_calc_status_enabled
+188,App & Software Translation,poolapp_calc_status_disabled
+189,App & Software Translation,poolapp_title_connecting
+190,App & Software Translation,poolapp_label_logfl
+191,App & Software Translation,poolapp_label_lastm
+192,App & Software Translation,poolapp_btn_start
+193,App & Software Translation,poolapp_btn_exit
+194,App & Software Translation,poolapp_title_init
+195,App & Software Translation,poolapp_title_readdev
+196,App & Software Translation,poolapp_text_cetest
+197,App & Software Translation,poolapp_text_serial
+198,App & Software Translation,poolapp_title_conlostre
+199,App & Software Translation,poolapp_btn_stop
+200,App & Software Translation,desktop_ui_paramsearchbox_search
+201,App & Software Translation,desktop_ui_paramsearchbox_show_only_active
+202,App & Software Translation,desktop_sw_plinfo_dotmenu_licenseok_title
+203,App & Software Translation,desktop_sw_plinfo_dotmenu_licenseok_text
+204,App & Software Translation,desktop_sw_plinfo_dotmenu_licenseinvalid_title
+205,App & Software Translation,desktop_sw_plinfo_dotmenu_licenseinvalid_text
+206,App & Software Translation,desktop_ui_select
+207,App & Software Translation,desktop_ui_activate
+208,App & Software Translation,desktop_sw_plinfo_v_activate_license_title
+209,App & Software Translation,desktop_sw_plinfo_v_activate_license_text
+210,App & Software Translation,desktop_ui_paramsearchbox_measurement_parameters
+211,App & Software Translation,desktop_ui_paramsearchbox_unfoldall
+212,App & Software Translation,desktop_ui_paramsearchbox_foldall
+213,App & Software Translation,desktop_ui_fragblescan_scan_primelab
+214,App & Software Translation,poolapp_btn_scan
+215,App & Software Translation,poolapp_btn_nearby
+216,App & Software Translation,desktop_ui_internetmp_update_server
+217,App & Software Translation,desktop_ui_update_working_dotdotdot
+218,App & Software Translation,desktop_ui_internetmp_update_status
+219,App & Software Translation,desktop_ui_internetmp_cloud_status
+220,App & Software Translation,desktop_ui_mainmenusub_cloud_unsychronized
+221,App & Software Translation,desktop_ui_vmp_software
+222,App & Software Translation,desktop_ui_vmp_database
+223,App & Software Translation,desktop_ui_internetmp_cloud_status_disabled
+224,App & Software Translation,desktop_ui_internetmp_cloud_status_signed_in
+225,App & Software Translation,desktop_ui_updater_available_yes
+226,App & Software Translation,desktop_ui_updater_available_server_online
+227,App & Software Translation,desktop_ui_measurement_result_value
+228,App & Software Translation,desktop_ui_measurement_time_taken
+229,App & Software Translation,desktop_ui_measurement_comment
+230,App & Software Translation,desktop_ui_measurement_user_range
+231,App & Software Translation,desktop_ui_revision_th_rvtime
+232,App & Software Translation,desktop_ui_revision_tb_changed
+233,App & Software Translation,desktop_ui_revision_tb_prevv
+234,App & Software Translation,desktop_ui_revision_tb_newv
+235,App & Software Translation,desktop_sw_plinfo_v_clear_one_meas_dlg_title
+236,App & Software Translation,desktop_sw_plinfo_v_clear_one_meas_dlg_text
+237,App & Software Translation,desktop_sw_pl_delete_account_body
+238,App & Software Translation,desktop_sw_pl_delete_account_title
+239,App & Software Translation,desktop_ui_remote_cancel_2
+240,App & Software Translation,desktop_ui_remote_skip
+241,App & Software Translation,desktop_ui_remote_continue
+242,App & Software Translation,desktop_ui_remote_zero
+243,App & Software Translation,desktop_ui_remote_test
+244,App & Software Translation,desktop_ui_remote_discard
+245,App & Software Translation,desktop_ui_remote_save
+246,App & Software Translation,desktop_ui_remote_return
+247,App & Software Translation,desktop_ui_remote_reuse_last_zero
+248,App & Software Translation,desktop_ui_remote_reuse_last_zero_ext
+249,App & Software Translation,desktop_ui_remote_error
+250,App & Software Translation,desktop_ui_remote_fatal_unexpected_error
+251,App & Software Translation,desktop_ui_remote_cancel_measurement_title
+252,App & Software Translation,desktop_ui_remote_are_you_sure
+253,App & Software Translation,desktop_ui_remote_save_failed_head
+254,App & Software Translation,desktop_ui_remote_save_failed_body
+255,App & Software Translation,desktop_ui_scenario_finished_box_title
+256,App & Software Translation,desktop_ui_remote_recalibration_required
+257,App & Software Translation,desktop_ui_remote_recalibration_required_ext
+258,App & Software Translation,desktop_ui_remote_battery_too_low
+259,App & Software Translation,desktop_ui_remote_battery_too_low_ext
+260,App & Software Translation,desktop_ui_remote_connection_was_lost
+261,App & Software Translation,desktop_ui_remote_underrange
+262,App & Software Translation,desktop_ui_remote_overrange
+263,App & Software Translation,desktop_ui_remote_too_low
+264,App & Software Translation,desktop_ui_remote_too_high
+265,App & Software Translation,desktop_ui_remote_ok
+266,App & Software Translation,desktop_ui_remote_parameter_value
+267,App & Software Translation,desktop_ui_remote_measure_button_saved
+268,App & Software Translation,desktop_ui_remote_measure_button_save
+269,App & Software Translation,desktop_ui_remote_result_convert
+270,App & Software Translation,desktop_ui_remote_parameter
+271,App & Software Translation,desktop_ui_remote_wait_until_the_chemical_fully_reacted
+272,App & Software Translation,desktop_ui_remote_time_left
+273,App & Software Translation,desktop_ui_remote_seconds
+274,App & Software Translation,desktop_ui_settings_save_btn
+275,App & Software Translation,desktop_sw_settings_dbsetup_dbexport_text
+276,App & Software Translation,desktop_sw_settings_dbsetup_dbimport_text
+277,App & Software Translation,desktop_sw_settings_dbsetup_dbreset_text
+278,App & Software Translation,desktop_sw_settings_profile_title
+279,App & Software Translation,desktop_ui_settings_language_select
+280,App & Software Translation,desktop_ui_settings_operator_name
+281,App & Software Translation,desktop_sw_settings_dbsetup_title
+282,App & Software Translation,desktop_sw_settings_dbsetup_dbexport
+283,App & Software Translation,desktop_sw_settings_dbsetup_dbexport_btn
+284,App & Software Translation,desktop_sw_settings_dbsetup_dbimport
+285,App & Software Translation,desktop_sw_settings_dbsetup_dbimport_btn
+286,App & Software Translation,desktop_sw_settings_dbsetup_dbreset
+287,App & Software Translation,desktop_sw_settings_dbsetup_dbreset_btn
+288,App & Software Translation,desktop_ui_db_import_restore_title
+289,App & Software Translation,desktop_ui_db_import_restore_warning
+290,App & Software Translation,desktop_ui_db_import_restore_success
+291,App & Software Translation,desktop_sw_dbimport_failed_title
+292,App & Software Translation,desktop_sw_dbimport_failed_text
+293,App & Software Translation,desktop_ui_db_export_backup_title
+294,App & Software Translation,desktop_ui_db_import_export_success
+295,App & Software Translation,desktop_ui_db_export_error_copy_failed
+296,App & Software Translation,desktop_sw_resetdb_text
+297,App & Software Translation,desktop_sw_resetdb_title
+298,App & Software Translation,desktop_sw_dbreset_title
+299,App & Software Translation,desktop_sw_dbreset_text
+300,App & Software Translation,desktop_ui_config_application_restart_title
+301,App & Software Translation,desktop_ui_config_application_restart_body
+302,App & Software Translation,desktop_ui_settings_input_error_title
+303,App & Software Translation,desktop_ui_settings_input_error_opname_empty
+304,App & Software Translation,desktop_ui_forename
+305,App & Software Translation,desktop_ui_surname
+306,App & Software Translation,desktop_ui_customer_id
+307,App & Software Translation,desktop_ui_street
+308,App & Software Translation,desktop_ui_city
+309,App & Software Translation,desktop_ui_zipcode
+310,App & Software Translation,desktop_ui_account_required_fields
+311,App & Software Translation,desktop_ui_country
+312,App & Software Translation,desktop_ui_canton
+313,App & Software Translation,desktop_ui_email
+314,App & Software Translation,desktop_ui_phone1
+315,App & Software Translation,desktop_ui_phone2
+316,App & Software Translation,desktop_ui_fax
+317,App & Software Translation,desktop_ui_notes
+318,App & Software Translation,desktop_ui_poolsize
+319,App & Software Translation,desktop_ui_poolnotes
+320,App & Software Translation,poolapp_btn_save
+321,App & Software Translation,poolapp_btn_cancel
+322,App & Software Translation,desktop_ui_information_missing
+323,App & Software Translation,desktop_ui_information_missing_ext
+324,App & Software Translation,poolapp_dlg_unsaved_changes_title
+325,App & Software Translation,poolapp_dlg_unsaved_changes_body
+326,App & Software Translation,desktop_ui_permission_denied_sublogin_title
+327,App & Software Translation,desktop_ui_permission_denied_sublogin_accounts
+328,App & Software Translation,poolapp_title_newacc
+329,App & Software Translation,poolapp_title_editacc
+330,App & Software Translation,poolapp_btn_accounts
+331,App & Software Translation,desktop_ui_accountlist_ribbon_clear
+332,App & Software Translation,desktop_ui_remove_account_ribbon
+333,App & Software Translation,desktop_ui_write_primelab_ribbon
+334,App & Software Translation,desktop_ui_write_primelab_error_title
+335,App & Software Translation,desktop_ui_write_primelab_error_text
+336,App & Software Translation,desktop_ui_write_primelab_toomany_title
+337,App & Software Translation,desktop_ui_write_primelab_toomany_text
+338,App & Software Translation,poolapp_measures_account_report_btn
+339,App & Software Translation,desktop_sw_accounts_action_export_xlsx
+340,App & Software Translation,desktop_ui_datatree_checkall
+341,App & Software Translation,poolapp_label_filterdp
+342,App & Software Translation,desktop_ui_filter_bindtext
+343,App & Software Translation,desktop_ui_write_primelab_ok_title
+344,App & Software Translation,desktop_ui_write_primelab_ok_text
+345,App & Software Translation,poolapp_accounts_import_dialog_body
+346,App & Software Translation,poolapp_text_delacc
+347,App & Software Translation,desktop_ui_permission_denied_sublogin_measurements
+348,App & Software Translation,poolapp_measurements_delete_dialog_body
+349,App & Software Translation,poolapp_text_clearacc
+350,App & Software Translation,poolapp_pdf_report_saved_title
+351,App & Software Translation,poolapp_pdf_report_saved_body
+352,App & Software Translation,desktop_sw_xlsx_export_fdiag_title
+353,App & Software Translation,desktop_sw_xlsx_saved_body
+354,App & Software Translation,desktop_sw_xlsx_saved_title
+355,App & Software Translation,poolapp_fragment_active_chlorine_title
+356,App & Software Translation,poolapp_calc_acl_fcl_value
+357,App & Software Translation,poolapp_calc_acl_ph_value
+358,App & Software Translation,poolapp_calc_acl_cya_value
+359,App & Software Translation,poolapp_calc_acl_water_temp
+360,App & Software Translation,poolapp_calc_acl_acl_value_result
+361,App & Software Translation,poolapp_calc_acl_descriptor
+362,App & Software Translation,poolapp_text_yourdev
+363,App & Software Translation,labcom_poollab_set_contrast_text
+364,App & Software Translation,labcom_poollab_set_contrast_plus
+365,App & Software Translation,labcom_poollab_set_contrast_minus
+366,App & Software Translation,poolapp_text_selectacc
+367,App & Software Translation,poolapp_btn_disconnect
+368,App & Software Translation,poolapp_OTA_in_progress
+369,App & Software Translation,poolapp_OTA_please_be_patient
+370,App & Software Translation,poolapp_text_measimpoandrem
+371,App & Software Translation,poolapp_text_importcomp
+372,App & Software Translation,poolapp_OTA_dialog_title
+373,App & Software Translation,poolapp_OTA_dialog_body
+374,App & Software Translation,poolapp_OTA_update_complete_body
+375,App & Software Translation,poolapp_OTA_update_complete_title
+376,App & Software Translation,poolapp_OTA_error_dialog_general_message
+377,App & Software Translation,poolapp_OTA_error_dialog_title
+378,App & Software Translation,desktop_ui_ble_reconnect_now_title
+379,App & Software Translation,desktop_ui_ble_reconnect_now_text
+380,App & Software Translation,poolapp_title_error
+381,App & Software Translation,poolapp_text_proderror
+382,App & Software Translation,poolapp_text_devn
+383,App & Software Translation,poolapp_text_sern
+384,App & Software Translation,poolapp_text_firm
+385,App & Software Translation,poolapp_text_mem
+386,App & Software Translation,poolapp_text_time
+387,App & Software Translation,poolapp_import_measurements_dialog_body
+388,App & Software Translation,poolapp_import_measurements_dialog_head
+389,App & Software Translation,desktop_sw_ble_connect_title
+390,App & Software Translation,desktop_ui_fragscan_scanning_dotdotdot
+391,App & Software Translation,poolapp_text_adapt_offl
+392,App & Software Translation,poolapp_text_switch_on_bt
+393,App & Software Translation,poolapp_err_ble
+394,App & Software Translation,desktop_primelab_update_required_title
+395,App & Software Translation,desktop_primelab_update_required_text
+396,App & Software Translation,labcom_android_permissions_title
+397,App & Software Translation,labcom_android_permissions_text
+398,App & Software Translation,poolapp_text_connectingp
+399,App & Software Translation,poolapp_fragment_chemistry_title
+400,App & Software Translation,poolapp_chemistry_parameter_calculators
+401,App & Software Translation,poolapp_chemistry_rsilsi_button
+402,App & Software Translation,poolapp_chemistry_active_chlorine_button
+403,App & Software Translation,poolapp_wtp_list_title
+404,App & Software Translation,poolapp_chemistry_ideal_ranges_button
+405,App & Software Translation,software_ui_cloud_network_error
+406,App & Software Translation,software_ui_cloud_network_error_ext
+407,App & Software Translation,desktop_ui_cloud_login_wrong
+408,App & Software Translation,desktop_ui_cloud_login_wrong_ext
+409,App & Software Translation,desktop_ui_cloud_register_ok
+410,App & Software Translation,desktop_ui_cloud_register_ok_ext
+411,App & Software Translation,desktop_ui_cloud_email_confirmation
+412,App & Software Translation,desktop_ui_cloud_email_confirmation_ext
+413,App & Software Translation,desktop_ui_cloud_registration_failed
+414,App & Software Translation,desktop_ui_cloud_registration_failed_ext
+415,App & Software Translation,desktop_ui_cloud_registration_failed_disabled
+416,App & Software Translation,desktop_ui_cloud_registration_failed_disabled_extr
+417,App & Software Translation,software_ui_cloud_protocol_error
+418,App & Software Translation,software_ui_cloud_protocol_error_ext
+419,App & Software Translation,desktop_ui_cloud_login_ok
+420,App & Software Translation,desktop_ui_cloud_login_ok_ext
+421,App & Software Translation,poolapp_cloud_last_check_text
+422,App & Software Translation,poolapp_cloud_disable_dlg_title
+423,App & Software Translation,poolapp_cloud_disable_dlg_body
+424,App & Software Translation,desktop_ui_cloud_no_internet
+425,App & Software Translation,desktop_ui_cloud_no_internet_ext
+426,App & Software Translation,poolapp_btn_ok
+427,App & Software Translation,poolapp_register_error_title
+428,App & Software Translation,poolapp_register_email_invalid
+429,App & Software Translation,poolapp_register_password_too_short
+430,App & Software Translation,poolapp_register_password_mismatch
+431,App & Software Translation,poolapp_login_error_title
+432,App & Software Translation,poolapp_login_password_empty
+433,App & Software Translation,desktop_ui_cloud_server_select_text
+434,App & Software Translation,poolapp_btn_register
+435,App & Software Translation,poolapp_btn_login
+436,App & Software Translation,poolapp_btn_lost_pw
+437,App & Software Translation,labconnect_cloud_btn_register
+438,App & Software Translation,labconnect_cloud_email_placeholder
+439,App & Software Translation,labconnect_cloud_email_descr
+440,App & Software Translation,labconnect_cloud_password_descr
+441,App & Software Translation,labconnect_cloud_password_repeat_descr
+442,App & Software Translation,labconnect_cloud_sync_up_on_register
+443,App & Software Translation,labconnect_cloud_ui_warning_register
+444,App & Software Translation,labconnect_cloud_login_header
+445,App & Software Translation,labconnect_cloud_ui_warning_login
+446,App & Software Translation,desktop_sw_fragcloudaccount_fragmenttitle
+447,App & Software Translation,desktop_sw_disable_cloud_button
+448,App & Software Translation,labconnect_cloud_overview_title
+449,App & Software Translation,labconnect_cloud_overview_accname
+450,App & Software Translation,labconnect_cloud_overview_last_check
+451,App & Software Translation,labconnect_cloud_overview_last_mod
+452,App & Software Translation,labconnect_cloud_overview_num_accounts
+453,App & Software Translation,labconnect_cloud_overview_num_measurements
+454,App & Software Translation,desktop_ui_result_lastedited_never
+455,App & Software Translation,desktop_sw_cloud_v_numaccounts
+456,App & Software Translation,desktop_sw_cloud_v_nummeasures
+457,App & Software Translation,labconnect_cloud_sharing_available
+458,App & Software Translation,labconnect_cloud_sharing_granted
+459,App & Software Translation,labconnect_cloud_sharing_fmod_readonly
+460,App & Software Translation,labconnect_cloud_sharing_fmod_append
+461,App & Software Translation,labconnect_cloud_sharing_fmod_full
+462,App & Software Translation,labconnect_cloud_sharing_fmod_noaccess
+463,App & Software Translation,labconnect_cloud_supervisor_removeaccess
+464,App & Software Translation,labconnect_cloud_supervisor_readaccess
+465,App & Software Translation,labconnect_cloud_supervisor_readandadd
+466,App & Software Translation,labconnect_cloud_supervisor_fullaccess
+467,App & Software Translation,poolapp_cloud_working_title
+468,App & Software Translation,poolapp_cloud_working_text
+469,App & Software Translation,labconnect_cloud_transfer_bytes
+470,App & Software Translation,poolapp_frag_idealranges_title
+471,App & Software Translation,poolapp_idealranges_parameter
+472,App & Software Translation,poolapp_idealranges_limitrange
+473,App & Software Translation,poolapp_idealranges_activeset
+474,App & Software Translation,poolapp_idealranges_checktext
+475,App & Software Translation,poolapp_idealranges_rowtext_minmax_v2
+476,App & Software Translation,desktop_ui_fragment_welcome_software_version
+477,App & Software Translation,desktop_ui_fragment_welcome_database_version
+478,App & Software Translation,desktop_sw_fraginit_starting_dotdotdot
+479,App & Software Translation,poolapp_mainmenu_accounts
+480,App & Software Translation,labconnect_mainmenu_newmeasurement
+481,App & Software Translation,labconnect_mainmenu_cloud
+482,App & Software Translation,labconnect_mainmenu_connect_device
+483,App & Software Translation,poolapp_mainmenu_your_device
+484,App & Software Translation,poolapp_mainmenu_chemistry
+485,App & Software Translation,poolapp_mainmenu_settings
+486,App & Software Translation,poolapp_mainmenu_support
+487,App & Software Translation,desktop_ui_revisions_title
+488,App & Software Translation,poolapp_fragment_measfilter_title
+489,App & Software Translation,poolapp_measfilter_is_active
+490,App & Software Translation,poolapp_measfilter_by_range
+491,App & Software Translation,poolapp_measfilter_by_time_recent
+492,App & Software Translation,poolapp_measfilter_recent_last_week
+493,App & Software Translation,poolapp_measfilter_recent_last_month
+494,App & Software Translation,poolapp_measfilter_recent_last_year
+495,App & Software Translation,poolapp_measfilter_date_select_begin
+496,App & Software Translation,poolapp_measfilter_date_select_end
+497,App & Software Translation,poolapp_measfilter_by_time_span
+498,App & Software Translation,poolapp_measfilter_by_parameter
+499,App & Software Translation,poolapp_measfilter_date_error_range_title
+500,App & Software Translation,poolapp_measfilter_date_error_range_body
+501,App & Software Translation,poolapp_fragment_account_details_title
+502,App & Software Translation,desktop_ui_measurement_scenario
+503,App & Software Translation,desktop_ui_measurement_parameter
+504,App & Software Translation,desktop_ui_measurement_valid_range
+505,App & Software Translation,desktop_ui_measurement_result_status
+506,App & Software Translation,desktop_ui_measurement_device_serial
+507,App & Software Translation,desktop_ui_result_edit_result
+508,App & Software Translation,poolapp_measure_comment_title
+509,App & Software Translation,desktop_ui_result_dosage_recommendation
+510,App & Software Translation,poolapp_enter_ideal_min_title
+511,App & Software Translation,poolapp_enter_ideal_min_body
+512,App & Software Translation,poolapp_enter_ideal_max_title
+513,App & Software Translation,poolapp_enter_ideal_max_body
+514,App & Software Translation,labcom_ui_previous_values_form_text
+515,App & Software Translation,poolapp_editvalue_title
+516,App & Software Translation,poolapp_edotvalue_body
+517,App & Software Translation,poolapp_measure_comment_body
+518,App & Software Translation,desktop_ui_dsr_error_range_title
+519,App & Software Translation,desktop_ui_dsr_error_range_body
+520,App & Software Translation,desktop_ui_dsr_error_nopool_title
+521,App & Software Translation,desktop_ui_dsr_error_nopool_body
+522,App & Software Translation,poolapp_measurement_dsr_target_value_title
+523,App & Software Translation,poolapp_measurement_dsr_target_value_text
+524,App & Software Translation,desktop_ui_dsr_none_found_title
+525,App & Software Translation,desktop_ui_dsr_none_found_body
+526,App & Software Translation,desktop_ui_result_idealrange_not_set
+527,App & Software Translation,desktop_sw_fragmeasurements_details
+528,App & Software Translation,labconnect_measures_tab_title_measurements
+529,App & Software Translation,labconnect_measures_tab_title_details
+530,App & Software Translation,poolapp_measure_list_box_title
+531,App & Software Translation,poolapp_measures_delete_account_title
+532,App & Software Translation,poolapp_measures_delete_account_body
+533,App & Software Translation,poolapp_measures_delete_question_title
+534,App & Software Translation,poolapp_measures_delete_all_question_body
+535,App & Software Translation,poolapp_measures_delete_all_body
+536,App & Software Translation,poolapp_measure_move_select_account
+537,App & Software Translation,labconnect_account_measures_delete
+538,App & Software Translation,labconnect_account_measures_move
+539,App & Software Translation,labconnect_fragment_newmeasurement_ribbon
+540,App & Software Translation,labconnect_account_detail_delete
+541,App & Software Translation,desktop_ui_measurements_saved
+542,App & Software Translation,labconnect_measures_loading_text
+543,App & Software Translation,poolapp_measures_filter_active_notice
+544,App & Software Translation,labconnect_fragment_newmeasurement_title
+545,App & Software Translation,desktop_sw_newmeasure_setideal_check
+546,App & Software Translation,desktop_sw_newmeasure_remotecontrol
+547,App & Software Translation,desktop_sw_newmeasure_manualresult
+548,App & Software Translation,desktop_sw_newmeasure_sel_account
+549,App & Software Translation,desktop_sw_newmeasure_sel_method
+550,App & Software Translation,desktop_sw_newmeasure_req_reagents
+551,App & Software Translation,desktop_sw_newmeasure_sel_parameter
+552,App & Software Translation,desktop_sw_newmeasure_sel_testrange
+553,App & Software Translation,desktop_ui_idealrange_setmin
+554,App & Software Translation,desktop_ui_idealrange_setmax
+555,App & Software Translation,desktop_sw_primelab_remote_notconnected_title
+556,App & Software Translation,desktop_sw_primelab_remote_notconnected_text
+557,App & Software Translation,desktop_sw_primelab_remote_notlicensed_title
+558,App & Software Translation,desktop_sw_primelab_remote_notlicensed_text
+559,App & Software Translation,desktop_sw_manual_result_title
+560,App & Software Translation,desktop_sw_manual_new_result_text
+561,App & Software Translation,desktop_sw_manual_result_text
+562,App & Software Translation,desktop_ui_fragment_parameters
+563,App & Software Translation,desktop_ui_fragment_plf_error_connection_lost
+564,App & Software Translation,desktop_ui_fragment_plf_error_connection_lost_ext
+565,App & Software Translation,desktop_ui_fragment_plf_error_invalid_response
+566,App & Software Translation,desktop_ui_fragment_plf_error_invalid_response_ext
+567,App & Software Translation,desktop_ui_fragment_plf_error_calibration_failed
+568,App & Software Translation,desktop_ui_fragment_plf_error_calibration_failed_ext
+569,App & Software Translation,desktop_ui_primelab_update_failed_title
+570,App & Software Translation,desktop_ui_primelab_update_failed_con_lost
+571,App & Software Translation,desktop_ui_primelab_update_failed_disk
+572,App & Software Translation,desktop_ui_primelab_update_failed_extract
+573,App & Software Translation,desktop_ui_primelab_update_failed_protocol_error
+574,App & Software Translation,desktop_ui_primelab_update_battery_too_low
+575,App & Software Translation,desktop_ui_primelab_update_preparingd_top
+576,App & Software Translation,desktop_ui_primelab_update_preparingd_bootldr
+577,App & Software Translation,desktop_ui_primelab_update_preparingfw_top
+578,App & Software Translation,desktop_ui_primelab_update_preparingfw_bootldr
+579,App & Software Translation,labconnect_primelab_update_firmware_top
+580,App & Software Translation,labconnect_primelab_update_firmware_sub
+581,App & Software Translation,labconnect_ui_primelab_update_database_top
+582,App & Software Translation,labconnect_primelab_update_database_sub
+583,App & Software Translation,desktop_ui_primelab_update_restart
+584,App & Software Translation,labconnect_primelab_update_restart_sub
+585,App & Software Translation,desktop_ui_primelab_update_complete
+586,App & Software Translation,labconnect_primelab_update_progress_generic
+587,App & Software Translation,labconnect_primelab_update_progress_sub_starting
+588,App & Software Translation,desktop_sw_calibration_form_title
+589,App & Software Translation,desktop_sw_calibration_form_header
+590,App & Software Translation,desktop_sw_calibration_button
+591,App & Software Translation,desktop_sw_calibration_calibration_type
+592,App & Software Translation,desktop_sw_calibrate_success_title
+593,App & Software Translation,desktop_sw_calibrate_success_message
+594,App & Software Translation,primelab_info_fragmenttitle
+595,App & Software Translation,desktop_sw_plinfo_dotmenu_syncdata
+596,App & Software Translation,desktop_sw_plinfo_dotmenu_setdevname
+597,App & Software Translation,desktop_sw_plinfo_dotmenu_calibrate
+598,App & Software Translation,desktop_sw_plinfo_dotmenu_activatelicense
+599,App & Software Translation,desktop_sw_plinfo_dotmenu_devupdate
+600,App & Software Translation,desktop_sw_plinfo_dotmenu_clearmeasures
+601,App & Software Translation,desktop_sw_plinfo_dotmenu_disconnectdev
+602,App & Software Translation,desktop_sw_plinfo_form_overview_title
+603,App & Software Translation,desktop_sw_plinfo_v_devname
+604,App & Software Translation,desktop_sw_plinfo_v_devmac
+605,App & Software Translation,desktop_sw_plinfo_v_devbattery
+606,App & Software Translation,desktop_sw_plinfo_v_dev_accounts
+607,App & Software Translation,desktop_sw_plinfo_v_dev_measures
+608,App & Software Translation,desktop_sw_plinfo_v_dev_active_licenses
+609,App & Software Translation,desktop_sw_plinfo_v_dev_serial_number
+610,App & Software Translation,desktop_sw_plinfo_v_dev_fw_version
+611,App & Software Translation,desktop_sw_plinfo_v_dev_fw_version_available
+612,App & Software Translation,desktop_sw_plinfo_v_dev_db_version
+613,App & Software Translation,desktop_sw_plinfo_v_dev_db_version_available
+614,App & Software Translation,desktop_sw_plinfo_tab_licenses_title
+615,App & Software Translation,desktop_sw_plinfo_show_active_only
+616,App & Software Translation,desktop_sw_plinfo_tab_overview_title
+617,App & Software Translation,labconnect_import_data_primelab_title
+618,App & Software Translation,labconnect_import_data_primelab_body_1
+619,App & Software Translation,labconnect_import_data_primelab_body_2
+620,App & Software Translation,labconnect_import_data_primelab_body_3
+621,App & Software Translation,desktop_ui_primelab_name_changed_title
+622,App & Software Translation,desktop_ui_primelab_name_changed_body
+623,App & Software Translation,desktop_sw_plinfo_v_import_cleardata_title
+624,App & Software Translation,desktop_sw_plinfo_v_import_cleardata_text
+625,App & Software Translation,desktop_sw_plinfo_rename_title
+626,App & Software Translation,desktop_sw_plinfo_rename_text
+627,App & Software Translation,desktop_sw_plinfo_rename_error_title
+628,App & Software Translation,desktop_sw_plinfo_rename_error_text
+629,App & Software Translation,desktop_sw_plinfo_v_update_dlg_title
+630,App & Software Translation,desktop_sw_plinfo_v_update_dlg_text
+631,App & Software Translation,desktop_sw_plinfo_v_update_already_done_dlg_title
+632,App & Software Translation,desktop_sw_plinfo_v_update_already_done_dlg_text
+633,App & Software Translation,desktop_sw_plinfo_v_clear_meas_dlg_title
+634,App & Software Translation,desktop_sw_plinfo_v_clear_meas_dlg_text
+635,App & Software Translation,desktop_sw_plinfo_v_measure_btn
+636,App & Software Translation,desktop_sw_plinfo_v_request_btn
+637,App & Software Translation,desktop_sw_remotecontrol_title
+638,App & Software Translation,desktop_ui_rpl_title
+639,App & Software Translation,desktop_ui_rplemail_invalid_title
+640,App & Software Translation,desktop_ui_rplemail_invalid_body
+641,App & Software Translation,desktop_ui_rpl_success_title
+642,App & Software Translation,desktop_ui_rpl_success_body
+643,App & Software Translation,desktop_ui_rpl_failed_title
+644,App & Software Translation,desktop_ui_rpl_failed_body
+645,App & Software Translation,poolapp_fragment_rsilsi_title
+646,App & Software Translation,desktop_ui_toolbox_rsipsi_temperature_C
+647,App & Software Translation,desktop_ui_toolbox_rsipsi_phvalue
+648,App & Software Translation,desktop_ui_toolbox_rsipsi_alkalinity
+649,App & Software Translation,desktop_ui_toolbox_rsipsi_hardness
+650,App & Software Translation,desktop_ui_toolbox_rsipsi_tdsolids
+651,App & Software Translation,poolapp_calc_rsi_phs_result_label
+652,App & Software Translation,poolapp_calc_rsi_lsi_result_label
+653,App & Software Translation,poolapp_calc_rsi_rsi_result_label
+654,App & Software Translation,poolapp_calc_rsi_descriptor_new
+655,App & Software Translation,desktop_sw_fragment_accountselect_title
+656,App & Software Translation,labconnect_fragment_datetime_title
+657,App & Software Translation,desktop_datetime_currentv
+658,App & Software Translation,desktop_datetime_date_time_month_year
+659,App & Software Translation,desktop_datetime_time_format_hhmmss
+660,App & Software Translation,desktop_popup_datetime_invalid_title
+661,App & Software Translation,desktop_popup_datetime_invalid_text
+662,App & Software Translation,desktop_sw_select_method_title
+663,App & Software Translation,desktop_ui_mainmenu_setup
+664,App & Software Translation,poolapp_frag_support_title
+665,App & Software Translation,desktop_ui_support_manuals_pl
+666,App & Software Translation,desktop_ui_support_manuals_poollab
+667,App & Software Translation,desktop_ui_support_manuals_finwell
+668,App & Software Translation,desktop_ui_support_manuals_pl_head
+669,App & Software Translation,desktop_ui_support_manuals_pl_btn
+670,App & Software Translation,desktop_ui_support_manuals_pool_head
+671,App & Software Translation,desktop_ui_support_manuals_poollab_btn
+672,App & Software Translation,desktop_ui_support_manual_poollab_faqbtn
+673,App & Software Translation,desktop_ui_support_manuals_finwell_head
+674,App & Software Translation,desktop_ui_support_manuals_finwell_btn
+675,App & Software Translation,desktop_ui_support_manuals_yt_head
+676,App & Software Translation,desktop_ui_support_manuals_yt_primelab
+677,App & Software Translation,desktop_ui_support_manuals_yt_poollab
+678,App & Software Translation,desktop_ui_support_manuals_yt_finwell
+679,App & Software Translation,poolapp_fragment_wtp_detail_title
+680,App & Software Translation,desktop_ui_wtpdialog_group
+681,App & Software Translation,desktop_ui_wtpdialog_name
+682,App & Software Translation,desktop_ui_wtpdialog_effect
+683,App & Software Translation,desktop_ui_wtpdialog_type
+684,App & Software Translation,desktop_ui_wtpdialog_amount
+685,App & Software Translation,desktop_ui_wtpdialog_unit
+686,App & Software Translation,desktop_ui_wtpdialog_eff_volume
+687,App & Software Translation,desktop_ui_wtpdialog_eff_volume_unit
+688,App & Software Translation,desktop_ui_wtpdialog_name_placeholder
+689,App & Software Translation,desktop_ui_wtpdialog_btn_save
+690,App & Software Translation,desktop_ui_wtp_delete_title
+691,App & Software Translation,desktop_ui_wtp_delete_text
+692,App & Software Translation,desktop_ui_wtpdialog_result_text
+693,App & Software Translation,desktop_ui_wtpdialog_btn_cancel
+694,App & Software Translation,desktop_ui_wtpdialog_field_invalid_title
+695,App & Software Translation,desktop_ui_wtpdialog_field_invalid_body
+696,App & Software Translation,desktop_ui_wtpdialog_close_changed_title
+697,App & Software Translation,desktop_ui_wtpdialog_close_changed_body
+698,App & Software Translation,desktop_ui_wtpdialog_title_new
+699,App & Software Translation,desktop_ui_wtpdialog_title_edit
+700,App & Software Translation,desktop_ui_wtpdialog_btn_close
+701,App & Software Translation,poolapp_chemistry_wtp_header
+702,App & Software Translation,desktop_sw_update_popup_title
+703,App & Software Translation,desktop_sw_update_popup_text
+704,App & Software Translation,desktop_sw_update_error_popup_title
+705,App & Software Translation,desktop_sw_update_error_popup_text_download
+706,App & Software Translation,labconnect_busybox_loading_text
+707,App & Software Translation,poolapp_application_startup_error_permissions
+708,App & Software Translation,poolapp_application_startup_error_file_permissions
+709,App & Software Translation,poolapp_application_startup_error_permissions_declined
+710,Webinterface Translation,Your password seems to be wrong!
+711,Webinterface Translation,We couldn't find an account with your email address!
+712,Webinterface Translation,Email already taken!
+713,Webinterface Translation,Accounts
+714,Webinterface Translation,Admin
+715,Webinterface Translation,Minimize menu
+716,Webinterface Translation,Logged in as
+717,Webinterface Translation,Total Accounts
+718,Webinterface Translation,Total Measurements
+719,Webinterface Translation,Last synchronization
+720,Webinterface Translation,GPS tagged Accounts
+721,Webinterface Translation,Log in
+722,Webinterface Translation,Your email
+723,Webinterface Translation,Your password
+724,Webinterface Translation,forgot password
+725,Webinterface Translation,Login
+726,Webinterface Translation,Create account
+727,Webinterface Translation,Confirm password
+728,Webinterface Translation,go to login
+729,Webinterface Translation,Choose color theme
+730,Webinterface Translation,Default
+731,Webinterface Translation,Dark
+732,Webinterface Translation,Light
+733,Webinterface Translation,Cyan
+734,Webinterface Translation,Purple
+735,Webinterface Translation,LabCom
+736,Webinterface Translation,Dashboard
+737,Webinterface Translation,Settings
+738,Webinterface Translation,Last added measurements
+739,Webinterface Translation,Synchronized
+740,Webinterface Translation,Account
+741,Webinterface Translation,Parameter
+742,Webinterface Translation,Value
+743,Webinterface Translation,Date
+744,Webinterface Translation,Time
+745,Webinterface Translation,Interface
+746,Webinterface Translation,customize your view
+747,Webinterface Translation,Grey
+748,Webinterface Translation,Light blue
+749,Webinterface Translation,Indigo
+750,Webinterface Translation,Pink
+751,Webinterface Translation,reset to default
+752,Webinterface Translation,manual
+753,Webinterface Translation,not set
+754,Webinterface Translation,manually added
+755,Webinterface Translation,Measurement
+756,Webinterface Translation,Unit
+757,Webinterface Translation,Method
+758,Webinterface Translation,Status
+759,Webinterface Translation,S/N
+760,Webinterface Translation,Operator
+761,Webinterface Translation,Comment
+762,Webinterface Translation,Measurements deleted
+763,Webinterface Translation,Your selected measurements have been deleted successfully.
+764,Webinterface Translation,Got it
+765,Webinterface Translation,Filter
+766,Webinterface Translation,Selected
+767,Webinterface Translation,Export
+768,Webinterface Translation,Create measurement
+769,Webinterface Translation,Search
+770,Webinterface Translation,Select all
+771,Webinterface Translation,parameters selected
+772,Webinterface Translation,Filter by parameter
+773,Webinterface Translation,Hide OVER-/UNDERRANGE
+774,Webinterface Translation,Date from
+775,Webinterface Translation,Date to
+776,Webinterface Translation,move selected measurements
+777,Webinterface Translation,delete selected measurements
+778,Webinterface Translation,Support
+779,Webinterface Translation,Overview
+780,Webinterface Translation,Contact us
+781,Webinterface Translation,Name
+782,Webinterface Translation,Email
+783,Webinterface Translation,Subject
+784,Webinterface Translation,Bug description
+785,Webinterface Translation,Send
+786,Webinterface Translation,Edit Account
+787,Webinterface Translation,Forename
+788,Webinterface Translation,Surname
+789,Webinterface Translation,"Street, House number"
+790,Webinterface Translation,Zip code
+791,Webinterface Translation,City
+792,Webinterface Translation,Country
+793,Webinterface Translation,GPS
+794,Webinterface Translation,Generate GPS
+795,Webinterface Translation,Phone
+796,Webinterface Translation,Fax
+797,Webinterface Translation,Contact email
+798,Webinterface Translation,Water source description
+799,Webinterface Translation,Volume
+800,Webinterface Translation,Notes
+801,Webinterface Translation,Save
+802,Webinterface Translation,Select Parameter
+803,Webinterface Translation,Ideal Low
+804,Webinterface Translation,Ideal High
+805,Webinterface Translation,Measurement Value
+806,Webinterface Translation,All
+807,Webinterface Translation,No data available in table
+808,Webinterface Translation,Showing _START_ to _END_ of _TOTAL_ entries
+809,Webinterface Translation,Showing 0 to 0 of 0 entries
+810,Webinterface Translation,(filtered from _MAX_ total entries)
+811,Webinterface Translation,Show _MENU_ entries
+812,Webinterface Translation,No matching records found
+813,Webinterface Translation,First
+814,Webinterface Translation,Last
+815,Webinterface Translation,Next
+816,Webinterface Translation,Previous
+817,Webinterface Translation,: activate to sort column ascending
+818,Webinterface Translation,: activate to sort column descending
+819,Webinterface Translation,Report
+820,Webinterface Translation,Measurement journal
+821,Webinterface Translation,Address
+822,Webinterface Translation,January
+823,Webinterface Translation,February
+824,Webinterface Translation,March
+825,Webinterface Translation,April
+826,Webinterface Translation,May
+827,Webinterface Translation,June
+828,Webinterface Translation,July
+829,Webinterface Translation,August
+830,Webinterface Translation,September
+831,Webinterface Translation,October
+832,Webinterface Translation,November
+833,Webinterface Translation,December
+834,Webinterface Translation,"'Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'"
+835,Webinterface Translation,Sunday
+836,Webinterface Translation,Monday
+837,Webinterface Translation,Tuesday
+838,Webinterface Translation,Wednesday
+839,Webinterface Translation,Thursday
+840,Webinterface Translation,Friday
+841,Webinterface Translation,Saturday
+842,Webinterface Translation,"'Sun','Mon','Tue','Wed','Thu','Fri','Sat'"
+843,Webinterface Translation,Today
+844,Webinterface Translation,Clear
+845,Webinterface Translation,Cancel
+846,Webinterface Translation,Next month
+847,Webinterface Translation,Previous month
+848,Webinterface Translation,Select a month
+849,Webinterface Translation,Select a year
+850,Webinterface Translation,Choose account
+851,Webinterface Translation,Target account
+852,Webinterface Translation,Support request sent
+853,Webinterface Translation,"Your support request has been sent successfully, we will contact you via email as soon as possible."
+854,Webinterface Translation,Accounts overview
+855,Webinterface Translation,Measurements
+856,Webinterface Translation,Water volume
+857,Webinterface Translation,delete account
+858,Webinterface Translation,Chart settings
+859,Webinterface Translation,Choose parameters
+860,Webinterface Translation,Parameters to visualize
+861,Webinterface Translation,Visualize
+862,Webinterface Translation,Measurement created
+863,Webinterface Translation,The measurement has been created successfully.
+864,Webinterface Translation,Account deleted
+865,Webinterface Translation,This account has been deleted successfully.
+866,Webinterface Translation,"You will be redirected on
+closing this
+notification."
+867,Webinterface Translation,Account edited
+868,Webinterface Translation,This account has been edited successfully.
+869,Webinterface Translation,Measurements moved
+870,Webinterface Translation,The selected measurements have been moved successfully.
+871,Webinterface Translation,Are you sure?
+872,Webinterface Translation,Are you sure to delete this account?
+873,Webinterface Translation,Yes
+874,Webinterface Translation,Are you sure to delete all selected measurements?
+875,Webinterface Translation,Are you sure to move all selected measurements?
+876,Webinterface Translation,Measurement graph
+877,Webinterface Translation,Color theme
+878,Webinterface Translation,Default length of table entries
+879,Webinterface Translation,Date and Time
+880,Webinterface Translation,set your date and time preferences
+881,Webinterface Translation,"Eniwetok, Kwajalein"
+882,Webinterface Translation,"Midway
+                            Island, Samoa"
+883,Webinterface Translation,Hawaii
+884,Webinterface Translation,Taiohae
+885,Webinterface Translation,Alaska
+886,Webinterface Translation,"Pacific
+                            Time (US & Canada)"
+887,Webinterface Translation,"Mountain
+                            Time (US & Canada)"
+888,Webinterface Translation,"Central
+                            Time (US & Canada), Mexico City"
+889,Webinterface Translation,"Eastern
+                            Time (US & Canada), Bogota, Lima"
+890,Webinterface Translation,Caracas
+891,Webinterface Translation,"Atlantic
+                            Time (Canada), Caracas, La Paz"
+892,Webinterface Translation,Newfoundland
+893,Webinterface Translation,"Brazil,
+                            Buenos Aires, Georgetown"
+894,Webinterface Translation,Mid-Atlantic
+895,Webinterface Translation,"Azores,
+                            Cape Verde Islands"
+896,Webinterface Translation,"Western Europe
+                            Time, London, Lisbon, Casablanca"
+897,Webinterface Translation,"Brussels,
+                            Copenhagen, Madrid, Paris"
+898,Webinterface Translation,"Kaliningrad, South Africa"
+899,Webinterface Translation,"Baghdad,
+                            Riyadh, Moscow, St. Petersburg"
+900,Webinterface Translation,Tehran
+901,Webinterface Translation,"Abu Dhabi,
+                            Muscat, Baku, Tbilisi"
+902,Webinterface Translation,Kabul
+903,Webinterface Translation,"Ekaterinburg, Islamabad, Karachi, Tashkent"
+904,Webinterface Translation,"Bombay, Calcutta, Madras, New Delhi"
+905,Webinterface Translation,"Kathmandu, Pokhara"
+906,Webinterface Translation,"Almaty,
+                            Dhaka, Colombo"
+907,Webinterface Translation,"Yangon, Mandalay"
+908,Webinterface Translation,"Bangkok,
+                            Hanoi, Jakarta"
+909,Webinterface Translation,"Beijing,
+                            Perth, Singapore, Hong Kong"
+910,Webinterface Translation,Eucla
+911,Webinterface Translation,"Tokyo,
+                            Seoul, Osaka, Sapporo, Yakutsk"
+912,Webinterface Translation,"Adelaide, Darwin"
+913,Webinterface Translation,"Eastern
+                            Australia, Guam, Vladivostok"
+914,Webinterface Translation,Lord Howe Island
+915,Webinterface Translation,"Magadan,
+                            Solomon Islands, New Caledonia"
+916,Webinterface Translation,Norfolk Island
+917,Webinterface Translation,"Auckland, Wellington, Fiji, Kamchatka"
+918,Webinterface Translation,Chatham Islands
+919,Webinterface Translation,"Apia,
+                            Nukualofa"
+920,Webinterface Translation,"Line
+                            Islands, Tokelau"
+921,Webinterface Translation,Timezone
+922,Webinterface Translation,MM/DD/YYYY
+923,Webinterface Translation,DD/MM/YYYY
+924,Webinterface Translation,YYYY/MM/DD
+925,Webinterface Translation,Date format
+926,Webinterface Translation,"12
+                                    hours"
+927,Webinterface Translation,"24
+                                    hours"
+928,Webinterface Translation,Time format
+929,Webinterface Translation,Color theme successfully saved!
+930,Webinterface Translation,Table length preference successfully saved!
+931,Webinterface Translation,Timezone successfully saved!
+932,Webinterface Translation,Time format successfully saved!
+933,Webinterface Translation,Date format successfully saved!
+934,Webinterface Translation,Loading...
+935,Webinterface Translation,Processing...
+936,Webinterface Translation,MM.DD.YYYY
+937,Webinterface Translation,DD.MM.YYYY
+938,Webinterface Translation,YYYY.MM.DD
+939,Webinterface Translation,Unsupported type of rule!
+940,Webinterface Translation,%a%b of %c %d the %e value by %f per %g%h water.
+941,Webinterface Translation,lowers
+942,Webinterface Translation,Water Treatment Product successfully created!
+943,Webinterface Translation,"An error occured, please retry!"
+944,Webinterface Translation,Water Treatment Product deleted successfully!
+945,Webinterface Translation,Ideal range
+946,Webinterface Translation,Frequency
+947,Webinterface Translation,raises
+948,Webinterface Translation,pieces
+949,Webinterface Translation,piece
+950,Webinterface Translation,measurement history
+951,Webinterface Translation,delete measurement
+952,Webinterface Translation,My Chemistry
+953,Webinterface Translation,Create product
+954,Webinterface Translation,delete selected products
+955,Webinterface Translation,Create water treatment product
+956,Webinterface Translation,Create Rule
+957,Webinterface Translation,Rule name
+958,Webinterface Translation,Rule type
+959,Webinterface Translation,Description
+960,Webinterface Translation,optional
+961,Webinterface Translation,Ideal range target values
+962,Webinterface Translation,The values which you want your water to have.
+963,Webinterface Translation,Ideal range low
+964,Webinterface Translation,Ideal range high
+965,Webinterface Translation,Ideal range tolerances
+966,Webinterface Translation,Acceptable tolerances which will be highlighted orange in rule evaluation.
+967,Webinterface Translation,Tolerance low
+968,Webinterface Translation,Tolerance high
+969,Webinterface Translation,Auto override interval
+970,Webinterface Translation,You will be redirected on closing this notification.
+971,Webinterface Translation,12 hours
+972,Webinterface Translation,24 hours
+973,Webinterface Translation,"Timespan which causes an additional uploaded measurement to override the rule status of the previous measurement with the same parameter.    -   E.g.: if you would measure a pH value of 7.0 but your rule says it has to be less than 6.8 pH, you would have a timespan to treat the water, remeasure it and the uploaded value will override the broken rule status of the previous measurement."
+974,Webinterface Translation,Override interval
+975,Webinterface Translation,minutes
+976,Webinterface Translation,Measurement time
+977,Webinterface Translation,The time at which the measurement should be taken.
+978,Webinterface Translation,Select time
+979,Webinterface Translation,Frequency tolerances
+980,Webinterface Translation,Tolerance before [min]
+981,Webinterface Translation,Tolerance after [min]
+982,Webinterface Translation,Validation offset
+983,Webinterface Translation,Timespan for uploading measurement before the rule is validated.
+984,Webinterface Translation,Create sub login user
+985,Webinterface Translation,Email prefix
+986,Webinterface Translation,Password
+987,Webinterface Translation,"Access to all accounts, including future ones"
+988,Webinterface Translation,Accounts selected
+989,Webinterface Translation,Custom account set
+990,Webinterface Translation,Select accounts to be accessible
+991,Webinterface Translation,Access to accounts
+992,Webinterface Translation,Edit sub-account
+993,Webinterface Translation,Revision date
+994,Webinterface Translation,Revision comment
+995,Webinterface Translation,Measurement date
+996,Webinterface Translation,Account created
+997,Webinterface Translation,The account has been created successfully.
+998,Webinterface Translation,Account details
+999,Webinterface Translation,no data available
+1000,Webinterface Translation,Measurement updated
+1001,Webinterface Translation,The measurement has been updated successfully.
+1002,Webinterface Translation,The measurement has been deleted successfully.
+1003,Webinterface Translation,Are you sure to delete this measurement?
+1004,Webinterface Translation,Manage sub-accounts
+1005,Webinterface Translation,add new sub login user
+1006,Webinterface Translation,save new password
+1007,Webinterface Translation,delete sub-account
+1008,Webinterface Translation,Are you sure to delete this sub-account?
+1009,Webinterface Translation,"prefix already taken, or has registered a normal cloud account!"
+1010,Webinterface Translation,Sub-account successfully updated!
+1011,Webinterface Translation,edit sub-login
+1012,Webinterface Translation,delete sub-login
+1013,Webinterface Translation,Sub login successfully created!
+1014,Webinterface Translation,Password sucessfully changed!
+1015,Webinterface Translation,Please enter a new password!
+1016,Webinterface Translation,Sub-login sucessfully deleted!
+1017,Webinterface Translation,Granted Accounts
+1018,Webinterface Translation,Visible Measurements
+1019,Webinterface Translation,Last synchronized measurements
+1020,Webinterface Translation,Measurement rules
+1021,Webinterface Translation,My rules
+1022,Webinterface Translation,Type
+1023,Webinterface Translation,edit rule
+1024,Webinterface Translation,delete rule
+1025,Webinterface Translation,Are you sure to delete this rule?
+1026,Webinterface Translation,Rule successfully created!
+1027,Webinterface Translation,Rule successfully deleted!
+1028,Webinterface Translation,API
+1029,Webinterface Translation,Access your data via our GraphQL API
+1030,Webinterface Translation,Test the API via your custom link
+1031,Webinterface Translation,including the documentation
+1032,Webinterface Translation,Renew API token
+1033,Webinterface Translation,Generate API token
+1034,Webinterface Translation,After generating a token you access the GraphQL webapp including the documentation.
+1035,Webinterface Translation,The key is required as authorization header
+1036,Webinterface Translation,Header name
+1037,Webinterface Translation,Header value
+1038,Webinterface Translation,The API endpoint is
+1039,Webinterface Translation,Water Treatment Products
+1040,Webinterface Translation,Product name
+1041,Webinterface Translation,Parameter group
+1042,Webinterface Translation,Effect
+1043,Webinterface Translation,edit product
+1044,Webinterface Translation,delete product
+1045,Webinterface Translation,Product deleted
+1046,Webinterface Translation,The product has been deleted successfully.
+1047,Webinterface Translation,Product updated
+1048,Webinterface Translation,The product has been updated successfully.
+1049,Webinterface Translation,Are you sure to delete this product?
+1050,Webinterface Translation,Are you sure to delete all selected products?
+1051,Webinterface Translation,New water treatment product
+1052,Webinterface Translation,Read the label of your product and complete the input fields accordingly.
+1053,Webinterface Translation,Product amount
+1054,Webinterface Translation,piece(s)
+1055,Webinterface Translation,Product unit
+1056,Webinterface Translation,Product effect
+1057,Webinterface Translation,Select group
+1058,Webinterface Translation,Effected parameter group
+1059,Webinterface Translation,Product effect value
+1060,Webinterface Translation,Effected water volume
+1061,Webinterface Translation,liter
+1062,Webinterface Translation,Water volume unit
+1063,Webinterface Translation,Edit water treatment product
+1064,Webinterface Translation,Translation saved!
+1065,Webinterface Translation,edited by:
+1066,Webinterface Translation,created by:
+1067,Webinterface Translation,"Translations imported, please refresh the page!"
+1068,Webinterface Translation,Translations exported to live system!
+1069,Webinterface Translation,My Accounts
+1070,Webinterface Translation,Shared Accounts
+1071,Webinterface Translation,copy token
+1072,Webinterface Translation,Supervisor
+1073,Webinterface Translation,Shared access between cloud accounts
+1074,Webinterface Translation,Have access
+1075,Webinterface Translation,Grant access
+1076,Webinterface Translation,Email address of target cloud account
+1077,Webinterface Translation,grant access to cloud account
+1078,Webinterface Translation,delete access
+1079,Webinterface Translation,Are you sure to delete this shared access?
+1080,Webinterface Translation,Token copied!
+1081,Webinterface Translation,Access successfully created!
+1082,Webinterface Translation,No cloud account with given email found!
+1083,Webinterface Translation,Shared access successfully deleted!
+1084,Webinterface Translation,"Oops, something went wrong..."
+1085,Webinterface Translation,Cloud account
+1086,Webinterface Translation,Applied rules
+1087,Webinterface Translation,Account name
+1088,Webinterface Translation,discard
+1089,Webinterface Translation,Apply rules to accounts
+1090,Webinterface Translation,Select rules
+1091,Webinterface Translation,Select accounts
+1092,Webinterface Translation,Are you sure to discard this rule?
+1093,Webinterface Translation,Rule successfully discarded!
+1094,Webinterface Translation,Rules successfully applied!
+1095,Webinterface Translation,Rule validation
+1096,Webinterface Translation,unfold all
+1097,Webinterface Translation,Validate from
+1098,Webinterface Translation,Validate to
+1099,Webinterface Translation,Export rule validation
+1100,Webinterface Translation,Validation Report
+1101,Webinterface Translation,Rule successfully updated!
+1102,Webinterface Translation,Export as PDF
+1103,Webinterface Translation,Reset password
+1104,Webinterface Translation,You recently requested to reset your password for your LabConnect account. Use the button below to reset it.
+1105,Webinterface Translation,Printable version
+1106,Webinterface Translation,New password
+1107,Webinterface Translation,Email successfully sent. Please check your inbox.
+1108,Webinterface Translation,There is no cloud account with this email!
+1109,Webinterface Translation,missing measurement for:
+1110,Webinterface Translation,Edit measurement
+1111,Webinterface Translation,Translator
+1112,Webinterface Translation,Username
+1113,Webinterface Translation,Wrong login information!
+1114,Webinterface Translation,Please enter the login credentials!
+1115,Webinterface Translation,reload validation
+1116,Webinterface Translation,in tolerance
+1117,Webinterface Translation,breached
+1118,Webinterface Translation,Password reset
+1119,Webinterface Translation,You recently requested to reset your password for your LabCom account. Use the button below to reset it.
+1120,Webinterface Translation,Reset your password
+1121,Webinterface Translation,Please fill all required fields!
+1122,Webinterface Translation,Please select rules and accounts!
+1123,Webinterface Translation,required
+1124,Webinterface Translation,The selected product has been deleted successfully.
+1125,Webinterface Translation,Calculators
+1126,Webinterface Translation,Active Chlorine
+1127,Webinterface Translation,Active Chlorine Calculator
+1128,Webinterface Translation,pH
+1129,Webinterface Translation,Temperature
+1130,Webinterface Translation,Free Chlorine
+1131,Webinterface Translation,CYA
+1132,Webinterface Translation,0.05ppm HOCl are required for basic desinfection
+1133,Webinterface Translation,0.32ppm HOCl are required to kill stronger viruses like e.g. the Coxsackie virus
+1135,Website,Search
+1136,Groups,Active Oxygen
+1137,Groups,Ammonia
+1138,Groups,Aluminium
+1139,Groups,Alkalinity
+1140,Groups,Boron
+1141,Groups,Bromine
+1142,Groups,Oxygen scavengers
+1143,Groups,Chloride
+1144,Groups,Chlorine
+1145,Groups,Chlorine Dioxide
+1146,Groups,COD
+1147,Groups,Cyanuric Acid
+1148,Groups,DBNPA
+1149,Groups,Phosphonate
+1150,Groups,Iron
+1151,Groups,Fluoride
+1152,Groups,Hardness
+1153,Groups,Hydrazine
+1154,Groups,Chromium
+1155,Groups,Iodine
+1156,Groups,Potassium
+1157,Groups,Copper
+1158,Groups,Manganese
+1159,Groups,Tannin
+1160,Groups,Molybdate
+1161,Groups,Sod.-Hypochlorite
+1162,Groups,Nitrate
+1163,Groups,Nitrite
+1164,Groups,Ozone
+1165,Groups,pH
+1166,Groups,PHMB
+1167,Groups,Phosphate
+1168,Groups,Magnesium
+1169,Groups,Silica
+1170,Groups,Sulphate
+1171,Groups,Sulphide
+1172,Groups,Sulphite
+1173,Groups,Triazole
+1174,Groups,Turbidity
+1175,Groups,Hydrogen Peroxide
+1176,Groups,Zinc
+1177,Groups,Polyacrylate
+1178,Groups,QAC
+1179,Groups,Suspended Solids
+1180,Groups,Nickel
+1181,Groups,Chlorite
+1182,Groups,Colour
+1183,Groups,PTSA
+1184,Groups,Fluorescein
+1185,Groups,Transmission
+1186,Groups,Polyamine
+1187,Groups,Urea
+1188,Groups,manually
+1189,Groups,QC Colour Tests
+1190,Groups,Isothiazolinone
+1191,Groups,Legionella
+1192,Groups,Nitrogen
+1193,Groups,Phosphorus
+1194,Groups,Cyanide
+1195,Groups,Permanganate
+1196,Groups,Hydrocarbons
+1197,Groups,Oil
+1198,Groups,Tankwash
+1199,Groups,Phenol
+1200,Groups,Dissolved Oxygen
+1201,Groups,Peracetic Acid
+1202,Scenarios,01-Act-oxi-MPS-tab
+1203,Scenarios,02-Ammonia-LR-tab
+1204,Scenarios,03-Ammonia-LR-pow
+1205,Scenarios,04-Aluminium-tab
+1206,Scenarios,05-Alkalinit-M-tab
+1207,Scenarios,06-Alkalinit-P-tab
+1208,Scenarios,07-Boron-tab
+1209,Scenarios,08-Bromine-tab
+1210,Scenarios,09-Hard-Cal-HR_tab
+1211,Scenarios,10-Chloride-tab
+1212,Scenarios,11-Chlorine-tab
+1213,Scenarios,12-Chlorine-liq
+1214,Scenarios,14-Chlorine-HR-tab
+1215,Scenarios,15-Chlorine-HR-liq
+1216,Scenarios,16-Chlorin-Dio-tab
+1217,Scenarios,17-COD-HR-pre
+1218,Scenarios,18-Copper-tab
+1219,Scenarios,19-Copper-pow
+1220,Scenarios,20-Cyanur-Acid-tab
+1221,Scenarios,21-DEHA-liq
+1222,Scenarios,23-Hydrazine-liq
+1223,Scenarios,24-Hydr-Per-LR-tab
+1224,Scenarios,25-Hydr-Per-HR-liq
+1225,Scenarios,26-Hydroquinon-liq
+1226,Scenarios,27-Iodine-tab
+1227,Scenarios,28-Iron-LR-tab
+1228,Scenarios,29-Iron-MR-pow
+1229,Scenarios,30-Iron-HR-liq
+1230,Scenarios,31-Manganes-LR-tab
+1231,Scenarios,32-Molybdat-HR-tab
+1232,Scenarios,33-Molybdat-HR-liq
+1233,Scenarios,34-Nitrate-pow
+1234,Scenarios,35-Nitrite-LR-tab
+1235,Scenarios,36-Nitrite-HR-pow
+1236,Scenarios,37-Ozone-tab
+1237,Scenarios,38-pH-MR-tab
+1238,Scenarios,39-pH-MR-liq
+1239,Scenarios,40-pH-LR-tab
+1240,Scenarios,41-pH-univ-tab
+1241,Scenarios,42-pH-univ-liq
+1242,Scenarios,43-PHMB-tab
+1243,Scenarios,44-Phosphat-LR-tab
+1244,Scenarios,45-Phosphat-LR-liq
+1245,Scenarios,46-Phosphat-HR-tab
+1246,Scenarios,47-Phosphat-HR-liq
+1247,Scenarios,48-Potassium-tab
+1248,Scenarios,49-Silica-LR-liq
+1249,Scenarios,50-Silica-HR-pow
+1250,Scenarios,51-Sodium-Hypo-tab
+1251,Scenarios,52-Sulphide-tab
+1252,Scenarios,53-Sulphite-LR-tab
+1253,Scenarios,54-Sulphate-tab
+1254,Scenarios,55-Sulphate-pow
+1255,Scenarios,56-Hard-tot-LR-tab
+1256,Scenarios,57-Hard-tot-HR-tab
+1257,Scenarios,59-Turbidity
+1258,Scenarios,62-Zinc-tab
+1259,Scenarios,63-Bromine-liq
+1260,Scenarios,64-Chlorin-Dio-liq
+1261,Scenarios,65-DBNPA-liq
+1262,Scenarios,66-Hydr-Per-LR-liq
+1263,Scenarios,67-Iodine-liq
+1264,Scenarios,68-Sodium-Hypo-liq
+1265,Scenarios,69-Methylethyl-liq
+1266,Scenarios,70-Erythorbic-Acid
+1267,Scenarios,71-Carbohydra-liq
+1268,Scenarios,72-Fluoride-liq
+1269,Scenarios,78-Hard-Cal-tab
+1270,Scenarios,79-COD-LR-pre
+1271,Scenarios,80-COD-MR-pre
+1272,Scenarios,81-Suspended-Sol
+1273,Scenarios,82-DBNPA-tab
+1274,Scenarios,83-QAC-tab
+1275,Scenarios,85-Polyacryl-liq
+1276,Scenarios,87-Phosphonate-liq
+1277,Scenarios,88-Isothiazol-liq
+1278,Scenarios,90-Nickel-HR-tab
+1279,Scenarios,91-Tannic-acid-liq
+1280,Scenarios,92-Ozone-liq
+1281,Scenarios,93-Magnesium-tab
+1282,Scenarios,94-chromium-tab
+1283,Scenarios,95-Chloramines-tab
+1284,Scenarios,96-Molybd-LR-tab
+1285,Scenarios,97-Nitrite-HR-tab
+1286,Scenarios,98-Phenol-tab
+1287,Scenarios,100-Nickel-HR-liq
+1288,Scenarios,101-Nitrite-HR-liq
+1289,Scenarios,103-Chromium-liq
+1290,Scenarios,105-Sulphite-HR-tab
+1291,Scenarios,106-Chlorite-liq
+1292,Scenarios,107-Colour
+1293,Scenarios,108-Total-Oxid-liq
+1294,Scenarios,109-DEWAN50-liq
+1295,Scenarios,110-Phosphon-tab
+1296,Scenarios,111-PTSA-Ad
+1297,Scenarios,112-Turbidity-NTU
+1298,Scenarios,113-Fluorescein-Ad
+1299,Scenarios,114-Transm-420nm
+1300,Scenarios,115-Transm-470nm
+1301,Scenarios,116-Transm-520nm
+1302,Scenarios,117-Transm-570nm
+1303,Scenarios,118-Transm-620nm
+1304,Scenarios,119-Transm-670nm
+1305,Scenarios,120-Urea-tab-liq
+1306,Scenarios,121-Alka-M-HR-tab
+1307,Scenarios,122-ChlorineMR-tab
+1308,Scenarios,124-Chloride-liq
+1309,Scenarios,125-Acsam.28F-liq
+1310,Scenarios,126-AcsamineDW-liq
+1311,Scenarios,"127-Iron-MR-Fe-pow
+"
+1312,Scenarios,128-Bromine-pp
+1313,Scenarios,129-Chlorine-pp
+1314,Scenarios,130-Chl-Diox-pp
+1315,Scenarios,132-Iron-tot-LR-pp
+1316,Scenarios,134-Molybd-HR-pp
+1317,Scenarios,139-Iodine-pp
+1318,Scenarios,140-Sulphide-Ha
+1319,Scenarios,141-Acsamine-liq
+1320,Scenarios,147-Legionella-liq
+1321,Scenarios,148-Hard-tot-liq
+1322,Scenarios,149-Iron-Oil-liq
+1323,Scenarios,150-UreaHR-tab-liq
+1324,Scenarios,151-NitroTotLR-pre
+1325,Scenarios,152-NitroTotHR-pre
+1326,Scenarios,153-PsphrTotLR-tab
+1327,Scenarios,154-PsphrTotHR-tab
+1328,Scenarios,155-AmmoniaHR-pre
+1329,Scenarios,156-Watch-Ad
+1330,Scenarios,157-Tracer-Ad
+1331,Scenarios,158-Cyanide-pow
+1332,Scenarios,159-PTT-tab
+1333,Scenarios,160-Hydrocarbons
+1334,Scenarios,161-Manganese-VLR
+1335,Scenarios,162-HydrPer-HR-tab
+1336,Scenarios,163-Dis.Oxygen
+1337,Scenarios,164-Peracetic-Acid-LR
+1338,Scenarios,165-Peracetic-Acid-HR
+1339,Scenarios,167-Chloride-in-MeOH
+1340,Scenarios,168-BN-LUX
+1341,Scenarios,300-Temperature
+1342,Scenarios,301-Conductivity
+1343,Scenarios,302-TDS
+1344,Scenarios,303-flow-velocity
+1345,Scenarios,304-Redox
+1346,Scenarios,400-ColourTest-420
+1347,Scenarios,401-ColourTest-470
+1348,Scenarios,402-ColourTest-520
+1349,Scenarios,403-ColourTest-570
+1350,Scenarios,404-ColourTest-620
+1351,Scenarios,421-Chlorine-Total
+1352,Scenarios,422-Ozone
+1353,Scenarios,423-Chlorine-Diox
+1354,Scenarios,425-Act-Oxygen
+1355,Scenarios,426-Bromine
+1356,Scenarios,427-Hydr-Peroxide
+1357,Scenarios,428-Chlorine-Free
+1358,Scenarios,429-pH-PoolLab
+1359,Scenarios,430-Total-Alkalinity
+1360,Scenarios,431-Cyanuric-Acid
+1361,Scenarios,432-Hydrogen-Peroxide-HR
+1362,Scenarios,433-TotalHardness-HR
+1363,Scenarios,434-Isothiazolinone
+1364,Scenarios,435-Nitrite-LR
+1365,Scenarios,436-Nitrate
+1366,Scenarios,437-Phosphate
+1367,Scenarios,438-Iron-LR
+1368,Scenarios,439-Dissolved-Oxygen
+1369,Scenarios,440-Ammonia
+1370,Scenarios,441-Silica
+1371,Scenarios,442-Copper
+1372,Scenarios,443-Calcium-Hardness
+1373,Scenarios,444-PL-Ozone-p.o.-Cl
+1374,Scenarios,445-Magnesium
+1375,Scenarios,446-Potassium
+1376,Scenarios,447-pH-HR
+1377,Scenarios,448-pH-LR
+1378,Scenarios,449-pH-HR-saltwater
+1379,Scenarios,450-pH-HR-seawater
+1380,Scenarios,451-pH-LR-saltwater
+1381,Scenarios,452-pH-LR-seawater
+1382,Scenarios,453-pH-MR-saltwater
+1383,Scenarios,454-pH-MR-seawater
+1384,Scenarios,455-Total-Hardness
+1385,Scenarios,456-pH-MR
+1386,Scenarios,457-Iodine
+1387,Scenarios,501-BaseNumber
+1388,Scenarios,502-Iron-Oil-liq
+1389,Phrases,Import old database
+1390,Phrases,click to connect
+1391,Phrases,get called on object with invalid key
+1392,Phrases,set called on object with invalid key
+1393,Phrases,error switching widget!
+1394,Phrases,This should never happen
+1395,Phrases,this feature is not supported
+1396,Phrases,invalid packet
+1397,Phrases,Water-i.d. GmbH
+1398,Phrases,Database:
+1399,Phrases,Firmware:
+1400,Phrases,Calibration was performed:
+1401,Phrases,Result:
+1402,Phrases,Serial Number:
+1403,Phrases,"We, the manufacturer of PrimeLab 1.0 Multitest Photometer, hereby confirm the successful user initiated self-calibration of the following device:"
+1404,Phrases,CALIBRATION CONFIRMATION
+1405,Phrases,Close
+1406,Phrases,"Could not write to file:
+"
+1407,Phrases,Date
+1408,Phrases,Date of Report:
+1409,Phrases,Document Writer Exception
+1410,Phrases,Default Logo
+1411,Phrases,Microsoft Office importable Document (*.doc)
+1412,Phrases,Microsoft Word 2003 Document (*.doc)
+1413,Phrases,Dosage Recommendation
+1414,Phrases,Error
+1415,Phrases,The report must contain atleast one account with atleast one measurement.
+1416,Phrases,Nothing to report
+1417,Phrases,Image Files (*.png *.jpg *.bmp)
+1418,Phrases,Measurement-Journal
+1419,Phrases,Open Office Document (*.odf)
+1420,Phrases,Operator
+1421,Phrases,Parameter
+1422,Phrases,Portable Document Format (*.pdf)
+1423,Phrases,Test Base:
+1424,Phrases,Report saved
+1425,Phrases,"Report saved as:
+"
+1426,Phrases,The report could not be saved to disc. The system reports: %a
+1427,Phrases,Saving report failed
+1428,Phrases,Result
+1429,Phrases,Save as .odf
+1430,Phrases,Save as PDF
+1431,Phrases,Save as Word Document
+1432,Phrases,Save Report
+1433,Phrases,Account:
+1434,Phrases,Selected Account(s):
+1435,Phrases,Selected Timeframe:
+1436,Phrases,Select Image
+1437,Phrases,S/N
+1438,Phrases,Status
+1439,Phrases,Time
+1440,Phrases,Unit
+1441,Phrases,Microsoft Excel 2003 XML (*.xml)
+1442,Phrases,Account created.
+1443,Phrases,Account created on PrimeLab.
+1444,Phrases,Account Details
+1445,Phrases,Account edited.
+1446,Phrases,Account edited on PrimeLab.
+1447,Phrases,* above fields are required (must not be empty)
+1448,Phrases,Activate
+1449,Phrases,Activate License
+1450,Phrases,Activation failed
+1451,Phrases,"Activation failed, key invalid!"
+1452,Phrases,Activation successful!
+1453,Phrases,Are you sure?
+1454,Phrases,Battery too low
+1455,Phrases,The PrimeLab's battery is too low. Please use fresh batteries or connect the A/C adaptor.
+1456,Phrases,The calibration failed. Try to re-calibrate the device manually.
+1457,Phrases,Calibration failed
+1458,Phrases,Cancel
+1459,Phrases,Canton
+1460,Phrases,City
+1461,Phrases,Cloud Setup
+1462,Phrases,This will disable synchronization with the cloud and all local data will remain unchanged.
+1463,Phrases,Email confirmation
+1464,Phrases,The registration requires an email confirmation.
+1465,Phrases,Login
+1466,Phrases,Login successful
+1467,Phrases,Your database is now linked to your cloud account.
+1468,Phrases,Login failed
+1469,Phrases,The provided email-address and password did not match or there is no user registered with this email.
+1470,Phrases,No connection
+1471,Phrases,"Could not connect to the cloud server, please try again later."
+1472,Phrases,No internet
+1473,Phrases,"Could not connect to the cloud server, please check your internet connection."
+1474,Phrases,PrimeLab Cloud
+1475,Phrases,Invalid Server response
+1476,Phrases,Could not connect to the cloud server. Please check your are using the latest software version.
+1477,Phrases,Proxy Error
+1478,Phrases,Could not connect to the cloud server due to problems with the proxy connection.
+1479,Phrases,Register
+1480,Phrases,Registration successful
+1481,Phrases,Your cloud account was created and your database is now linked to your cloud account.
+1482,Phrases,Registration failed
+1483,Phrases,Registration is disabled on this cloud server.
+1484,Phrases,An account with this email address already exists.
+1485,Phrases,Lost password
+1486,Phrases,Select Server
+1487,Phrases,Cloud Server:
+1488,Phrases,Cloud Server Information
+1489,Phrases,(your account)
+1490,Phrases,Synchronizing...
+1491,Phrases,Country
+1492,Phrases,Customer ID
+1493,Phrases,Database full
+1494,Phrases,The PrimeLab's Database is full.
+1495,Phrases,Account
+1496,Phrases,Accounts and
+1497,Phrases,Accounts exported
+1498,Phrases,Accounts to PrimeLab?
+1499,Phrases,%a Accounts were written on PrimeLab!
+1500,Phrases,and all their measurement data from PrimeLab!
+1501,Phrases,Are you sure? This will delete the Account and all measurements saved with this Account from the
+1502,Phrases,Are you sure? This will delete the Measurement from the
+1503,Phrases,Are you sure? This operation will permanently remove
+1504,Phrases,Are you sure? This will delete
+1505,Phrases,Can't delete
+1506,Phrases,"Individual measurements cannot be deleted from the PrimeLab's database. Right click an account and select ""Delete Measures"" to delete all saved measurements of an account."
+1507,Phrases,Check all
+1508,Phrases,Check All
+1509,Phrases,Collapse
+1510,Phrases,Collapse All
+1511,Phrases,"The connection to the PrimeLab device was lost. Reconnect, and try again."
+1512,Phrases,Critical Error loading accounts
+1513,Phrases,Database
+1514,Phrases,Data Source
+1515,Phrases,Delete
+1516,Phrases,Delete checked
+1517,Phrases,Delete measurements
+1518,Phrases,Delete permanently?
+1519,Phrases,Edit
+1520,Phrases,Device Serial
+1521,Phrases,save as Word .doc
+1522,Phrases,Expand
+1523,Phrases,Expand All
+1524,Phrases,fatal exception deleting database account
+1525,Phrases,fatal exception deleting database account: NOT FOUND
+1526,Phrases,Filter by Account Data
+1527,Phrases,Filter by scenario
+1528,Phrases,Filter by Time
+1529,Phrases,Forename
+1530,Phrases,Hide empty Accounts
+1531,Phrases,Hide Filter
+1532,Phrases,Hide Over-/Underrange
+1533,Phrases,Ideal Range
+1534,Phrases,Local Database
+1535,Phrases,Insert manual value
+1536,Phrases,Measure
+1537,Phrases,Measurement
+1538,Phrases,Measurements.
+1539,Phrases,"Measurements from the Database!
+Measurements not directly selected will also be deleted if their account is deleted."
+1540,Phrases,New
+1541,Phrases,New Account
+1542,Phrases,OK
+1543,Phrases,Overrange
+1544,Phrases,save as PDF
+1545,Phrases,preview PDF
+1546,Phrases,PrimeLab
+1547,Phrases,Not enough space
+1548,Phrases,The PrimeLab does not have sufficient memory to store the accounts. Currently there are %a of %b accounts saved on PrimeLab.
+1549,Phrases,PrimeLab offline
+1550,Phrases,Report
+1551,Phrases,Selection
+1552,Phrases,Showing
+1553,Phrases,Show Filter
+1554,Phrases,Sub-Parameter
+1555,Phrases,Surname
+1556,Phrases,Syncronize
+1557,Phrases,Synchronize Accounts?
+1558,Phrases,Test Range
+1559,Phrases,This will delete all measurements saved with this account permanently. Are you sure?
+1560,Phrases,Timespan invalid
+1561,Phrases,The selected timespan is invalid.
+1562,Phrases,Too High!
+1563,Phrases,Too Low!
+1564,Phrases,Uncheck all
+1565,Phrases,Uncheck All
+1566,Phrases,undefined selection state
+1567,Phrases,Underrange
+1568,Phrases,Value
+1569,Phrases,Write To PrimeLab
+1570,Phrases,save as excel-table
+1571,Phrases,Database settings
+1572,Phrases,The account you were trying to edit/delete/add measurements to was not found after re-synchronization with the cloud.
+1573,Phrases,Account not found
+1574,Phrases,Your current cloud password was changed and all synchronization has been disabled. Navigate to Cloud-settings and log back in to re-synchronize.
+1575,Phrases,Cloud login failed
+1576,Phrases,Connection to cloud server failed. Please check your internet connection and try again.
+1577,Phrases,You do not have the required permission to edit or add accounts to this cloud's database.
+1578,Phrases,Privilege too low
+1579,Phrases,The application encountered a protocol error with the cloud server. Please make sure you are using the newest version and try again.
+1580,Phrases,Protocol error
+1581,Phrases,Connection to the proxy failed. Please check your proxy and internet connection and try again.
+1582,Phrases,Proxy error
+1583,Phrases,Connection to cloud server failed. The cloud server appears to be offline. Please try again in a few minutes.
+1584,Phrases,Cloud server offline
+1585,Phrases,This shared database is no longer available to you. Your computer's database was reset to your own cloud database.
+1586,Phrases,Shared user error
+1587,Phrases,Manual
+1588,Phrases,Disable Cloud
+1589,Phrases,decrease
+1590,Phrases,No water-source set up for this account.
+1591,Phrases,No water-source
+1592,Phrases,Cannot give a dosage recommendation for result values out of range.
+1593,Phrases,Value out of range
+1594,Phrases,Parameter Group
+1595,Phrases,increase
+1596,Phrases,No chemicals found to %a this parameter. Navigate to Chemicals to create one.
+1597,Phrases,No chemicals found
+1598,Phrases,Water-source size
+1599,Phrases,The preview file could not be written. Please make sure the system has enough disc space.
+1600,Phrases,Previewing Dosage Recommendation failed
+1601,Phrases,Preview
+1602,Phrases,Selected Parameter:
+1603,Phrases,Amount:
+1604,Phrases,Chemical Name:
+1605,Phrases,Target Value:
+1606,Phrases,Saving Dosage Recommendation failed
+1607,Phrases,Save Dosage Recommendation
+1608,Phrases,Target Value
+1609,Phrases,Dosage recommendation
+1610,Phrases,g
+1611,Phrases,kg
+1612,Phrases,l
+1613,Phrases,µg
+1614,Phrases,µl
+1615,Phrases,mg
+1616,Phrases,ml
+1617,Phrases,pcs
+1618,Phrases,Editing Account failed
+1619,Phrases,Email
+1620,Phrases,Enter activation-code
+1621,Phrases,Fax
+1622,Phrases,Portable
+1623,Phrases,For all users
+1624,Phrases,Target location: _1
+1625,Phrases,Only for myself
+1626,Phrases,Do you want to create the database for all users on this computer or only yourself?
+1627,Phrases,Continue
+1628,Phrases,Database Setup
+1629,Phrases,"A database at the specified location already exists, please choose another location"
+1630,Phrases,File already exists
+1631,Phrases,"Cannot create database at specified location. The operating system reports:
+%a"
+1632,Phrases,The file location cannot be written. Check if you have the required permissions.
+1633,Phrases,Cannot create file
+1634,Phrases,Finish
+1635,Phrases,"A 'PrimeLab Desktop Assistant' database file was found at:
+
+	_1
+
+Do you wish to import it?"
+1636,Phrases,First time setup
+1637,Phrases,It seems that this is the first time you run this Application. Only a few steps are required to get started.
+1638,Phrases,Welcome to PrimeLab Desktop Assistant 2.0
+1639,Phrases,Cloud Configuration
+1640,Phrases,Parameter and Measurement Information
+1641,Phrases,Parameter Overview
+1642,Phrases,PrimeLab Manual
+1643,Phrases,error switching widget: no such fragment
+1644,Phrases,fragmentmanager reinitialization
+1645,Phrases,Update available
+1646,Phrases,An update is available! Do want to you to update the application now?
+1647,Phrases,Parameters
+1648,Phrases,Connecting...
+1649,Phrases,Connecting to
+1650,Phrases,Connect Primelab
+1651,Phrases,Delete imported measurements from Primelab?
+1652,Phrases,Error: Calibration failed!
+1653,Phrases,The device could not be calibrated automatically. Please recalibrate the device manually by using the onboard controls.
+1654,Phrases,Error: connection lost!
+1655,Phrases,Please make sure the Primelab device is in range and its batteries are charged.
+1656,Phrases,Error: invalid response!
+1657,Phrases,The device does not appear to be a PrimeLab! Make sure to connect to the correct address.
+1658,Phrases,Import
+1659,Phrases,Invalid MsgBox response!
+1660,Phrases,new Accounts and
+1661,Phrases,new Measurements?
+1662,Phrases,Primelab device state invalid!
+1663,Phrases,Remote Control
+1664,Phrases,Setup
+1665,Phrases,Chemicals
+1666,Phrases,PrimeLab Desktop Assistant 2.0
+1667,Phrases,Database version:
+1668,Phrases,Software version: 
+1669,Phrases,Information missing
+1670,Phrases,"Please fill out at least forename, surename, street, city and zip-code!"
+1671,Phrases,Information entered are not compatible with PrimeLab.
+1672,Phrases,Cloud Server
+1673,Phrases,Disabled
+1674,Phrases,Signed in
+1675,Phrases,Update Server
+1676,Phrases,Online
+1677,Phrases,working...
+1678,Phrases,No
+1679,Phrases,Unknown
+1680,Phrases,Yes
+1681,Phrases,Last synchronization:
+1682,Phrases,Accounts
+1683,Phrases,Connect PrimeLab
+1684,Phrases,More Information
+1685,Phrases,PrimeLab connected
+1686,Phrases,Settings
+1687,Phrases,Selected Account
+1688,Phrases,Select Subparameter
+1689,Phrases,Valid Range
+1690,Phrases,Save
+1691,Phrases,Measurement saved
+1692,Phrases,Select method
+1693,Phrases,Enter manual result
+1694,Phrases,Enter Value
+1695,Phrases,Measurements saved:
+1696,Phrases,Comment
+1697,Phrases,Device S/N
+1698,Phrases,Result Status
+1699,Phrases,Result Value
+1700,Phrases,Method
+1701,Phrases,Last changed
+1702,Phrases,Time Taken
+1703,Phrases,Measurement Result
+1704,Phrases,Memory Full
+1705,Phrases,"The PrimeLab's memory is too full. Delete another account first, then try again."
+1706,Phrases,Notes
+1707,Phrases,Email Address
+1708,Phrases,Email Address/Password must not be empty.
+1709,Phrases,Password
+1710,Phrases,Passwords didnt match.
+1711,Phrases,Password (repeat)
+1712,Phrases,Sync local data
+1713,Phrases,Request
+1714,Phrases,Fold all
+1715,Phrases,Search:
+1716,Phrases,Show only activated parameters
+1717,Phrases,Unfold all
+1718,Phrases,Phone 1
+1719,Phrases,Phone 2
+1720,Phrases,A/C
+1721,Phrases,Accounts on PrimeLab
+1722,Phrases,Activate Parameter
+1723,Phrases,Battery Status
+1724,Phrases,Your PrimeLab Device
+1725,Phrases,Calibration completed
+1726,Phrases,Change name
+1727,Phrases,Clear database
+1728,Phrases,Delete all accounts and measurements from Primelab?
+1729,Phrases,Delete all configurations and do a factory reset?
+1730,Phrases,Delete all measurements from Primelab?
+1731,Phrases,Disconnect
+1732,Phrases,Enter a new name
+1733,Phrases,Factory reset
+1734,Phrases,Synchronize
+1735,Phrases,Parameter successfully activated!
+1736,Phrases,Parameter activated!
+1737,Phrases,Measurement Memory
+1738,Phrases,Parameters activated
+1739,Phrases,Calibrate PrimeLab
+1740,Phrases,Calibration
+1741,Phrases,Remove the cuvette from the PrimeLab and press OK to calibrate.
+1742,Phrases,Rename Primelab
+1743,Phrases,The device was successfully calibrated.
+1744,Phrases,Update PrimeLab
+1745,Phrases,Version
+1746,Phrases,Scan
+1747,Phrases,Scan again
+1748,Phrases,Scan for PrimeLab devices
+1749,Phrases,Scan in Progress...
+1750,Phrases,No PrimeLabs found
+1751,Phrases,"Depending on your hardware, a full scan takes from 5 to 30 seconds"
+1752,Phrases,Bat:
+1753,Phrases,Bat: A/C
+1754,Phrases,Mem:
+1755,Phrases,Water-Source-Notes
+1756,Phrases,Water-Source-Size m³
+1757,Phrases,PrimeLab disconnected
+1758,Phrases,"The connection to the PrimeLab was lost! Reconnect, and try again."
+1759,Phrases,Anonymous
+1760,Phrases,Login Name
+1761,Phrases,No Proxy
+1762,Phrases,Port
+1763,Phrases,Proxy configuration
+1764,Phrases,Proxy Server
+1765,Phrases,SOCKSv4a
+1766,Phrases,SOCKSv5
+1767,Phrases,System Proxy
+1768,Phrases,Validate
+1769,Phrases,Reagents required:
+1770,Phrases,Check for updates
+1771,Phrases,"PrimeLab's Battery is too low to do a measurement now.
+Please use fresh batteries or connect the A/C adaptor."
+1772,Phrases,Cancel Measurement
+1773,Phrases,The Bluetooth connection to the PrimeLab was lost.
+1774,Phrases,Discard
+1775,Phrases,"An unexpected error occured! If this error persists, please submit it to the developer at primelab@420nm.org."
+1776,Phrases,Too high
+1777,Phrases,Parameter:
+1778,Phrases,Parameter Value:
+1779,Phrases,Remove the cuvette from the PrimeLab and place the light protection on the device.
+1780,Phrases,"The calibration was successful. Re-insert the cuvette with your sample, then click OK to continue the measurement."
+1781,Phrases,Calibration complete
+1782,Phrases,Calibration invalid
+1783,Phrases,PrimeLab needs to be calibrated to continue. Calibrate PrimeLab now?
+1784,Phrases,Return
+1785,Phrases,Reuse last Zero?
+1786,Phrases,"The result could not be saved, if this errors persists please contact the developer at primelab@420nm.org"
+1787,Phrases,Failed to Save
+1788,Phrases,Parameter-ID Invalid
+1789,Phrases,seconds
+1790,Phrases,Skip
+1791,Phrases,Test
+1792,Phrases,Time Left:
+1793,Phrases,too low
+1794,Phrases,Wait until the reagent has fully reacted
+1795,Phrases,Zero
+1796,Phrases,Error: Account not found
+1797,Phrases,Edit result
+1798,Phrases,Change value to:
+1799,Phrases,Edit Result
+1800,Phrases,Enter comment (max 250 chars)
+1801,Phrases,not set
+1802,Phrases,never
+1803,Phrases,---
+1804,Phrases,Primelab Device
+1805,Phrases,Error: Parameter not found
+1806,Phrases,Error: Method/Parameter not found
+1807,Phrases,Set comment
+1808,Phrases,Connected to:
+1809,Phrases,Ideal Range (Min/Max):
+1810,Phrases,Insert manual result
+1811,Phrases,Invalid limits
+1812,Phrases,Please enter a valid ideal range!
+1813,Phrases,New Measurement
+1814,Phrases,none
+1815,Phrases,not connected
+1816,Phrases,Parameter not activated
+1817,Phrases,Selected parameter is not activated on this PrimeLab.
+1818,Phrases,Selected Account:
+1819,Phrases,Selected Method:
+1820,Phrases,Start Measurement
+1821,Phrases,Ideal Range set successfully.
+1822,Phrases,Ideal Range Set
+1823,Phrases,Please enter a valid email address.
+1824,Phrases,Email invalid
+1825,Phrases,Email Address:
+1826,Phrases,First Name:
+1827,Phrases,Last Name:
+1828,Phrases,Please fill out all fields to continue.
+1829,Phrases,Missing information
+1830,Phrases,Your request has been submitted. We will contact you as soon as possible.
+1831,Phrases,Request submitted
+1832,Phrases,Please fill out this form and we will get back to you by email as soon as possible.
+1833,Phrases,Request activation-code
+1834,Phrases,Select
+1835,Phrases,Software Settings
+1836,Phrases,Start
+1837,Phrases,Street
+1838,Phrases,Add measurements
+1839,Phrases,Full access
+1840,Phrases,Read only
+1841,Phrases,Remove Access
+1842,Phrases,Share data
+1843,Phrases,Share data with other cloud account
+1844,Phrases,Add new Share
+1845,Phrases,Full Access
+1846,Phrases,Granted access to other cloud accounts
+1847,Phrases,Create Measurements
+1848,Phrases,No Access
+1849,Phrases,Read Access
+1850,Phrases,Selected
+1851,Phrases,Supervisor Settings
+1852,Phrases,You have access to
+1853,Phrases,Synchronizing with cloud....
+1854,Phrases,Test Range:
+1855,Phrases,A network error caused the update to fail.
+1856,Phrases,The Software will restart now.
+1857,Phrases,Download finished
+1858,Phrases,Update failed
+1859,Phrases,Software Update
+1860,Phrases,Installation failed with errorcode _1.
+1861,Phrases,Download in progress...
+1862,Phrases,Username:
+1863,Phrases,error
+1864,Phrases,-
+1865,Phrases,available
+1866,Phrases,Firmware
+1867,Phrases,installed
+1868,Phrases,Software
+1869,Phrases,Database version
+1870,Phrases,Software version
+1871,Phrases,Add new
+1872,Phrases,Water treatment chemicals
+1873,Phrases,Collapse all
+1874,Phrases,Effect
+1875,Phrases,Expand all
+1876,Phrases,Group
+1877,Phrases,Name
+1878,Phrases,Type
+1879,Phrases,Amount
+1880,Phrases,"You have unsaved changes, are you sure you want to close without saving?"
+1881,Phrases,Unsaved changes
+1882,Phrases,The chemical name must not be empty.
+1883,Phrases,Field invalid
+1884,Phrases,Chemical Name
+1885,Phrases,my chemical
+1886,Phrases,%amount %userunit change the parameter by:
+1887,Phrases,Edit water treatment chemicals
+1888,Phrases,Add water treatment chemicals
+1889,Phrases,Liquid
+1890,Phrases,Other
+1891,Phrases,Tablet
+1892,Phrases,Powder
+1893,Phrases,Are you sure? This will delete the product from your database.
+1894,Phrases,Delete product
+1895,Phrases,Edit product
+1896,Phrases,ZIP Code
+1897,Phrases,Shared user not found
+1898,Phrases,No user is registered with the specified email-address.
+1899,Phrases,Database Settings
+1900,Phrases,Please enter a valid email-address.
+1901,Phrases,Name changed
+1902,Phrases,The PrimeLab was renamed to: %a
+1903,Phrases,The entered license key was not accepted by the primelab device. Please enter the code exactly as provided (preserve the letter case!!).
+1904,Phrases,Firmware Database
+1905,Phrases,Software Database
+1906,Phrases,Error in Proxy configuration
+1907,Phrases,Server address must not be empty!
+1908,Phrases,Port invalid.
+1909,Phrases,Username and password must not be empty.
+1910,Phrases,RSI / PSI Index
+1911,Phrases,choose
+1912,Phrases,Temperature (°C)
+1913,Phrases,pH Value
+1914,Phrases,Alkalinity (CaCO3 ppm)
+1915,Phrases,Hardness (Ca2+ ppm)
+1916,Phrases,Total dissolved solids
+1917,Phrases,Application Language
+1918,Phrases,Operator Name
+1919,Phrases,Input error
+1920,Phrases,Operator Name must not be empty.
+1921,Phrases,Data Shared
+1922,Phrases,You have shared your database with another user.
+1923,Phrases,Cloud synchronization in progress
+1924,Phrases,Connecting to cloud server...
+1925,Phrases,%a bytes transferred (%b KiB/s)
+1926,Phrases,Cannot read file
+1927,Phrases,The specified file cannot be read.
+1928,Phrases,LSI/RSI Test Selection
+1929,Phrases,Cancel selection
+1930,Phrases,CSV Import
+1931,Phrases,Showing %a Accounts and %b Measurements.
+1932,Phrases,Select File to import
+1933,Phrases,Import complete
+1934,Phrases,The CSV file was successfully imported.
+1935,Phrases,more Information
+1936,Phrases,parameters-reagents.html
+1937,Phrases,Right or double-click a test-result to use it in the RSI/LSI calculation
+1938,Phrases,Backup failed
+1939,Phrases,Cannot remove old database file from file system.
+1940,Phrases,Creating temporary backup failed. Make sure you have enough disc space available and have the required permissions to write at the database location.
+1941,Phrases,Request failed
+1942,Phrases,"Your request could not be submitted. If this error persists, please contact us at info@water-id.com."
+1943,Phrases,Setting the Ideal Range failed. Make sure the batteries are above 15% and the device is in range of your computer.
+1944,Phrases,Database Backup
+1945,Phrases,Restore from Backup
+1946,Phrases,Restore Database Backup
+1947,Phrases,This operation will overwrite your current database and replace it with your backup file!
+1948,Phrases,Database successfully restored. The application will now restart.
+1949,Phrases,Create Database Backup
+1950,Phrases,Database backup failed! Make sure you have enough disc space available and have the required permissions to write at the target location.
+1951,Phrases,Restart required
+1952,Phrases,Create new Backup
+1953,Phrases,Database backup saved to: %a
+1954,Phrases,Legal Notice
+1955,Phrases,"This recommendation is based upon measurements done by the customer and customer-specified water-treatment-products. The author of this software, 420nm UG, and Water-I.D. have no control over the data used and thus explicitly disclaim any warranty on the accuracy and correctness of this recommendation."
+1956,Phrases,Turbidity Adapter
+1957,Phrases,PTSA Adapter
+1958,Phrases,Remove the cuvette from the chamber and carefully clean the measurement chamber with a dry cloth.
+1959,Phrases,Make sure the batteries of the PrimeLab are charged.
+1960,Phrases,Place the light protector on the chamber.
+1961,Phrases,"Press ""Calibrate"" to calibrate the device."
+1962,Phrases,Make sure the batteries of both the adapter and the PrimeLab are charged.
+1963,Phrases,Place the adapter on the chamber.
+1964,Phrases,The calibration was completed. Do you wish to save a certificate of this calibration?
+1965,Phrases,Calibration certificate
+1966,Phrases,The calibration failed. Please make sure the batteries are charged and the device is in range of this computer.
+1967,Phrases,Measurement complete
+1968,Phrases,Too Low
+1969,Phrases,Too High
+1970,Phrases,Saved
+1971,Phrases,No data found
+1972,Phrases,No valid data available for the selected account. You can either add results manually by rightclicking an account or you can enter the parameter value directly.
+1973,Phrases,"Your data is being synchronized, please wait..."
+1974,Phrases,Calibrate now
+1975,Phrases,Are you sure? This will delete the Account and all measurements saved with this Account from the database!
+1976,Phrases,Are you sure? This will delete the measurement(s) from the database!
+1977,Phrases,PrimeLab device update
+1978,Phrases,Preparing to update
+1979,Phrases,Updating Firmware
+1980,Phrases,Updating Database
+1981,Phrases,Your PrimeLab is restarting
+1982,Phrases,Update complete
+1983,Phrases,Update failed!
+1984,Phrases,The connection to the PrimeLab was lost and could not be recovered. Check the PrimeLab's batteries and restart the update.
+1985,Phrases,"Could not read updates from your local hard drive. If this error persists, try reinstalling the application."
+1986,Phrases,Could not create database update. Check for software updates and try again.
+1987,Phrases,"The PrimeLab reported an unexpected error (%a). If this error persists, please contact the developer at support@420nm.net."
+1988,Phrases,"Battery too low. The PrimeLab's batteries must be at least 30%. Alternatively, you can connect the A/C adapter."
+1989,Phrases,The application must be restarted for the changes to take effect. Restart now?
+1990,Phrases,manual
+1991,Phrases,Convert
+1992,Phrases,PrimeLab Calibration
+1993,Phrases,Select calibration type
+1994,Phrases,"Depending on the size of your database, this process may take a few minutes to complete."
+1995,Phrases,Checking for updates...
+1996,Phrases,STA Synchronization
+1997,Phrases,Press the button below to synchronize the PrimeLab's data to your server.
+1998,Phrases,Synchronization failed
+1999,Phrases,Synchronization failed due to a protocol error. Check the login credentials in the settings menu and try again.
+2000,Phrases,"Synchronization failed, the server could not be reached. Check your internet connection and the server-url."
+2001,Phrases,Synchronization complete.
+2002,Phrases,The data were successfully synchronized to the server.
+2003,Phrases,STA Plugin configuration
+2004,Phrases,Url:
+2005,Phrases,Key:
+2006,Phrases,Secret:
+2007,Phrases,Set
+2008,Phrases,Configuration saved
+2009,Phrases,The login data have been saved successfully.
+2010,Phrases,An update for your Primelab device is available. Update now?
+2011,Phrases,Update required
+2012,Phrases,Your PrimeLab device is in bootloader mode and requires an update. Update now?
+2013,Phrases,PoolLab Cloud
+2014,Phrases,Welcome to PoolLab Assistant
+2015,Phrases,Your Device
+2016,Phrases,Scan for PoolLab devices
+2017,Phrases,No PoolLabs found
+2018,Phrases,"We, the manufacturer of PoolLab 1.0 Multitest Photometer, hereby confirm the successful user initiated self-calibration of the following device:"
+2019,Phrases,Failed to load application. Make sure the app has the correct permissions and your storage is not full.
+2020,Phrases,Failed to read/write the program database. Make sure the application has permission to access the shared directory.
+2021,Phrases,"Not all required permissions were granted, the application will now close. Restart the application if you change your mind."
+2022,Phrases,Log file location:
+2023,Phrases,Last measurement:
+2024,Phrases,Exit
+2025,Phrases,Initiating...
+2026,Phrases,Reading device...
+2027,Phrases,PoolLab CE Test
+2028,Phrases,Serial:
+2029,Phrases,Connection lost! Reconnecting...
+2030,Phrases,Stop
+2031,Phrases,Nearby PoolLabs
+2032,Phrases,Scanning ...
+2033,Phrases,Edit Account
+2034,Phrases,"New
+"
+2035,Phrases,Clear
+2036,Phrases,Filter
+2037,Phrases,Filter:
+2038,Phrases,Are you sure you want to delete %a Accounts? All measurement results saved with these accounts will also be deleted!
+2039,Phrases,Delete Accounts
+2040,Phrases,Are you sure you want to delete %a measurement results?
+2041,Phrases,Clear Accounts
+2042,Phrases,Select Account:
+2043,Phrases,All saved measurements were imported and removed from the PoolLab.
+2044,Phrases,Protocol error!
+2045,Phrases,Device Name:
+2046,Phrases,Memory:
+2047,Phrases,Import %a test results from the PoolLab?
+2048,Phrases,Connect PoolLab
+2049,Phrases,Adapter offline
+2050,Phrases,Please switch on your Bluetooth adapter and push the scan button
+2051,Phrases,BLE Error
+2052,Phrases,Login or Register
+2053,Phrases,Cloud Status
+2054,Phrases,Refresh
+2055,Phrases,Lost Password
+2056,Phrases,Register Cloud Account
+2057,Phrases,Synchronize local data
+2058,Phrases,Registration Error
+2059,Phrases,The passwords you entered do not match.
+2060,Phrases,Email:
+2061,Phrases,Last checked:
+2062,Phrases,Are you sure you want to disable the cloud?
+2063,Phrases,Synchronizing
+2064,Phrases,Communicating with the cloud server...
+2065,Phrases,Dosage Rec.
+2066,Phrases,Database location:
+2067,Phrases,Import Measurements
+2068,Phrases,Chemistry
+2069,Phrases,Custom Products
+2070,Phrases,Details
+2071,Phrases,Measurements
+2072,Phrases,All
+2073,Phrases,Move
+2074,Phrases,Delete Account
+2075,Phrases,Are you sure you want to delete this account?
+2076,Phrases,Delete Measurements
+2077,Phrases,Are you sure you want to delete all measurements of this account?
+2078,Phrases,PDF Saved
+2079,Phrases,PDF saved. Open file now?
+2080,Phrases,Are you sure you want to delete %a measurement(s)?
+2081,Phrases,Select Target Account
+2082,Phrases,Select Parameter
+2083,Phrases,Set value
+2084,Phrases,Water Treatment Products
+2085,Phrases,Custom product
+2086,Phrases,Update File Type Invalid. Please reinstall the Application and try again.
+2087,Phrases,Update File not found. Please reinstall the Application and try again.
+2088,Phrases,Update File could not be read. Please reinstall the Application and try again.
+2089,Phrases,Please turn on your Bluetooth adapter and scan again.
+2090,Phrases,Firmware Update in progress...
+2091,Phrases,Your PoolLab was successfully updated!
+2092,Phrases,"An error occurred during the update. Check if the batteries are charged and the device is in close proximity, restart the PoolLab and try again. Error Code:"
+2093,Phrases,Update PoolLab
+2094,Phrases,An update for your PoolLab device is available. Update now?
+2095,Phrases,Ideal Range MIN
+2096,Phrases,Enter new ideal minimum Value
+2097,Phrases,Ideal Range MAX
+2098,Phrases,Enter new ideal maximum Value
+2099,Phrases,Edit value
+2100,Phrases,Enter new value
+2101,Phrases,Enter new comment text
+2102,Phrases,Select Value
+2103,Phrases,Set Value
+2104,Phrases,Support
+2105,Phrases,Manuals
+2106,Phrases,Set Filter
+2107,Phrases,Filter Active
+2108,Phrases,Filter Under/Overrange
+2109,Phrases,Filter by time
+2110,Phrases,Last Week
+2111,Phrases,Last Month
+2112,Phrases,Last Year
+2113,Phrases,Filter by timespan
+2114,Phrases,Filter by parameter
+2115,Phrases,Get Dosage Recommandation (PDF)
+2116,Phrases,Dosage Recommandation
+2117,Phrases,Enter desired value:
+2118,Phrases,Enter new Value
+2119,Phrases,Enabled
+2120,Phrases,Active Chlorine
+2121,Phrases,Free Chlorine
+2122,Phrases,Cyanuric Acid
+2123,Phrases,Calculations are done for samples at 25°C / 77°F. Accuracy is +- 10%.
+2124,Phrases,"Active chlorine is the amount of free chlorine in your sample which is not bound to cyanuric acid and thus is actively killing bacteria and algae. Recommended values range from 0.05 to 3.0 ppm, depending on your pool type and location."
+2125,Phrases,"This process can take up to 10 minutes, please be patient. Do not close the App and do not lock your phones screen until the process is complete."
+2126,Phrases,Calculators
+2127,Phrases,RSI/LSI Index
+2128,Phrases,Start Date:
+2129,Phrases,End Date:
+2130,Phrases,Invalid Timeframe!
+2131,Phrases,The start date must be earlier than the end date.
+2132,Phrases,Filter is active!
+2133,Phrases,Index Calculation
+2134,Phrases,"&lt;b&gt;Langelier Saturation Index (LSI)&lt;/b&gt;&lt;br&gt;The LSI is used to determine the scaling potential of a liquid solution. Mostly used for the water of pools and spas to determine if the water has a tendency to form scales (indicated by a positive LSI greater than 0.3) or is corrosive (indicated by a negative LSI lower than -0.3). Thus, a balanced pool or spa should have an LSI between &lt;b&gt;-0.3 and 0.3&lt;/b&gt; to neither form scales nor cause corrosion on the equipment.&lt;br&gt;&lt;br&gt;&lt;b&gt;Ryznar Stability Index (RSI)&lt;/b&gt;&lt;br&gt;The RSI is also used to give an indication of the calcium carbonate stability of a liquid solution; it indicates whether the solution will precipitate, dissolve, or be in equilibrium with calcium carbonate. It is considered an improvement to the LSI in terms of accuracy. Some also consider the LSI always being a positive number an advantage over the RSI.&lt;br&gt;&lt;br&gt;Usual reference values for the &lt;b&gt;RSI&lt;/b&gt; are listed below:&lt;br&gt;&lt;b&gt;RSI below 5.5:&lt;/b&gt; heavy scaling tendency&lt;br&gt;&lt;b&gt;RSI between 5.5 and 6.2:&lt;/b&gt; scaling tendency&lt;br&gt;&lt;b&gt;RSI between 6.2 and 6.9:&lt;/b&gt; balanced water&lt;br&gt;&lt;b&gt;RSI above 6.9&lt;/b&gt; water is corrosive/aggressive"
+2135,Phrases,Online Support
+2136,Phrases,pHs Value
+2137,Phrases,Langelier Saturation Index
+2138,Phrases,Ryznar Stability Index
+2139,Phrases,Ideal Ranges
+2140,Phrases,Limit Range:
+2141,Phrases,Set Ideal Ranges
+2142,Phrases,Set on import
+2143,Phrases,Ideal Range Min Max
+2144,Phrases,Activity:
+2145,Phrases,"You have unsaved changes, are you sure you do not want to save?"
+2146,Phrases,Device Time:
+2147,Phrases,Cloud Service
+2148,Phrases,Connect Photometer
+2149,Phrases,Loading Measurements...
+2150,Phrases,Preparing database update...
+2151,Phrases,Configuring PrimeLab...
+2152,Phrases,Preparing to update...
+2153,Phrases,Starting bootloader...
+2154,Phrases,Firmware update...
+2155,Phrases,Transmitting device firmware update...
+2156,Phrases,Database update...
+2157,Phrases,Transmitting database update...
+2158,Phrases,Your PrimeLab is restarting...
+2159,Phrases,Updating PrimeLab...
+2160,Phrases,Starting Update...
+2161,Phrases,Import Measurement Data
+2162,Phrases,Import %a new accounts and %b new measurements?
+2163,Phrases,Import %a new measurements?
+2164,Phrases,Delete imported data from the PrimeLab?
+2165,Phrases,"Langelier Saturation Index (LSI)
+More information on these values are available on our website at %a"
+2166,Phrases,Date and Time
+2167,Phrases,Loading...
+2168,Phrases,Measurements:
+2169,Phrases,mail@example.com
+2170,Phrases,Password:
+2171,Phrases,Repeat:
+2172,Phrases,Upload current database
+2173,Phrases,Overview
+2174,Phrases,Account Name:
+2175,Phrases,Last change:
+2176,Phrases,Num. Accounts:
+2177,Phrases,Num. Measurements:
+2178,Phrases,Available Shares
+2179,Phrases,Grant Access
+2180,Phrases,Read Only
+2181,Phrases,Add Measures
+2182,Phrases,Read Only Access
+2183,Phrases,Read and Add Measures
+2184,Phrases,Data received: %a Byte
+2185,Phrases,Move Measurements
+2186,Phrases,PrimeLab Manuals
+2187,Phrases,PoolLab Manuals
+2188,Phrases,Profile Settings
+2189,Phrases,Restore
+2190,Phrases,Reset
+2191,Phrases,Database Export
+2192,Phrases,Database Import
+2193,Phrases,Database Reset
+2194,Phrases,"Export the current database as SQLite file. This export includes all accounts, measurements, custom water treatment products and application settings. If you are using the free Cloud Service, please note that your password will NOT be exported and must be re-entered upon database import."
+2195,Phrases,"Import the database from a previous file-backup. Note that the currently active database, including all accounts, measurements, custom water treatment products, all application settings as well as cloud logins are discarded. This cannot be undone, so it is recommended to do a backup of the currently active database before importing another.
+To merge your current database with an exported one, register on our free Cloud Service to first synchronize your current database to the cloud, then import the file-backup, and finally log-in to your just registered cloud-account with the merge option active."
+2196,Phrases,"Deletes all user data including accounts, measurements, custom water treatment products, application settings and saved cloud login information. Any data saved on our free Cloud Service are NOT affected and can be reacquired by logging back in to your account. To delete your cloud account, please login to your cloud account using your web-browser:"
+2197,Phrases,Import failed
+2198,Phrases,Database import failed. Make sure the database was created from a LabCom backup!
+2199,Phrases,Reset Database
+2200,Phrases,"All saved measurements and accounts, all saved water treatment products and configured ideal ranges are DELETED. Preferences and configuration changes will be reverted to their default values. Cloud login data are also deleted.\nAny data stored on the Cloud-Account are not affected."
+2201,Phrases,Database has been reset. Please restart the application.
+2202,Phrases,Network Error
+2203,Phrases,A network error occurred. Please check your internet connection and try again.
+2204,Phrases,Protocol Error
+2205,Phrases,A protocol error occurred. Please check if an update for this application is available and try again.
+2206,Phrases,The email address is invalid. Please enter a valid
+2207,Phrases,Please enter at least 6 characters as your password.
+2208,Phrases,Login Error
+2209,Phrases,Please enter your password.
+2210,Phrases,Starting Application...
+2211,Phrases,Not Connected
+2212,Phrases,Not connected to a PrimeLab device or PrimeLab not ready.
+2213,Phrases,Not Licensed
+2214,Phrases,The selected measurement method is not licensed on your device.
+2215,Phrases,Manual Result
+2216,Phrases,New result added.
+2217,Phrases,Device Calibration
+2218,Phrases,Recalibrate your PrimeLab or it's adapters.
+2219,Phrases,Calibrate
+2220,Phrases,Calibration Type
+2221,Phrases,Calibration OK
+2222,Phrases,Calibration performed successfully. Create calibration certificate?
+2223,Phrases,Your PrimeLab
+2224,Phrases,Synchronize Data
+2225,Phrases, Set device name
+2226,Phrases,Device Update
+2227,Phrases,Clear Measurements
+2228,Phrases,License Invalid
+2229,Phrases,"License activation failed. Make sure to enter the license exactly as shown, minding captial letters!"
+2230,Phrases,License Activated
+2231,Phrases,License activation successful!
+2232,Phrases,Remote Measurement
+2233,Phrases,Select Account
+2234,Phrases,Select Method
+2235,Phrases,A software-update is available. Download now?
+2236,Phrases,Clear Account(s)
+2237,Phrases,Delete Account(s)
+2238,Phrases,Write to PrimeLab
+2239,Phrases,Not connected
+2240,Phrases,This feature is only available when connected to a PrimeLab device.
+2241,Phrases,Too many accounts
+2242,Phrases,Please select no more than 20 accounts.
+2243,Phrases,The selected accounts have been written to the PrimeLab.
+2244,Phrases,"Search for Name, Address, Email, ..."
+2245,Phrases,Insert a new result with the chosen value
+2246,Phrases,Device Name
+2247,Phrases,MAC Address
+2248,Phrases,Active Licenses
+2249,Phrases,Serial Number
+2250,Phrases,Firmware Version
+2251,Phrases,Available Update
+2252,Phrases,Database Version
+2253,Phrases,Show only activated methods
+2254,Phrases,Licenses
+2255,Phrases,Enter your license activation code.
+2256,Phrases,Import data
+2257,Phrases,Clear data from the PrimeLab after importing?
+2258,Phrases,Enter a new Name
+2259,Phrases,Enter a new name for your PrimeLab.
+2260,Phrases,Device Rename Error
+2261,Phrases,"Given name too long! Enter 28 characters or less.
+
+"
+2262,Phrases,Make sure the PrimeLabs batteries are charged or the A/C connector is plugged in. Update now?
+2263,Phrases,Already up to date
+2264,Phrases,Your PrimeLab device already has the latest updates installed!
+2265,Phrases,Clear all measurements
+2266,Phrases,Delete all saved measurements from the PrimeLab?
+2267,Phrases,Cloud Account
+2268,Phrases,Add Result
+2269,Phrases,Required Reagents:
+2270,Phrases,%a Accounts
+2271,Phrases,%a Measurements
+2272,Phrases,Effected water volume
+2273,Phrases,Water volume unit
+2274,Phrases,Delete this item?
+2275,Phrases,Scan PrimeLab
+2276,Phrases,Working...
+2277,Phrases,Unsynchronized...
+2278,Phrases,Edit Date: %a
+2279,Phrases,Changed %a
+2280,Phrases,Previous Value: %a
+2281,Phrases,New Value: %a
+2282,Phrases,Scanning...
+2283,Phrases,Edit History
+2284,Phrases,Set Ideal Minimum
+2285,Phrases,Set Ideal Maximum
+2286,Phrases,Clear account measurements
+2287,Phrases,Delete all saved measurements from this account?
+2288,Phrases,Delete selected account? All measurements of this account will also be deleted.
+2289,Phrases,Delete PrimeLab Account
+2290,Phrases,Export (XLSX)
+2291,Phrases,Export to XLSX
+2292,Phrases,Data exported as XLSX file: %a
+2293,Phrases,Data exported
+2294,Phrases,Warning: All local accounts and measurements will be deleted!
+2295,Phrases,All local accounts and measurements not already synchronized will be deleted!
+2296,Phrases,PrimeLab User Manuals
+2297,Phrases,PoolLab User Manuals
+2298,Phrases,Finwell Pro User Manual
+2299,Phrases,PrimeLab Web
+2300,Phrases,PrimeLab Website
+2301,Phrases,PoolLab Web
+2302,Phrases,PoolLab Website
+2303,Phrases,PoolLab FAQ
+2304,Phrases,Finwell Pro Web
+2305,Phrases,Finwell Pro Website
+2306,Phrases,Youtube Channels
+2307,Phrases,PrimeLab Channel
+2308,Phrases,PoolLab Channel
+2309,Phrases,Finwell Channel

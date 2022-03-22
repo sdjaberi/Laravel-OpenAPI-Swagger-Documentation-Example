@@ -2,7 +2,7 @@
 @section('content')
 
 @php
-    ini_set('memory_limit','512M');
+    ini_set('memory_limit','1024M');
 @endphp
 
 <div class="card">
@@ -40,6 +40,11 @@
                 </th>
             </tr>
             </thead>
+            @php
+                $test = $translations->where('phrase_id', 25)->where('language_id', 29)->first();
+
+                //dd($test);
+            @endphp
             <tbody>
             @foreach($phrases as $phrase)
                 <tr>
@@ -47,27 +52,30 @@
                     <td style="width: 43%">{{ $phrase->phrase }}</td>
 
                     <td id="td-{{ $phrase->id }} {{ $to->text_direction === 'rtl' ? 'text-right': 'text-left' }}" style="{{ $to->text_direction === 'rtl' ? 'direction: rtl': '' }}>
-                        @if($translation = $translations->where('phrase_id', $phrase->id)->where('language_id', $to->id)->first())
+                    @php
+                        $translation = $translations->where('phrase_id', $phrase->id)->where('language_id', $to->id)->first();
+                    @endphp
+                        @if($translation)
                             <div class="form-group">
                                 <textarea class="form-control update-translation {{ $to->text_direction === 'rtl' ? 'text-right': 'text-left' }}"
-                                          {{ $to->text_direction === 'rtl' ? 'dir=rtl': '' }}
-                                          data-id="{{ $translation->id }}"
-                                          data-user="{{ $user->id }}"
-                                          data-phrase="{{ $phrase->id }}"
-                                          data-category="{{ $category->name }}"
-                                          data-language="{{ $to->id }}"
-                                          data-value="{{ $translation->translation }}"
-                                          >{{ $translation->translation }}</textarea>
+                                    {{ $to->text_direction === 'rtl' ? 'dir=rtl': '' }}
+                                    data-id="{{ $translation->id }}"
+                                    data-user="{{ $user->id }}"
+                                    data-phrase="{{ $translation->phrase_id }}"
+                                    data-category="{{ $category->name }}"
+                                    data-language="{{ $to->id }}"
+                                    data-value="{{ $translation->translation }}"
+                                    >{{ $translation->translation }}</textarea>
                             </div>
                         @else
                             <div class="form-group">
                                 <textarea class="form-control store-translation {{ $to->text_direction === 'rtl' ? 'text-right': 'text-left' }}"
-                                          {{ $to->text_direction === 'rtl' ? 'dir=rtl': '' }}
-                                          data-user="{{ $user->id }}"
-                                          data-phrase="{{ $phrase->id }}"
-                                          data-category="{{ $category->name }}"
-                                          data-language="{{ $to->id }}"
-                                          ></textarea>
+                                    {{ $to->text_direction === 'rtl' ? 'dir=rtl': '' }}
+                                    data-user="{{ $user->id }}"
+                                    data-phrase="{{ $phrase->id }}"
+                                    data-category="{{ $category->name }}"
+                                    data-language="{{ $to->id }}"
+                                    ></textarea>
                             </div>
                         @endif
                     </td>

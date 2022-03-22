@@ -18,14 +18,14 @@
                                     <th rowspan="1">Title</th>
                                     @php $projectIds = array(); @endphp
 
-                                    @foreach($categories as $key => $category)
-                                    @php $colspan = count($category->project->categories); @endphp
+                                    @foreach($categories as $category1)
+                                    @php $colspan = count($category1->project->categories); @endphp
 
-                                        @if (!in_array($category->project_id, $projectIds))
-                                        @php array_push($projectIds, $category->project_id);  @endphp
+                                        @if (!in_array($category1->project_id, $projectIds))
+                                        @php array_push($projectIds, $category1->project_id);  @endphp
 
                                             <th colspan=" {{ $colspan }} ">
-                                                {{  $category->project->name  }}
+                                                {{  $category1->project->name  }}
                                             </th>
                                         @endif
 
@@ -38,9 +38,9 @@
                                     <th>
                                         {{ trans('cruds.language.title') }}
                                     </th>
-                                    @foreach($categories as $key => $category)
+                                    @foreach($categories as $category2)
                                     <th>
-                                        {{ $category->name }}
+                                        {{ $category2->name }}
                                     </th>
                                     @endforeach
                                 </tr>
@@ -56,25 +56,20 @@
 
                                             @if (!$language->active)
                                                 <i class="fa-fw fas fa-exclamation-triangle" data-toggle="tooltip" title="Deactive Language">
-
                                                 </i>
                                             @endif
 
                                             @if ($language->is_primary)
                                                 <i class="fa-fw fas fa-flag" data-toggle="tooltip" title="Primary Language">
-
                                                 </i>
                                             @endif
 
                                         </td>
 
-                                        @foreach($categories as $key => $category)
+                                        @foreach($categories as $category3)
                                         <td class="text-center">
                                             @php
-
-                                                $phrases = $category->phrases;
-
-                                                $categoryLanguages = $category->project->languages;
+                                                $categoryLanguages = $category3->project->languages;
                                                 $categoryLanguagesCount = count($categoryLanguages);
 
                                                 if(count($categoryLanguages->where('id', $language->id)) < 1 || $language->is_primary)
@@ -84,25 +79,18 @@
                                                 }
                                                 else
                                                 {
-                                                    $translationsCount = 0;
+                                                    ini_set('memory_limit', '1024M');
 
-                                                    foreach ($phrases as $key => $phrase) {
-                                                        $categoryTranslations = $phrase->translations->where('language_id', $language->id);
-                                                        if(count($categoryTranslations) > 0)
-                                                        {
-                                                            $translationsids = $translations->pluck('id')->toArray();
-                                                            $categoryTranslationsids = $categoryTranslations->pluck('id')->toArray();
-                                                            $translationsCount += count(array_intersect($translationsids, $categoryTranslationsids));
+                                                    $categoryPhrasesCount = $phrases->where('category_name', $category3->name)->count();
 
-                                                        }
-                                                    }
+                                                    $translationsCount = $translations
+                                                        ->where('category_name', $category3->name)
+                                                        ->where('language_id', $language->id)
+                                                        ->count();
 
-                                                    $totalRemainedTranslations = count($phrases) * $categoryLanguagesCount;
-                                                    $remainedTranslations = count($phrases);
+                                                    $tanslationPercentage = $categoryPhrasesCount != 0 ?  $translationsCount / $categoryPhrasesCount * 100 : 100;
 
-                                                    $tanslationPercentage = $remainedTranslations != 0 ?  $translationsCount / $remainedTranslations * 100 : 100;
-
-                                                    $tanslationPercentage = round($tanslationPercentage);
+                                                    $tanslationPercentage = min(round($tanslationPercentage, 1), 100) ;
 
                                                     $badgeClass = "info";
                                                     switch ($tanslationPercentage) {
@@ -116,19 +104,20 @@
 
                                                     $tanslationPercentage = $tanslationPercentage. "%";
                                                 }
-
                                             @endphp
 
                                             @can('translation_edit')
-                                            @php $hasLink = (!$category->project->languages->where('id', $language->id)->isEmpty() && !$language->is_primary);  @endphp
-                                            @if($hasLink) <a href="{{ route('admin.categories.translate', [$category->name, $language->title]) }}"> @endif
-                                                    <span class="badge badge-lg bg-{{ $badgeClass }}">{{ $tanslationPercentage }}</span>
+
+                                            @php $hasLink = (!$category3->project->languages->where('id', $language->id)->isEmpty() && !$language->is_primary); @endphp
+
+                                            @if($hasLink) <a href="{{ route('admin.categories.translate', [$category3->name, $language->title]) }}"> @endif
+                                                <span class="badge badge-xlg bg-{{ $badgeClass }}">{{ $tanslationPercentage }}</span>
                                             @if($hasLink) </a> @endif
+
                                             @endcan
 
                                         </td>
                                         @endforeach
-
                                     </tr>
                                 @endforeach
                             </tbody>

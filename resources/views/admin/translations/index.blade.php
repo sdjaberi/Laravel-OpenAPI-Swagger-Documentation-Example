@@ -46,6 +46,9 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @php
+                        ini_set('memory_limit', '1024M');
+                    @endphp
                     @foreach($translations as $key => $translation)
                         <tr data-entry-id="{{ $translation->id }}">
                             <td>
@@ -55,7 +58,7 @@
                                 {{ $translation->id ?? '' }}
                             </td>
                             <td>
-                                {{ $translation->phrase->base_id ?? '' }}
+                                {{ /* $translation->phrase->base_id ?? '' */ }}
                             </td>
                             <td
                                 class="{{ $translation->language->text_direction === 'rtl' ? 'text-right': 'text-left' }}"
@@ -63,13 +66,13 @@
                                 {{ $translation->translation ?? '' }}
                             </td>
                             <td>
-                                {{ $translation->phrase->phrase ?? '' }}
+                                {{ /* $translation->phrase->phrase ?? ''  */ }}
                             </td>
                             <td>
-                                {{ $translation->language->title . " (" . $translation->language->iso_code . ")" ?? '' }}
+                                {{ /* $translation->language->title . " (" . $translation->language->iso_code . ")" ?? '' */ }}
                             </td>
                             <td>
-                                {{ $translation->author->name ?? '' }}
+                                {{ /* $translation->author->name ?? '' } */ }}
                             </td>
                             <td>
 
@@ -94,7 +97,6 @@
                                 @endcan
 
                             </td>
-
                         </tr>
                     @endforeach
                 </tbody>

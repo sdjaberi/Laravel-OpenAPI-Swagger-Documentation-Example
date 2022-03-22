@@ -40,6 +40,8 @@ use RecursiveIteratorIterator;
 use stdClass;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use ZipArchive;
+use Illuminate\Support\Facades\DB;
+
 
 class CategoriesController extends Controller
 {
@@ -149,9 +151,10 @@ class CategoriesController extends Controller
         $languageTo = $this->_languageRepository->getAllNotPrimaryData()
             ->where("title", $to)->first();
 
-        $phrasesIds = $phrases->pluck('id');
-
-        $translations = Translation::whereIn('phrase_id',$phrasesIds)->get();
+        $translations = DB::table('phrase_translations')
+            ->join('phrases', 'phrase_translations.phrase_id', '=', 'phrases.id')
+            ->select('phrase_translations.id', 'phrase_translations.translation', 'phrase_translations.language_id', 'phrases.id as phrase_id')
+            ->get();
 
         return view('admin.categories.translate')
             ->with('category', $category)
@@ -366,6 +369,11 @@ class CategoriesController extends Controller
         $path = storage_path('./app/public/qt/'.$folderName);
 
         $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));
+
+        //dd(iterator_count($files));
+
+        if(iterator_count($files) < 1)
+            return true;
 
         foreach ($files as $file) {
             if (!$file->isDir()) {
