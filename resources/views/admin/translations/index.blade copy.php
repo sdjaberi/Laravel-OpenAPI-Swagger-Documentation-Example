@@ -1,47 +1,44 @@
 @extends('layouts.admin')
 @section('content')
-@can('user_create')
+@can('translation_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.users.create") }}">
-                {{ trans('global.add') }} {{ trans('cruds.user.title_singular') }}
+            <a class="btn btn-success" href="{{ route("admin.translations.create") }}">
+                {{ trans('global.add') }} {{ trans('cruds.translation.title_singular') }}
             </a>
         </div>
     </div>
 @endcan
 <div class="card">
     <div class="card-header">
-        {{ trans('cruds.user.title_singular') }} {{ trans('global.list') }}
+        {{ trans('cruds.translation.title_singular') }} {{ trans('global.list') }}
     </div>
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-User">
+            <table class=" table table-bordered table-striped table-hover datatable datatable-Translation">
                 <thead>
                     <tr>
                         <th width="10">
 
                         </th>
                         <th>
-                            {{ trans('cruds.user.fields.id') }}
+                            {{ trans('cruds.translation.fields.id') }}
                         </th>
                         <th>
-                            {{ trans('cruds.user.fields.name') }}
+                            {{ trans('cruds.phrase.fields.base_id') }}
                         </th>
                         <th>
-                            {{ trans('cruds.user.fields.email') }}
+                            {{ trans('cruds.translation.fields.translation') }}
                         </th>
                         <th>
-                            {{ trans('cruds.user.fields.roles') }}
+                            {{ trans('cruds.translation.fields.phrase') }}
                         </th>
                         <th>
-                            {{ trans('cruds.user.fields.categories') }}
+                            {{ trans('cruds.translation.fields.language') }}
                         </th>
                         <th>
-                            {{ trans('cruds.user.fields.languages') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.user.fields.userTranslations') }}
+                            {{ trans('cruds.translation.fields.author') }}
                         </th>
                         <th>
                             &nbsp;
@@ -49,53 +46,50 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($users as $key => $user)
-                        <tr data-entry-id="{{ $user->id }}">
+                    @php
+                        ini_set('memory_limit', '1024M');
+                    @endphp
+                    @foreach($translations as $key => $translation)
+                        <tr data-entry-id="{{ $translation->id }}">
                             <td>
 
                             </td>
                             <td>
-                                {{ $user->id ?? '' }}
+                                {{ $translation->id ?? '' }}
                             </td>
                             <td>
-                                {{ $user->name ?? '' }}
+                                {{ $translation->phrase->base_id ?? '' }}
+                            </td>
+                            <td
+                                class="{{ $translation->language->text_direction === 'rtl' ? 'text-right': 'text-left' }}"
+                                style="{{ $translation->language->text_direction === 'rtl' ? 'direction: rtl': '' }}">
+                                {{ $translation->translation ?? '' }}
                             </td>
                             <td>
-                                {{ $user->email ?? '' }}
+                                {{ $translation->phrase->phrase ?? '' }}
                             </td>
                             <td>
-                                @foreach($user->roles as $key => $role)
-                                    <span class="badge bg-info">{{ $role->title }}</span>
-                                @endforeach
+                                {{ $translation->language->title . " (" . $translation->language->iso_code . ")" ?? '' }}
                             </td>
                             <td>
-                                @foreach($user->categories as $key => $category)
-                                    <span class="badge bg-success">{{ $category->name }}</span>
-                                @endforeach
+                                {{ $translation->author->name ?? '' }}
                             </td>
                             <td>
-                                @foreach($user->languages as $key => $language)
-                                    <span class="badge bg-warning">{{ $language->title }}</span>
-                                @endforeach
-                            </td>
-                            <td>
-                                {{ count($user->userTranslations) ?? '' }}
-                            </td>
-                            <td>
-                                @can('user_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.users.show', $user->id) }}">
+
+                                @can('translation_show')
+                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.translations.show', $translation->id) }}">
                                         {{ trans('global.view') }}
                                     </a>
                                 @endcan
 
-                                @can('user_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.users.edit', $user->id) }}">
+                                @can('translation_edit')
+                                    <a class="btn btn-xs btn-info" href="{{ route('admin.translations.edit', $translation->id) }}">
                                         {{ trans('global.edit') }}
                                     </a>
                                 @endcan
 
-                                @can('user_delete')
-                                    <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                @can('translation_delete')
+                                    <form action="{{ route('admin.translations.destroy', $translation->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
@@ -103,7 +97,6 @@
                                 @endcan
 
                             </td>
-
                         </tr>
                     @endforeach
                 </tbody>
@@ -120,12 +113,15 @@
 <script>
     $(function () {
 
+
+        /*
     let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-    @can('user_delete')
+
+    @can('translation_delete')
     let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
     let deleteButton = {
         text: deleteButtonTrans,
-        url: "{{ route('admin.users.massDestroy') }}",
+        url: "{{ route('admin.translations.massDestroy') }}",
         className: 'btn-danger',
         action: function (e, dt, node, config) {
         var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
@@ -149,18 +145,34 @@
         }
     }
     dtButtons.push(deleteButton)
-@endcan
+    @endcan
 
   $.extend(true, $.fn.dataTable.defaults, {
     order: [[ 1, 'desc' ]],
     pageLength: 100,
   });
-  
-  $('.datatable-User:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+
+  $('.datatable-Translation:not(.ajaxTable)').DataTable({ buttons: dtButtons })
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
         $($.fn.dataTable.tables(true)).DataTable()
             .columns.adjust();
     });
+    */
+
+    // DataTable
+    $('.datatable-Translation:not(.ajaxTable)').DataTable({
+         processing: true,
+         serverSide: true,
+         ajax: "{{route('employees.getEmployees')}}",
+         columns: [
+            { data: 'id' },
+            { data: 'base_id' },
+            { data: 'translation' },
+            { data: 'phrase' },
+            { data: 'language' },
+            { data: 'author' },
+         ]
+      });
 })
 
 </script>

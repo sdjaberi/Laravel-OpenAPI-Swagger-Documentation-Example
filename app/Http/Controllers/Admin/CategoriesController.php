@@ -152,6 +152,7 @@ class CategoriesController extends Controller
             ->where("title", $to)->first();
 
         $translations = DB::table('phrase_translations')
+            ->where('language_id', $languageTo->id)
             ->join('phrases', 'phrase_translations.phrase_id', '=', 'phrases.id')
             ->select('phrase_translations.id', 'phrase_translations.translation', 'phrase_translations.language_id', 'phrases.id as phrase_id')
             ->get();

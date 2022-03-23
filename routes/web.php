@@ -57,6 +57,7 @@ Route::group(
     Route::resource('phrases', 'PhrasesController');
 
     // Translations
+    Route::get('/translations/getTranslations/','TranslationsController@getTranslations')->name('translations.getTranslations');
     Route::delete('translations/destroy', 'TranslationsController@massDestroy')->name('translations.massDestroy');
     Route::post('translations/ajaxStore', 'TranslationsController@ajaxStore')->name('translations.ajaxStore');
     Route::put('translations/ajaxUpdate/{id}', 'TranslationsController@ajaxUpdate')->name('translations.ajaxUpdate');

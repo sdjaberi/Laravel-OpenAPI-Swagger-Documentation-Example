@@ -16,6 +16,7 @@ use App\Repositories\UserRepository;
 use App\Repositories\LanguageRepository;
 use App\Repositories\PhraseRepository;
 use Illuminate\Http\Request;
+use PHPUnit\Framework\MockObject\Rule\Parameters;
 
 class TranslationsController extends Controller
 {
@@ -34,9 +35,9 @@ class TranslationsController extends Controller
 
     public function index(IndexTranslationRequest $request)
     {
-        $translations = $this->_translationRepository->getAllData();
+        //$translations = $this->_translationRepository->getAllData();
 
-        return view('admin.translations.index', compact('translations'));
+        return view('admin.translations.index'); //, compact('translations'));
     }
 
     public function create(CreateTranslationRequest $request)
@@ -96,14 +97,121 @@ class TranslationsController extends Controller
 
     public function massDestroy(MassDestroyTranslationRequest $request)
     {
-        $translations = $this->_translationRepository->deleteAll($request('ids'));
+        $translations = $this->_translationRepository->deleteAll($request->ids);
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
 
 
-
     //------------------------------------- Custom Actions ----------------------------------//
+
+    /*
+   AJAX request
+   */
+   public function getTranslations(Request $request)
+   {
+        ## Read value
+        $draw = $request->get('draw');
+        $start = $request->get("start");
+        $rowperpage = $request->get("length"); // Rows display per page
+
+        $columnIndex_arr = $request->get('order');
+        $columnName_arr = $request->get('columns');
+        $order_arr = $request->get('order');
+        $search_arr = $request->get('search');
+
+        //dd($request->all());
+
+        $columnIndex = isset($columnIndex_arr[0]['column']) ? $columnIndex_arr[0]['column'] : null; // Column index
+        $columnName = $columnName_arr[$columnIndex]['data']; // Column name
+        $columnSortOrder = $order_arr[0]['dir']; // asc or desc
+        $searchValue = $search_arr['value']; // Search value
+
+        //dd($columnIndex,$columnName ,$columnSortOrder, $searchValue);
+
+        // Total records
+        $totalRecords = Translation::select('count(*) as allcount')->count();
+        $totalRecordswithFilter = Translation::
+
+            where('translation', 'like', '%' .$searchValue . '%')
+
+            ->join('phrases', 'phrase_translations.phrase_id', '=', 'phrases.id')
+            ->select('phrases.*', 'phrase_translations.*')
+            ->orWhere('phrases.phrase', 'like', '%' .$searchValue . '%')
+
+            ->join('languages', 'phrase_translations.language_id', '=', 'languages.id')
+            ->select('languages.*', 'phrase_translations.*')
+            ->orWhere('languages.title', 'like', '%' .$searchValue . '%')
+
+            ->leftJoin('users', 'phrase_translations.user_id', '=', 'users.id')
+            ->select('users.*', 'phrase_translations.*')
+            ->orWhere('users.name', 'like', '%' .$searchValue . '%')
+
+            ->count();
+
+        //dd($totalRecords,$totalRecordswithFilter);
+
+        //dd($columnName, $columnSortOrder);
+
+        // Fetch records
+        $records = Translation::orderBy($columnName, $columnSortOrder)
+            ->where('translation', 'like', '%' .$searchValue . '%')
+
+            ->join('phrases', 'phrase_translations.phrase_id', '=', 'phrases.id')
+            ->orWhere('phrases.phrase', 'like', '%' .$searchValue . '%')
+
+            ->join('languages', 'phrase_translations.language_id', '=', 'languages.id')
+            ->orWhere('languages.title', 'like', '%' .$searchValue . '%')
+
+            ->leftJoin('users', 'phrase_translations.user_id', '=', 'users.id')
+            ->orWhere('users.name', 'like', '%' .$searchValue . '%')
+
+            ->select(
+                'phrases.phrase as phrase',
+                'phrases.base_id as base_id',
+                'phrases.id as phrase_id',
+                'languages.title as language',
+                'languages.id as language_id',
+                'users.name as author',
+                'users.id as user_id',
+                'phrase_translations.*',
+                )
+
+            ->skip($start)
+            ->take($rowperpage)
+            ->get();
+
+        $data_arr = array();
+
+        foreach($records as $record){
+            //dd($record);
+            $id = $record->id;
+            $base_id = $record->base_id;
+            $translation = $record->translation;
+            $phrase = $record->phrase;
+            $language = $record->language;
+            $author = $record->author;
+
+            $data_arr[] = array(
+                "id" => $id,
+                "base_id" => $base_id,
+                "translation" => $translation,
+                "phrase" => $phrase,
+                "language" => $language,
+                "author" => $author,
+            );
+        }
+
+        $response = array(
+            "draw" => intval($draw),
+            "iTotalRecords" => $totalRecords,
+            "iTotalDisplayRecords" => $totalRecordswithFilter,
+            "aaData" => $data_arr
+            );
+
+        echo json_encode($response);
+        exit;
+    }
 
     /**
      * @param Request $request

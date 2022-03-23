@@ -15,6 +15,8 @@ class MassDestroyTranslationRequest extends FormRequest
 {
     public function authorize()
     {
+        //dd("salam");
+
         if(!Auth::user())
             throw new ApiUnAuthException('Please Login First');
 
@@ -28,7 +30,7 @@ class MassDestroyTranslationRequest extends FormRequest
     {
         return [
             'ids'   => ['required', 'array'],
-            'ids.*' => ['exists:translations,id'],
+            //'ids.*' => ['exists:phrase_translations,id'],
         ];
     }
 }

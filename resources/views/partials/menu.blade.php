@@ -33,7 +33,7 @@
                         <ul class="nav-dropdown-items">
                             @foreach(Auth::user()->categories->where('project_id', $project->id) as $category)
                                 <li class="nav-item">
-                                    <a href="{{ route('admin.categories.translate', $category->name) }}" class="nav-link {{ request()->is('admin/categories') && request()->is("admin/categories/". $category->name ."/translate") ? 'active' : '' }}">
+                                    <a href="{{ route('admin.categories.translate', $category->name) }}" class="nav-link {{ (request()->is('admin/categories') || request()->is('admin/categories/'.$category->name.'/translate/*')) ? 'active' : '' }}">
                                         <i class="fa-fw {{$category->icon}} nav-icon">
 
                                         </i>
