@@ -51,7 +51,6 @@
 </div>
 
 
-
 @endsection
 @section('scripts')
 @parent
@@ -61,32 +60,33 @@
     let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
 
     @can('translation_delete')
-    let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
-    let deleteButton = {
-        text: deleteButtonTrans,
-        url: "{{ route('admin.translations.massDestroy') }}",
-        className: 'btn-danger',
-        action: function (e, dt, node, config) {
-        var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
-            return $(entry).attr('id');
-        });
+        let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
+        let deleteButton = {
+            text: deleteButtonTrans,
+            url: "{{ route('admin.translations.massDestroy') }}",
+            className: 'btn-danger',
+            action: function (e, dt, node, config) {
+                var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
+                    return $(entry).attr('id');
+                });
 
-        if (ids.length === 0) {
-            alert('{{ trans('global.datatables.zero_selected') }}')
-            return
+                if (ids.length === 0){
+                    alert('{{ trans('global.datatables.zero_selected') }}')
+                    return
+                }
+
+                if (confirm('{{ trans('global.areYouSure') }}')) {
+                    $.ajax({
+                    headers: {'x-csrf-token': _token},
+                    method: 'POST',
+                    url: config.url,
+                    data: { ids: ids, _method: 'DELETE' }})
+                    .done(function () { location.reload() })
+                }
+            }
         }
 
-        if (confirm('{{ trans('global.areYouSure') }}')) {
-            $.ajax({
-            headers: {'x-csrf-token': _token},
-            method: 'POST',
-            url: config.url,
-            data: { ids: ids, _method: 'DELETE' }})
-            .done(function () { location.reload() })
-        }
-        }
-    }
-    dtButtons.push(deleteButton)
+        dtButtons.push(deleteButton)
     @endcan
 
     // DataTable
@@ -95,9 +95,9 @@
          processing: true,
          serverSide: true,
          ajax: "{{ route('admin.translations.getTranslations') }}",
-         order: [[ 2, 'desc' ]],
+         order: [[ 1, 'desc' ]],
          columns: [
-            { data: '', orderable: false },
+            { data: null },
             { data: 'id' },
             { data: 'base_id' },
             { data: 'translation' },
@@ -110,8 +110,9 @@
          columnDefs: [
             {
                 targets: 0,
-                data: 'id',
-                defaultContent: "<input type='checkbox'></input>"
+                select: true,
+                className: 'select-checkbox',
+                defaultContent: ""
             },
             {
                 targets: 7,

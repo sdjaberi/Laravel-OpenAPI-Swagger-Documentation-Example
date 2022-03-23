@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\Exceptions\ApiNotFoundException;
 use App\Http\Exceptions\ApiPermissionException;
 use App\Models\PhraseCategory;
+use App\Models\Translation;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Barryvdh\Debugbar\Middleware\DebugbarEnabled;
 
@@ -20,6 +21,8 @@ interface IPhraseRepository
     public function delete($id);
     public function deleteAll($ids);
     public function find($phrase, $categoryName, $phraseCategoryName);
+    public function phrasesHasPhraseCategory($categoryName);
+    public function categoryTranslations($categoryName);
 }
 
 class PhraseRepository implements IPhraseRepository
@@ -120,6 +123,19 @@ class PhraseRepository implements IPhraseRepository
 
 
         return $phraseEntity;
+    }
+
+    public function phrasesHasPhraseCategory($categoryName)
+    {
+        return Phrase::where('category_name', $categoryName)->whereNotNull('phrase_category_id');;
+    }
+
+
+    public function categoryTranslations($categoryName)
+    {
+        $phrasesIds = Phrase::where('category_name', $categoryName)->select('id')->get();
+
+        return Translation::whereIn('phrase_id', $phrasesIds);
     }
 
 }

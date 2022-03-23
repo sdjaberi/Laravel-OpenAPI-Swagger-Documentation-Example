@@ -314,28 +314,31 @@ class CategoriesController extends Controller
 
         $categories = $this->_categoryRepository->getAllData()->pluck('name', 'name');
 
-        $phrasesIds = $category->phrases->pluck('id');
+        $phrasesCount = $category->phrases->count();
 
-        $phrasesCategoryIds = $category->phrases->pluck('phrase_category_id');
+        $phrasesCategoriesCount = $this->
+            _phraseRepository
+            ->phrasesHasPhraseCategory($category->name)
+            ->select('phrase_category_id')
+            ->groupBy('phrase_category_id')
+            ->get()
+            ->count();
 
-        $phrasesCategories = PhraseCategory::
-            whereIn('id', $phrasesCategoryIds)
-            ->get();
-
-        $translations = Translation::whereIn('phrase_id', $phrasesIds);
+        $translations = $this->_phraseRepository->categoryTranslations($category->name);
 
         if(isset($to))
             $translations = $translations->where('language_id', $languageTo->id);
 
-        $translations = $translations->get();
+        $translationsCount = $translations->count();
 
         return view('admin.categories.export')
             ->with('categories', $categories)
             ->with('category', $category)
             ->with('from', $languageFrom)
             ->with('to', $languageTo)
-            ->with('phrasesCategories', $phrasesCategories)
-            ->with('translations', $translations)
+            ->with('phrasesCategoriesCount', $phrasesCategoriesCount)
+            ->with('translationsCount', $translationsCount)
+            ->with('phrasesCount', $phrasesCount)
             ->with('languagesTo', $languagesTo);
     }
 

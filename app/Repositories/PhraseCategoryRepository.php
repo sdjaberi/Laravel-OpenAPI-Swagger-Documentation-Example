@@ -87,5 +87,4 @@ class PhraseCategoryRepository implements IPhraseCategoryRepository
     {
         return PhraseCategory::where('name', $phraseCategoryName)->first();
     }
-
 }

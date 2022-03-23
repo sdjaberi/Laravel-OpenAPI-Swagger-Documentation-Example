@@ -55,7 +55,7 @@
                             {{ trans('cruds.phrase.fields.translations') }}
                         </th>
                         <td>
-                            {{ count($translations) }}
+                            {{ $translationsCount }}
                         </td>
                     </tr>
                     <tr>
@@ -63,7 +63,7 @@
                             {{ trans('cruds.phrase.title') }}
                         </th>
                         <td>
-                            {{ count($category->phrases) }}
+                            {{ $phrasesCount }}
                         </td>
                     </tr>
                     <tr>
@@ -71,7 +71,7 @@
                             {{ trans('cruds.phrase.fields.phrase_category_id') }}
                         </th>
                         <td>
-                            {{ count($phrasesCategories) }}
+                            {{ $phrasesCategoriesCount }}
                         </td>
                     </tr>
                 </tbody>

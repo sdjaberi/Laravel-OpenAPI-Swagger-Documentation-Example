@@ -69,4 +69,5 @@ class TranslationRepository implements ITranslationRepository
         return Translation::whereIn('id', $ids)->delete();
     }
 
+
 }

@@ -105,9 +105,7 @@ class TranslationsController extends Controller
 
     //------------------------------------- Custom Actions ----------------------------------//
 
-    /*
-   AJAX request
-   */
+    /* Index ajax request */
    public function getTranslations(Request $request)
    {
         ## Read value
