@@ -14,7 +14,7 @@ use App\Models\Project;
 use App\Repositories\ProjectRepository;
 
 use App\Http\Exceptions\ApiPermissionException;
-
+use Illuminate\Support\Facades\Auth;
 
 class ProjectsController extends Controller
 {
@@ -23,14 +23,35 @@ class ProjectsController extends Controller
     public function __construct(ProjectRepository $projectRepository)//, UserRepository $userRepository)
     {
         $this->_projectRepository = $projectRepository;
+
+        $this->middleware(
+                [
+                    'auth:api',
+                    'scopes:project_edit,project_create,project_delete'
+                ]
+            );
+            //->except(
+            //    [
+            //        'index', 'show'
+            //    ]
+            //);
+/*
+            'project_management_access' => 'Project Management Access',
+            'project_create'            => 'Project create',
+            'project_edit'              => 'Project edit',
+            'project_show'              => 'Project show',
+            'project_delete'            => 'Project delete',
+            'project_access'            => 'Project access',
+            */
     }
+
 
     /**
      * @OA\Get(
      *      path="/projects",
      *      operationId="getProjectsList",
      *      tags={"Projects"},
-     *      security={{"passport": {"*"}}},
+     *      security={{"passport": {}}},
      *      summary="Get list of projects",
      *      description="Returns list of projects",
      *      @OA\Response(
@@ -222,7 +243,7 @@ class ProjectsController extends Controller
      *      path="/projects/{id}",
      *      operationId="deleteProject",
      *      tags={"Projects"},
-     *      security={{"bearerAuth": {"*"}}},
+     *      security={{"passport": {"*"}}},
      *      summary="Delete existing project",
      *      description="Deletes a record and returns no content",
      *      @OA\Parameter(

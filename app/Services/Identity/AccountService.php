@@ -2,14 +2,20 @@
 
 namespace App\Services\Identity;
 
+use App\Http\Exceptions\ApiUnAuthException;
 use App\Models\User;
 use App\Services\Identity\Models\LoginIn;
 use App\Services\Identity\Models\LoginOut;
+use App\Services\Identity\Models\RegisterIn;
+
 use App\Services\Base\Mapper;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\RoleRepository;
-
+use Illuminate\Support\Facades\Gate;
+use phpDocumentor\Reflection\Types\Boolean;
+use Laravel\Passport\RefreshToken;
+use Laravel\Passport\Token;
 
 interface IAccountService
 {
@@ -23,6 +29,9 @@ interface IAccountService
 
     public function login(LoginIn $model) : LoginOut;
     public function me() : User;
+    public function logout();
+    public function register(RegisterIn $model) : LoginOut;
+
 
     /*
 
@@ -57,30 +66,27 @@ class AccountService implements IAccountService
         $credentials = (array) $model;
 
         if (!Auth::attempt($credentials)) {
-            return response(['error_message' => 'Incorrect Details. Please try again'], 403);
+            throw new ApiUnAuthException();
         }
 
         $user = Auth::user();
 
+        $userPermissions = [];
+
         if (!app()->runningInConsole() && $user) {
-            $roles            = $this->_roleRepository->getAllData();
-            $permissionsArray = [];
-
-            foreach ($roles as $role) {
-                foreach ($role->permissions as $permissions) {
-                    $permissionsArray[$permissions->title][] = $role->id;
-                }
-            }
-
-            $userPermissions = array();
 
             foreach ($user->roles as $role)
-                array_push($userPermissions, $role->permissions);
+            {
+                $rolepermissions = $role->permissions->map(fn($permission) => $permission->title);
+
+                array_push($userPermissions, $rolepermissions);
+            }
 
             $userPermissions = array_unique($userPermissions);
         }
 
-        $tokenResult = $user->createToken('Personal Access Token', $userPermissions);
+        $tokenResult = $user->createToken('Personal Access Token', $userPermissions[0]->toArray());
+
         $token = $tokenResult->token;
         $token->expires_at = Carbon::now()->addWeeks(1);
         $token->save();
@@ -99,31 +105,57 @@ class AccountService implements IAccountService
     {
         $currentUser = Auth::user();
 
-        if (!$currentUser)
-            return response(['error_message' => 'Incorrect Details. Please try again'], 403);
-
         return $currentUser;
     }
 
-    public function storeOrUpdate($id = null,$data)
+    public function logout()
     {
-        if(is_null($id))
-        {
-            $user = new User();
-            $user->name = $data['name'];
-            $user->email = $data['email'];
-            $user->password = bcrypt($data['password']);
+        $currentUser = $this->me();
 
-            return $user->save();
+        if (!$token = $currentUser->token()) {
+            throw new ApiUnAuthException();
         }
-        else
-        {
-            $user = User::find($id);
-            $user->name = $data['name'];
-            $user->password = bcrypt($data['password']);
 
-            return $user->save();
-        }
+        $token->revoke();
+
+        //$tokens =  $user->tokens->pluck('id');
+        //Token::whereIn('id', $tokens)
+        //->update(['revoked', true]);
+
+        //RefreshToken::whereIn('access_token_id', $tokens)->update(['revoked' => true]);
+
+        return true;
+    }
+
+
+
+    public function register(RegisterIn $model) : LoginOut
+    {
+        $loginOut = $this->_mapper->Map($model, new LoginOut());
+
+        //dd($model);
+
+        $user = new User();
+        $user->name = $model->name;
+        $user->email = $model->email;
+        $user->password = bcrypt($model->password);
+
+        $user->save();
+
+        $tokenResult = $user->createToken('Personal Access Token');
+
+        $token = $tokenResult->token;
+        $token->expires_at = Carbon::now()->addWeeks(1);
+        $token->save();
+
+        $loginOut->user = $user;
+        $loginOut->id = $token->id;
+        $loginOut->role = $user->roles;
+        $loginOut->token = $tokenResult->accessToken;
+        $loginOut->expires_at = $token->expires_at;
+        $loginOut->token_type = 'Bearer';
+
+        return $loginOut;
     }
 
     public function view($id)

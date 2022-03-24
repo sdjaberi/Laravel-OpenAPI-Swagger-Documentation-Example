@@ -25,7 +25,7 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-/*
+
         Passport::tokensCan([
             'permission_create'         => 'Permission Create',
             'permission_edit'           => 'Permission edit',
@@ -81,7 +81,7 @@ class AuthServiceProvider extends ServiceProvider
             'import'                    => 'Import',
             'export'                    => 'Export',
         ]);
-        */
+
 
         //if (!app()->runningInConsole()) {
             Passport::routes();

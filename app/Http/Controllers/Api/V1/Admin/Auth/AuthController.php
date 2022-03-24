@@ -8,10 +8,13 @@ use App\Models\User;
 use App\Services\Identity\Models\Login;
 use App\Services\Identity\Models\LoginIn;
 use App\Services\Identity\Models\LoginOut;
+use App\Services\Identity\Models\RegisterIn;
+
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Identity\AccountService;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Services\Base\Mapper;
 
 class AuthController extends Controller
@@ -35,7 +38,7 @@ class AuthController extends Controller
      * @OA\Post(
      *      path="/login",
      *      operationId="getJwtToken",
-     *      tags={"Auth"},
+     *      tags={"Account"},
      *      summary="Get a JWT via given credentials",
      *      description="Returns bearer string token",
      *      @OA\RequestBody(
@@ -68,14 +71,15 @@ class AuthController extends Controller
 
         $result = $this->_accountService->login($loginIn);
 
-        return response([$result,'message' => 'Login Successful!']);
+        return response([$result, 'message' => 'Login Successful!']);
     }
 
     /**
      * @OA\Get(
      *      path="/me",
      *      operationId="LogedInUser",
-     *      tags={"Auth"},
+     *      security={{"passport": {}}},
+     *      tags={"Account"},
      *      summary="Get the logged in user information",
      *      description="Returns user data",
      *      @OA\Response(
@@ -95,17 +99,34 @@ class AuthController extends Controller
         if (!$result )
             return response(['error_message' => 'Incorrect Details. Please try again'], 401);
 
-        return response([$result , 'message' => 'Logged in user Return!']);
+        return response([$result, 'message' => 'Logged in user Return!']);
     }
 
+
     /**
-     * Log the user out (Invalidate the token).
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @OA\Get(
+     *      path="/logout",
+     *      operationId="LogoutUser",
+     *      security={{"passport": {}}},
+     *      tags={"Account"},
+     *      summary="Get Logout user",
+     *      description="Return message",
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation"
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      )
+     * )
      */
     public function logout()
     {
-        auth()->logout();
+        $result = $this->_accountService->logout();
+
+        if (!$result )
+            return response(['error_message' => 'Incorrect Details. Please try again'], 401);
 
         return response()->json(['message' => 'Successfully logged out']);
     }
@@ -142,7 +163,7 @@ class AuthController extends Controller
      * @OA\Post(
      *      path="/register",
      *      operationId="registerUser",
-     *      tags={"Auth"},
+     *      tags={"Users"},
      *      summary="Register new user",
      *      description="Returns user data",
      *      @OA\RequestBody(
@@ -167,20 +188,18 @@ class AuthController extends Controller
      *      )
      * )
      */
-    public function register(Request $request)
+
+    public function register(RegisterRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|string'
-        ]);
+        $request->validated();
 
-        $this->_userRepository->storeOrUpdate(null, $request->all());
+        $registerUser = new RegisterIn;
+        $registerUser->name = $request['name'];
+        $registerUser->email = $request['email'];
+        $registerUser->password = $request['password'];
 
-        $user = $this->_userRepository->viewByEmail($request->email);
+        $result = $this->_accountService->register($registerUser);
 
-        $token = $user->createToken('API Token')->accessToken;
-
-        return response()->json(['user' => $user, 'token' => $token, 'message' => 'Registration Successful!']);
+        return response([$result, 'message' => 'Registration Successful!']);
     }
 }

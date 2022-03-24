@@ -10,13 +10,16 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Http\Exceptions\ApiNotFoundException;
 use App\Http\Exceptions\ApiUnAuthException;
 use App\Http\Exceptions\ApiPermissionException;
+use Laravel\Passport\Passport;
 
 class IndexProjectRequest extends FormRequest
 {
     public function authorize()
     {
-        if(!Auth::user())
-            throw new ApiUnAuthException('Please Login First');
+        //if($request->user()->tokenCan('place-orders'))
+            //throw new ApiUnAuthException('Please Login First');
+
+
 
         //if(!Gate::allows('project_access'))
             //throw new ApiPermissionException();

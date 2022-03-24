@@ -19,6 +19,8 @@ class SwaggerFix
             $request->headers->set("Authorization","Bearer ".$request->headers->get("Authorization"));
         }
 
+        //dd('salam');
+
         $response = $next($request);
 
         return $response;

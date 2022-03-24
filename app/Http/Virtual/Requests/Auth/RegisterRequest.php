@@ -28,7 +28,7 @@ class RegisterRequest
      * @OA\Property(
      *      title="email",
      *      description="Email of the user",
-     *      example="example/\@\example.example"
+     *      example="example@example.com"
      * )
      *
      * @var string

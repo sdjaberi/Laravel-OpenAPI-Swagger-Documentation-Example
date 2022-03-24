@@ -20,7 +20,10 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:60,1',
             'bindings',
+            //\App\Http\Middleware\Cors::class,
+
             //\App\Http\Middleware\AuthGates::class,
+            \App\Http\Middleware\ForceJsonResponse::class,
         ],
         'web' => [
             \App\Http\Middleware\EncryptCookies::class,
@@ -45,9 +48,13 @@ class Kernel extends HttpKernel
         'cache.headers'    => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'bindings'         => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
-        'auth.basic'       => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+        //'auth.basic'       => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
 
-        //'cors'             => \App\Http\Middleware\Cors::class,
+        'scopes'           => \Laravel\Passport\Http\Middleware\CheckScopes::class,
+        'scope'            => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
+
+        'cors'             => \App\Http\Middleware\Cors::class,
         'swfix'            => \App\Http\Middleware\SwaggerFix::class,
+        'json.response'    => \App\Http\Middleware\ForceJsonResponse::class,
     ];
 }

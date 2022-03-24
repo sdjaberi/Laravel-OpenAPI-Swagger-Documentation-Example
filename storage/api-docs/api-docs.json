@@ -22,7 +22,7 @@
         "/login": {
             "post": {
                 "tags": [
-                    "Auth"
+                    "Account"
                 ],
                 "summary": "Get a JWT via given credentials",
                 "description": "Returns bearer string token",
@@ -60,7 +60,7 @@
         "/me": {
             "get": {
                 "tags": [
-                    "Auth"
+                    "Account"
                 ],
                 "summary": "Get the logged in user information",
                 "description": "Returns user data",
@@ -72,13 +72,41 @@
                     "401": {
                         "description": "Unauthenticated"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/logout": {
+            "get": {
+                "tags": [
+                    "Account"
+                ],
+                "summary": "Get Logout user",
+                "description": "Return message",
+                "operationId": "LogoutUser",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
             }
         },
         "/register": {
             "post": {
                 "tags": [
-                    "Auth"
+                    "Users"
                 ],
                 "summary": "Register new user",
                 "description": "Returns user data",
@@ -161,9 +189,7 @@
                 },
                 "security": [
                     {
-                        "passport": [
-                            "*"
-                        ]
+                        "passport": []
                     }
                 ]
             },
@@ -462,7 +488,7 @@
                 },
                 "security": [
                     {
-                        "bearerAuth": [
+                        "passport": [
                             "*"
                         ]
                     }
@@ -661,17 +687,17 @@
                     "password"
                 ],
                 "properties": {
-                    "email": {
-                        "title": "email",
+                    "username": {
+                        "title": "username",
                         "description": "Email of the user",
                         "type": "string",
-                        "example": "example(at)example.example"
+                        "example": "admin@admin.admin"
                     },
                     "password": {
                         "title": "password",
                         "description": "Password of the user",
                         "type": "string",
-                        "example": "this is a user password"
+                        "example": "password"
                     }
                 },
                 "type": "object"
@@ -695,7 +721,7 @@
                         "title": "email",
                         "description": "Email of the user",
                         "type": "string",
-                        "example": "example/\\@\\example.example"
+                        "example": "example@example.com"
                     },
                     "password": {
                         "title": "password",
@@ -814,24 +840,11 @@
             }
         },
         "securitySchemes": {
-            "bearerAuth": {
-                "type": "http",
-                "bearerFormat": "JWT",
-                "scheme": "bearer"
-            },
             "passport": {
-                "type": "oauth2",
-                "description": "Laravel passport oauth2 security.",
+                "type": "apiKey",
+                "description": "enter your apikey.",
                 "in": "header",
-                "scheme": "https",
-                "flows": {
-                    "password": {
-                        "authorizationUrl": "http://translator.local/api/v1/authorize",
-                        "tokenUrl": "http://translator.local/api/v1/login",
-                        "refreshUrl": "http://translator.local/api/v1/refresh",
-                        "scopes": []
-                    }
-                }
+                "name": "Authorization"
             }
         }
     },

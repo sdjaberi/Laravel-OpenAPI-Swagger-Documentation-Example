@@ -11,11 +11,6 @@ class LoginOut extends IDto
      */
     public $id;
 
-    /**
-     * @var object
-     */
-    public $role;
-
     // ---
     /**
      * @var string
@@ -46,4 +41,10 @@ class LoginOut extends IDto
      * @var object
      */
     public $user;
+
+
+    /**
+     * @var object
+     */
+    public $role;
 }
