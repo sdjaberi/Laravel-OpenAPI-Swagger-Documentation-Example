@@ -22,7 +22,7 @@ class LoginRequest
      *
      * @var string
      */
-    public $email;
+    public $username;
 
     /**
      * @OA\Property(

@@ -33,12 +33,7 @@ class HomeController
     {
         $languages = $this->_languageRepository->getAllData()->sortBy('id');
         $categories = $this->_categoryRepository->getAllData();
-        $phrases = Phrase::select('id', 'category_name')->get();
-        $translations = DB::table('phrase_translations')
-            ->join('phrases', 'phrase_translations.phrase_id', '=', 'phrases.id')
-            ->select('phrase_translations.id', 'phrase_translations.language_id', 'phrases.category_name')
-            ->get();
 
-        return view('home', compact('languages','categories', 'phrases', 'translations'));
+        return view('home', compact('languages','categories'));
     }
 }

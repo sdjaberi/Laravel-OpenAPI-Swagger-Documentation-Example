@@ -81,9 +81,14 @@
                                                 {
                                                     ini_set('memory_limit', '1024M');
 
-                                                    $categoryPhrasesCount = $phrases->where('category_name', $category3->name)->count();
+                                                    $categoryPhrasesCount = DB::table('phrases')
+                                                        ->select('id', 'category_name')
+                                                        ->where('category_name', $category3->name)
+                                                        ->count();
 
-                                                    $translationsCount = $translations
+                                                    $translationsCount = DB::table('phrase_translations')
+                                                        ->join('phrases', 'phrase_translations.phrase_id', '=', 'phrases.id')
+                                                        ->select('phrase_translations.id', 'phrase_translations.language_id', 'phrases.category_name')
                                                         ->where('category_name', $category3->name)
                                                         ->where('language_id', $language->id)
                                                         ->count();
