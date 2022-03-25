@@ -11,11 +11,13 @@ use App\Services\Identity\Models\RegisterIn;
 use App\Services\Base\Mapper;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use App\Repositories\RoleRepository;
 use Illuminate\Support\Facades\Gate;
 use phpDocumentor\Reflection\Types\Boolean;
 use Laravel\Passport\RefreshToken;
 use Laravel\Passport\Token;
+use App\Repositories\RoleRepository;
+use App\Repositories\UserRepository;
+use Spatie\Async\Pool;
 
 interface IAccountService
 {
@@ -52,11 +54,16 @@ class AccountService implements IAccountService
 {
     private $_mapper;
     private $_roleRepository;
+    private $_userRepository;
 
-    public function __construct(Mapper $mapper, RoleRepository $roleRepository)
+    public function __construct(
+        Mapper $mapper,
+        RoleRepository $roleRepository,
+        UserRepository $userRepository)
     {
         $this->_mapper = $mapper;
         $this->_roleRepository = $roleRepository;
+        $this->_userRepository = $userRepository;
     }
 
     public function login(LoginIn $model) : LoginOut
@@ -131,28 +138,23 @@ class AccountService implements IAccountService
 
     public function register(RegisterIn $model) : LoginOut
     {
-        $loginOut = $this->_mapper->Map($model, new LoginOut());
+        $user = new User((array) $model);
 
-        //dd($model);
+        //$user = $this->_mapper->Map($model, $user);
 
-        $user = new User();
-        $user->name = $model->name;
-        $user->email = $model->email;
-        $user->password = bcrypt($model->password);
+        //dd($user);
 
-        $user->save();
+        $user = $this->_userRepository->store($user);
 
-        $tokenResult = $user->createToken('Personal Access Token');
+        $tokenResult = $this->_userRepository->storeToken($user);
 
-        $token = $tokenResult->token;
-        $token->expires_at = Carbon::now()->addWeeks(1);
-        $token->save();
-
+        $loginOut = $this->_mapper->Map($model, new LoginOut);
         $loginOut->user = $user;
-        $loginOut->id = $token->id;
+        $loginOut->user_id = $user->id;
+        $loginOut->token_id = $tokenResult->token->id;
         $loginOut->role = $user->roles;
         $loginOut->token = $tokenResult->accessToken;
-        $loginOut->expires_at = $token->expires_at;
+        $loginOut->expires_at = $tokenResult->token->expires_at;
         $loginOut->token_type = 'Bearer';
 
         return $loginOut;

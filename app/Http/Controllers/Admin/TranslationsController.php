@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Translations\IndexTranslationRequest;
-use App\Http\Requests\Translations\CreateTranslationRequest;
-use App\Http\Requests\Translations\MassDestroyTranslationRequest;
-use App\Http\Requests\Translations\StoreTranslationRequest;
-use App\Http\Requests\Translations\UpdateTranslationRequest;
-use App\Http\Requests\Translations\UpdateTranslationAjaxRequest;
+use App\Http\Requests\Web\Translations\IndexTranslationRequest;
+use App\Http\Requests\Web\Translations\CreateTranslationRequest;
+use App\Http\Requests\Web\Translations\MassDestroyTranslationRequest;
+use App\Http\Requests\Web\Translations\StoreTranslationRequest;
+use App\Http\Requests\Web\Translations\UpdateTranslationRequest;
+use App\Http\Requests\Web\Translations\UpdateTranslationAjaxRequest;
 use Symfony\Component\HttpFoundation\Response;
 use App\Models\Translation;
 use App\Repositories\TranslationRepository;

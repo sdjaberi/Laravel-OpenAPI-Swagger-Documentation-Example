@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Users\IndexUserRequest;
-use App\Http\Requests\Users\CreateUserRequest;
-use App\Http\Requests\Users\MassDestroyUserRequest;
-use App\Http\Requests\Users\StoreUserRequest;
-use App\Http\Requests\Users\UpdateUserRequest;
+use App\Http\Requests\Web\Users\IndexUserRequest;
+use App\Http\Requests\Web\Users\CreateUserRequest;
+use App\Http\Requests\Web\Users\MassDestroyUserRequest;
+use App\Http\Requests\Web\Users\StoreUserRequest;
+use App\Http\Requests\Web\Users\UpdateUserRequest;
 use App\Models\User;
 use Symfony\Component\HttpFoundation\Response;
 use App\Repositories\UserRepository;

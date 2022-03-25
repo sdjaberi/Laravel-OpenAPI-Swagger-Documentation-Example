@@ -9,6 +9,7 @@ use App\Repositories\LanguageRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\PhraseRepository;
 use App\Repositories\TranslationRepository;
+use Spatie\Async\Pool;
 
 class HomeController
 {
@@ -31,8 +32,24 @@ class HomeController
 
     public function index()
     {
-        $languages = $this->_languageRepository->getAllData()->sortBy('id');
-        $categories = $this->_categoryRepository->getAllData();
+        $pool = Pool::create();
+
+        $pool[] = async(function () {
+            return $this->_languageRepository->getAllData()->sortBy('id');
+        })->then(function ($output) {
+            $this->languages=$output;
+        });
+
+        $pool[] = async(function () {
+            return $this->_categoryRepository->getAllData();
+        })->then(function ($output) {
+            $this->categories=$output;
+        });
+
+        await($pool);
+
+        $languages = $this->languages;
+        $categories = $this->categories;
 
         return view('home', compact('languages','categories'));
     }

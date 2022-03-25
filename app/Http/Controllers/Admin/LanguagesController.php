@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Language;
 use Symfony\Component\HttpFoundation\Response;
-use App\Http\Requests\Languages\IndexLanguageRequest;
-use App\Http\Requests\Languages\CreateLanguageRequest;
-use App\Http\Requests\Languages\MassDestroyLanguageRequest;
-use App\Http\Requests\Languages\StoreLanguageRequest;
-use App\Http\Requests\Languages\UpdateLanguageRequest;
+use App\Http\Requests\Web\Languages\IndexLanguageRequest;
+use App\Http\Requests\Web\Languages\CreateLanguageRequest;
+use App\Http\Requests\Web\Languages\MassDestroyLanguageRequest;
+use App\Http\Requests\Web\Languages\StoreLanguageRequest;
+use App\Http\Requests\Web\Languages\UpdateLanguageRequest;
 use App\Http\Controllers\Controller;
 use App\Repositories\LanguageRepository;
 

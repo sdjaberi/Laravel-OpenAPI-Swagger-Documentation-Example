@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Language;
 use App\Http\Exceptions\ApiNotFoundException;
+use Spatie\Async\Pool;
 
 interface ILanguageRepository
 {
@@ -22,13 +23,22 @@ class LanguageRepository implements ILanguageRepository
 {
     public function getAllData()
     {
-        return Language::all();
+        $pool = Pool::create();
+
+        $pool[] = async(function () {
+            return Language::all();
+        })->then(function ($output) {
+            $this->languages = $output;
+        });
+
+        await($pool);
+
+        return $this->languages;
     }
 
     public function getAllNotPrimaryData()
     {
         return Language::where('is_primary', 0);
-
     }
 
     public function getAllActiveData()

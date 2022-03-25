@@ -13,8 +13,8 @@ use App\Services\Identity\Models\RegisterIn;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Identity\AccountService;
-use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\Api\Auth\LoginRequest;
+use App\Http\Requests\Api\Auth\RegisterRequest;
 use App\Services\Base\Mapper;
 
 class AuthController extends Controller
@@ -43,7 +43,7 @@ class AuthController extends Controller
      *      description="Returns bearer string token",
      *      @OA\RequestBody(
      *          required=true,
-     *          @OA\JsonContent(ref="#/components/schemas/LoginRequest")
+     *          @OA\JsonContent(ref="#/components/schemas/LoginIn")
      *      ),
      *      @OA\Response(
      *          response=201,
@@ -52,12 +52,19 @@ class AuthController extends Controller
      *       ),
      *      @OA\Response(
      *          response=400,
-     *          description="Bad Request"
+     *          description="Bad Request",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiRequestException")
      *      ),
      *      @OA\Response(
      *          response=403,
-     *          description="Forbidden"
-     *      )
+     *          description="Forbidden",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiAccessDeniedException")
+     *      ),
+     *      @OA\Response(
+     *          response="422",
+     *          description="Unprocessable Entity",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiUnprocessableEntityException")
+     *      ),
      * )
      */
 
@@ -66,7 +73,7 @@ class AuthController extends Controller
         $request->validated();
 
         $loginIn = new LoginIn;
-        $loginIn->email = $request['username'];
+        $loginIn->email = $request['email'];
         $loginIn->password = $request['password'];
 
         $result = $this->_accountService->login($loginIn);
@@ -168,7 +175,7 @@ class AuthController extends Controller
      *      description="Returns user data",
      *      @OA\RequestBody(
      *          required=true,
-     *          @OA\JsonContent(ref="#/components/schemas/RegisterRequest")
+     *          @OA\JsonContent(ref="#/components/schemas/RegisterIn")
      *      ),
      *      @OA\Response(
      *          response=201,
@@ -202,4 +209,5 @@ class AuthController extends Controller
 
         return response([$result, 'message' => 'Registration Successful!']);
     }
+
 }

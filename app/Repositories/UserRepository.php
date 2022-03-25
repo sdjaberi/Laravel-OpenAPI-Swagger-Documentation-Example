@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 use App\Models\User;
 use App\Http\Exceptions\ApiNotFoundException;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 interface IUserRepository
 {
@@ -14,6 +16,8 @@ interface IUserRepository
     public function viewByEmail($id);
     public function delete($id);
     public function deleteAll($ids);
+
+    public function storeToken($data);
 }
 
 class UserRepository implements IUserRepository
@@ -79,4 +83,17 @@ class UserRepository implements IUserRepository
     {
         return User::whereIn('id', $ids)->delete();
     }
+
+    public function storeToken($user)
+    {
+        $tokenResult = $user->createToken('Personal Access Token');
+
+        $token = $tokenResult->token;
+        $token->expires_at = Carbon::now()->addWeeks(1);
+
+        $token->save();
+
+        return $tokenResult;
+    }
+
 }

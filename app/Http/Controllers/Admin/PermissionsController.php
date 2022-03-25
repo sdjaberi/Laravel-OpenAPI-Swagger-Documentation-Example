@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Permissions\IndexPermissionRequest;
-use App\Http\Requests\Permissions\CreatePermissionRequest;
-use App\Http\Requests\Permissions\MassDestroyPermissionRequest;
-use App\Http\Requests\Permissions\StorePermissionRequest;
-use App\Http\Requests\Permissions\UpdatePermissionRequest;
+use App\Http\Requests\Web\Permissions\IndexPermissionRequest;
+use App\Http\Requests\Web\Permissions\CreatePermissionRequest;
+use App\Http\Requests\Web\Permissions\MassDestroyPermissionRequest;
+use App\Http\Requests\Web\Permissions\StorePermissionRequest;
+use App\Http\Requests\Web\Permissions\UpdatePermissionRequest;
 use App\Models\Permission;
 use Symfony\Component\HttpFoundation\Response;
 use App\Repositories\PermissionRepository;

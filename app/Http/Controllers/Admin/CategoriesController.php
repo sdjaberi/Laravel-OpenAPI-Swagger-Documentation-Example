@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Categories\IndexCategoryRequest;
-use App\Http\Requests\Categories\CreateCategoryRequest;
-use App\Http\Requests\Categories\MassDestroyCategoryRequest;
-use App\Http\Requests\Categories\StoreCategoryRequest;
-use App\Http\Requests\Categories\UpdateCategoryRequest;
-use App\Http\Requests\Categories\CategoryTranslationRequest;
-use App\Http\Requests\Categories\CategoryImportRequest;
-use App\Http\Requests\Categories\CategoryExportRequest;
+use App\Http\Requests\Web\Categories\IndexCategoryRequest;
+use App\Http\Requests\Web\Categories\CreateCategoryRequest;
+use App\Http\Requests\Web\Categories\MassDestroyCategoryRequest;
+use App\Http\Requests\Web\Categories\StoreCategoryRequest;
+use App\Http\Requests\Web\Categories\UpdateCategoryRequest;
+use App\Http\Requests\Web\Categories\CategoryTranslationRequest;
+use App\Http\Requests\Web\Categories\CategoryImportRequest;
+use App\Http\Requests\Web\Categories\CategoryExportRequest;
 use Symfony\Component\HttpFoundation\Response;
 use App\Models\Category;
 use App\Repositories\CategoryRepository;

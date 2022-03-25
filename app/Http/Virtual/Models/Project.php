@@ -13,7 +13,6 @@ namespace App\Http\Virtual\Models;
  */
 class Project
 {
-
     /**
      * @OA\Property(
      *     title="ID",

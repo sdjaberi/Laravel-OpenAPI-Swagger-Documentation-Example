@@ -3,55 +3,27 @@
 namespace App\Http\Controllers\Api\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
-use App\Http\Requests\Projects\IndexProjectRequest;
-use App\Http\Requests\Projects\StoreProjectRequest;
-use App\Http\Requests\Projects\UpdateProjectRequest;
-use App\Http\Requests\Projects\DeleteProjectRequest;
+use App\Http\Requests\Api\Projects\StoreProjectRequest;
+use App\Http\Requests\Api\Projects\UpdateProjectRequest;
 use App\Http\Resources\Admin\ProjectResource;
-use App\Models\Project;
 use App\Repositories\ProjectRepository;
-
-use App\Http\Exceptions\ApiPermissionException;
-use Illuminate\Support\Facades\Auth;
 
 class ProjectsController extends Controller
 {
     private $_projectRepository;
 
-    public function __construct(ProjectRepository $projectRepository)//, UserRepository $userRepository)
+    public function __construct(ProjectRepository $projectRepository)
     {
         $this->_projectRepository = $projectRepository;
-
-        $this->middleware(
-                [
-                    'auth:api',
-                    'scopes:project_edit,project_create,project_delete'
-                ]
-            );
-            //->except(
-            //    [
-            //        'index', 'show'
-            //    ]
-            //);
-/*
-            'project_management_access' => 'Project Management Access',
-            'project_create'            => 'Project create',
-            'project_edit'              => 'Project edit',
-            'project_show'              => 'Project show',
-            'project_delete'            => 'Project delete',
-            'project_access'            => 'Project access',
-            */
     }
-
 
     /**
      * @OA\Get(
      *      path="/projects",
      *      operationId="getProjectsList",
      *      tags={"Projects"},
-     *      security={{"passport": {}}},
+     *      security={{"passport": {*}}},
      *      summary="Get list of projects",
      *      description="Returns list of projects",
      *      @OA\Response(
@@ -66,17 +38,12 @@ class ProjectsController extends Controller
      *      ),
      *      @OA\Response(
      *          response="403",
-     *          description="NoPermission",
-     *          @OA\JsonContent(ref="#/components/schemas/ApiPermissionException")
-     *      ),
-     *      @OA\Response(
-     *          response="404",
-     *          description="Not Found",
-     *          @OA\JsonContent(ref="#/components/schemas/ApiNotFoundException")
+     *          description="Invalid scope(s) provided.",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiAccessDeniedException")
      *      ),
      * )
      */
-    public function index(IndexProjectRequest $request)
+    public function index()
     {
         $projects = $this->_projectRepository->getAllData();
 
@@ -112,8 +79,8 @@ class ProjectsController extends Controller
      *      ),
      *      @OA\Response(
      *          response="403",
-     *          description="NoPermission",
-     *          @OA\JsonContent(ref="#/components/schemas/ApiPermissionException")
+     *          description="Invalid scope(s) provided.",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiAccessDeniedException")
      *      ),
      *      @OA\Response(
      *          response="422",
@@ -165,17 +132,19 @@ class ProjectsController extends Controller
      *      ),
      *      @OA\Response(
      *          response="403",
-     *          description="NoPermission",
-     *          @OA\JsonContent(ref="#/components/schemas/ApiPermissionException")
+     *          description="Invalid scope(s) provided.",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiAccessDeniedException")
+     *      ),
+     *      @OA\Response(
+     *          response="404",
+     *          description="Resource Not Found",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiNotFoundException")
      *      ),
      * )
      *
      */
     public function show($id)
     {
-        if(Gate::allows('project_show'))
-            throw new ApiPermissionException();
-
         $project = $this->_projectRepository->view($id);
 
         return new ProjectResource($project);
@@ -219,12 +188,12 @@ class ProjectsController extends Controller
      *      ),
      *      @OA\Response(
      *          response="403",
-     *          description="NoPermission",
-     *          @OA\JsonContent(ref="#/components/schemas/ApiPermissionException")
+     *          description="Invalid scope(s) provided.",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiAccessDeniedException")
      *      ),
      *      @OA\Response(
      *          response="404",
-     *          description="Unprocessable Entity",
+     *          description="Resource Not Found",
      *          @OA\JsonContent(ref="#/components/schemas/ApiNotFoundException")
      *      ),
      * )
@@ -267,8 +236,8 @@ class ProjectsController extends Controller
      *      ),
      *      @OA\Response(
      *          response="403",
-     *          description="NoPermission",
-     *          @OA\JsonContent(ref="#/components/schemas/ApiPermissionException")
+     *          description="Invalid scope(s) provided.",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiAccessDeniedException")
      *      ),
      *      @OA\Response(
      *          response="404",
@@ -277,7 +246,7 @@ class ProjectsController extends Controller
      *      ),
      * )
      */
-    public function destroy(DeleteProjectRequest $request, $id)
+    public function destroy($id)
     {
         $project = $this->_projectRepository->delete($id);
 

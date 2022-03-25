@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Projects\IndexProjectRequest;
-use App\Http\Requests\Projects\CreateProjectRequest;
-use App\Http\Requests\Projects\MassDestroyProjectRequest;
-use App\Http\Requests\Projects\StoreProjectRequest;
-use App\Http\Requests\Projects\UpdateProjectRequest;
+use App\Http\Requests\Web\Projects\IndexProjectRequest;
+use App\Http\Requests\Web\Projects\CreateProjectRequest;
+use App\Http\Requests\Web\Projects\MassDestroyProjectRequest;
+use App\Http\Requests\Web\Projects\StoreProjectRequest;
+use App\Http\Requests\Web\Projects\UpdateProjectRequest;
 use Symfony\Component\HttpFoundation\Response;
 use App\Models\Project;
 use App\Repositories\ProjectRepository;

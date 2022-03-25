@@ -14,13 +14,13 @@ Route::group([
     ,
     function () {
         // public routes
-        Route::post('/login', 'Auth\AuthController@login')->name('login.api');
-        Route::post('/register', 'Auth\AuthController@register')->name('register.api');
+        Route::post('login', 'Auth\AuthController@login')->name('login.api');
+        Route::post('register', 'Auth\AuthController@register')->name('register.api');
         Route::group(['middleware' => 'auth:api']
-        , function() {
+        ,function() {
             // our routes to be protected will go in here
-            Route::get('/logout', 'Auth\AuthController@logout')->name('logout.api');
-            Route::get('/me', 'Auth\AuthController@me')->name('me.api');
+            Route::get('logout', 'Auth\AuthController@logout')->name('logout.api');
+            Route::get('me', 'Auth\AuthController@me')->name('me.api');
 
             // Permissions
             Route::apiResource('permissions', 'PermissionsController');
@@ -30,9 +30,19 @@ Route::group([
 
             // Users
             Route::apiResource('users', 'UsersController');
+            Route::get('users', 'UsersController@index')->name('index.api')->middleware(['auth:api', 'scopes:user_access']);
+            Route::get('users/{id}', 'UsersController@show')->name('show.api')->middleware(['auth:api', 'scopes:user_show']);
+            Route::post('users', 'UsersController@store')->name('store.api')->middleware(['auth:api', 'scopes:user_create']);
+            Route::put('users/{id}', 'UsersController@update')->name('update.api')->middleware(['auth:api', 'scopes:user_edit']);
+            Route::delete('users/{id}', 'UsersController@destroy')->name('destroy.api')->middleware(['auth:api', 'scopes:user_delete']);
 
             // Projects
-            Route::apiResource('projects', 'ProjectsController');
+            //Route::apiResource('projects', 'ProjectsController')->middleware(['auth:api', 'scopes:project_edit,project_create,project_delete']);
+            Route::get('projects', 'ProjectsController@index')->name('index.api')->middleware(['auth:api', 'scopes:project_access']);
+            Route::get('projects/{id}', 'ProjectsController@show')->name('show.api')->middleware(['auth:api', 'scopes:project_show']);
+            Route::post('projects', 'ProjectsController@store')->name('store.api')->middleware(['auth:api', 'scopes:project_create']);
+            Route::put('projects/{id}', 'ProjectsController@update')->name('update.api')->middleware(['auth:api', 'scopes:project_edit']);
+            Route::delete('projects/{id}', 'ProjectsController@destroy')->name('destroy.api')->middleware(['auth:api', 'scopes:project_delete']);
     });
 
     //Route::post('login', 'Auth\AuthController@login');

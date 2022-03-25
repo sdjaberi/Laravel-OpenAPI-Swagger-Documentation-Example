@@ -81,10 +81,20 @@
                                                 {
                                                     ini_set('memory_limit', '1024M');
 
-                                                    $categoryPhrasesCount = DB::table('phrases')
-                                                        ->select('id', 'category_name')
-                                                        ->where('category_name', $category3->name)
-                                                        ->count();
+                                                    $pool = Spatie\Async\Pool::create();
+
+                                                    $pool[] = async(function () use($category3) {
+                                                        return DB::table('phrases')
+                                                            ->select('id', 'category_name')
+                                                            ->where('category_name', $category3->name)
+                                                            ->count();
+                                                    })->then(function ($output) {
+                                                        $this->categoryPhrasesCount = $output;
+                                                    });
+
+                                                    await($pool);
+
+                                                    $categoryPhrasesCount = $this->categoryPhrasesCount;
 
                                                     $translationsCount = DB::table('phrase_translations')
                                                         ->join('phrases', 'phrase_translations.phrase_id', '=', 'phrases.id')

@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Phrases\IndexPhraseRequest;
-use App\Http\Requests\Phrases\CreatePhraseRequest;
-use App\Http\Requests\Phrases\MassDestroyPhraseRequest;
-use App\Http\Requests\Phrases\StorePhraseRequest;
-use App\Http\Requests\Phrases\UpdatePhraseRequest;
+use App\Http\Requests\Web\Phrases\IndexPhraseRequest;
+use App\Http\Requests\Web\Phrases\CreatePhraseRequest;
+use App\Http\Requests\Web\Phrases\MassDestroyPhraseRequest;
+use App\Http\Requests\Web\Phrases\StorePhraseRequest;
+use App\Http\Requests\Web\Phrases\UpdatePhraseRequest;
 use Symfony\Component\HttpFoundation\Response;
 use App\Models\Phrase;
 use App\Repositories\PhraseRepository;

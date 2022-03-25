@@ -9,6 +9,7 @@ class ApiException extends HttpException
     const DB_ERROR = FoundationResponse::HTTP_NOT_IMPLEMENTED;
     const AUTH_ERROR = FoundationResponse::HTTP_UNAUTHORIZED;
     const PERMISSION_ERROR = FoundationResponse::HTTP_FORBIDDEN;
+    const ACCESS_DENIED_ERROR = FoundationResponse::HTTP_FORBIDDEN;
     const NO_FOUND_ERROR = FoundationResponse::HTTP_NOT_FOUND;
     const SYS_ERROR = FoundationResponse::HTTP_INTERNAL_SERVER_ERROR;
     const BAD_REQUEST = FoundationResponse::HTTP_BAD_REQUEST;

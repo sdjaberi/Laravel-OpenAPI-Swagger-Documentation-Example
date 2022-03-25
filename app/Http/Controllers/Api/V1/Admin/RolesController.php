@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Roles\StoreRoleRequest;
-use App\Http\Requests\Roles\UpdateRoleRequest;
+use App\Http\Requests\Web\Roles\StoreRoleRequest;
+use App\Http\Requests\Web\Roles\UpdateRoleRequest;
 use App\Http\Resources\Admin\RoleResource;
 use App\Models\Role;
 use Illuminate\Support\Facades\Gate;

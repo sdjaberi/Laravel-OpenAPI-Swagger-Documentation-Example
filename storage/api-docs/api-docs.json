@@ -32,7 +32,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/LoginRequest"
+                                "$ref": "#/components/schemas/LoginIn"
                             }
                         }
                     }
@@ -49,10 +49,34 @@
                         }
                     },
                     "400": {
-                        "description": "Bad Request"
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiRequestException"
+                                }
+                            }
+                        }
                     },
                     "403": {
-                        "description": "Forbidden"
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiAccessDeniedException"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnprocessableEntityException"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -116,7 +140,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/RegisterRequest"
+                                "$ref": "#/components/schemas/RegisterIn"
                             }
                         }
                     }
@@ -167,21 +191,11 @@
                         }
                     },
                     "403": {
-                        "description": "NoPermission",
+                        "description": "Invalid scope(s) provided.",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ApiPermissionException"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiNotFoundException"
+                                    "$ref": "#/components/schemas/ApiAccessDeniedException"
                                 }
                             }
                         }
@@ -242,11 +256,11 @@
                         }
                     },
                     "403": {
-                        "description": "NoPermission",
+                        "description": "Invalid scope(s) provided.",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ApiPermissionException"
+                                    "$ref": "#/components/schemas/ApiAccessDeniedException"
                                 }
                             }
                         }
@@ -322,11 +336,21 @@
                         }
                     },
                     "403": {
-                        "description": "NoPermission",
+                        "description": "Invalid scope(s) provided.",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ApiPermissionException"
+                                    "$ref": "#/components/schemas/ApiAccessDeniedException"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiNotFoundException"
                                 }
                             }
                         }
@@ -400,17 +424,17 @@
                         }
                     },
                     "403": {
-                        "description": "NoPermission",
+                        "description": "Invalid scope(s) provided.",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ApiPermissionException"
+                                    "$ref": "#/components/schemas/ApiAccessDeniedException"
                                 }
                             }
                         }
                     },
                     "404": {
-                        "description": "Unprocessable Entity",
+                        "description": "Resource Not Found",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -466,11 +490,11 @@
                         }
                     },
                     "403": {
-                        "description": "NoPermission",
+                        "description": "Invalid scope(s) provided.",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ApiPermissionException"
+                                    "$ref": "#/components/schemas/ApiAccessDeniedException"
                                 }
                             }
                         }
@@ -498,6 +522,16 @@
     },
     "components": {
         "schemas": {
+            "ApiAccessDeniedException": {
+                "properties": {
+                    "message": {
+                        "description": "The err message",
+                        "type": "string",
+                        "example": "AccessDenied"
+                    }
+                },
+                "type": "object"
+            },
             "ApiNotFoundException": {
                 "properties": {
                     "message": {
@@ -679,59 +713,6 @@
                 },
                 "type": "object"
             },
-            "LoginRequest": {
-                "title": "Auth Login request",
-                "description": "Auth Login request body data",
-                "required": [
-                    "email",
-                    "password"
-                ],
-                "properties": {
-                    "username": {
-                        "title": "username",
-                        "description": "Email of the user",
-                        "type": "string",
-                        "example": "admin@admin.admin"
-                    },
-                    "password": {
-                        "title": "password",
-                        "description": "Password of the user",
-                        "type": "string",
-                        "example": "password"
-                    }
-                },
-                "type": "object"
-            },
-            "RegisterRequest": {
-                "title": "Auth register request",
-                "description": "Auth register request body data",
-                "required": [
-                    "name",
-                    "email",
-                    "password"
-                ],
-                "properties": {
-                    "name": {
-                        "title": "name",
-                        "description": "Name of the user",
-                        "type": "string",
-                        "example": "john legend"
-                    },
-                    "email": {
-                        "title": "email",
-                        "description": "Email of the user",
-                        "type": "string",
-                        "example": "example@example.com"
-                    },
-                    "password": {
-                        "title": "password",
-                        "description": "Password of the user",
-                        "type": "string",
-                        "example": "this is a user password"
-                    }
-                },
-                "type": "object"
-            },
             "StoreProjectRequest": {
                 "title": "Store Project request",
                 "description": "Store Project request body data",
@@ -836,6 +817,104 @@
                 "type": "object",
                 "xml": {
                     "name": "ProjectResource"
+                }
+            },
+            "LoginIn": {
+                "title": "LoginIn",
+                "description": "LoginIn model",
+                "properties": {
+                    "email": {
+                        "title": "Email",
+                        "description": "Email",
+                        "type": "string",
+                        "example": "example@example.com"
+                    },
+                    "password": {
+                        "title": "Password",
+                        "description": "Password",
+                        "type": "string",
+                        "example": "j#dH5iJ3@"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "LoginIn"
+                }
+            },
+            "LoginOut": {
+                "title": "LoginOut",
+                "description": "LoginOut model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "token": {
+                        "title": "Token",
+                        "description": "A JWT token",
+                        "type": "string"
+                    },
+                    "expires_at": {
+                        "title": "Expires At",
+                        "description": "Expires At",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    },
+                    "refreshToken": {
+                        "title": "Refresh Token",
+                        "description": "A JWT token",
+                        "type": "string"
+                    },
+                    "token_type": {
+                        "title": "Token Type",
+                        "description": "Token Type",
+                        "type": "string",
+                        "example": "Bearer"
+                    },
+                    "user": {
+                        "title": "User",
+                        "description": "User model"
+                    },
+                    "role": {
+                        "title": "Role",
+                        "description": "Role model"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "LoginOut"
+                }
+            },
+            "RegisterIn": {
+                "title": "RegisterIn",
+                "description": "RegisterIn model",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "description": "Name",
+                        "type": "string",
+                        "example": "john legend"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "description": "Email",
+                        "type": "string",
+                        "example": "example@example.com"
+                    },
+                    "password": {
+                        "title": "Password",
+                        "description": "Password",
+                        "type": "string",
+                        "example": "j#dH5iJ3@"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "RegisterIn"
                 }
             }
         },

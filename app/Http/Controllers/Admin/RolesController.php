@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Roles\IndexRoleRequest;
-use App\Http\Requests\Roles\CreateRoleRequest;
-use App\Http\Requests\Roles\MassDestroyRoleRequest;
-use App\Http\Requests\Roles\StoreRoleRequest;
-use App\Http\Requests\Roles\UpdateRoleRequest;
+use App\Http\Requests\Web\Roles\IndexRoleRequest;
+use App\Http\Requests\Web\Roles\CreateRoleRequest;
+use App\Http\Requests\Web\Roles\MassDestroyRoleRequest;
+use App\Http\Requests\Web\Roles\StoreRoleRequest;
+use App\Http\Requests\Web\Roles\UpdateRoleRequest;
 use App\Models\Role;
 use Symfony\Component\HttpFoundation\Response;
 use App\Repositories\RoleRepository;

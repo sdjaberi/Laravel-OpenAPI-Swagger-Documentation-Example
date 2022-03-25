@@ -51,19 +51,29 @@ class ProjectRepository implements IProjectRepository
         $project->author_id = $data['author_id'];
         $project->save();
 
-        $project->languages()->sync($data->input('languages', []));
+        $project->languages()->sync($data['languages']);
 
         return $project;
     }
 
     public function view($id)
     {
-        return Project::find($id)->load('author');
+        $project = Project::find($id);
+
+        if(!$project)
+            throw new ApiNotFoundException();
+
+        return $project->load('author');
     }
 
     public function delete($id)
     {
-        return Project::find($id)->delete();
+        $project = Project::find($id);
+
+        if(!$project)
+            throw new ApiNotFoundException();
+
+        return $project->delete();
     }
 
     public function deleteAll($ids)

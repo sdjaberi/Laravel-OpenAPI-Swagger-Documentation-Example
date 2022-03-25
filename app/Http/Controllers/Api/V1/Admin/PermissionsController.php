@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Permissions\StorePermissionRequest;
-use App\Http\Requests\Permissions\UpdatePermissionRequest;
+use App\Http\Requests\Web\Permissions\StorePermissionRequest;
+use App\Http\Requests\Web\Permissions\UpdatePermissionRequest;
 use App\Http\Resources\Admin\PermissionResource;
 use App\Models\Permission;
 use Illuminate\Support\Facades\Gate;
