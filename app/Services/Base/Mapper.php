@@ -27,9 +27,6 @@ class Mapper
             //
             // match properties
             //
-            dd($targetProperties);
-            dd($sourceProperties);
-
 
             $matchingSourcePropertyExists = array_key_exists($name, $sourceProperties);
             if ($matchingSourcePropertyExists)
@@ -38,7 +35,6 @@ class Mapper
                 continue;
             }
 
-            dd($target);
             //
             // fall back on matching by convention-based get accessors
             //

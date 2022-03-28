@@ -16,7 +16,7 @@
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-Project">
+            <table class=" table table-bordered table-striped table-hover datatable datatable-Category">
                 <thead>
                     <tr>
                         <th width="10">
@@ -152,7 +152,7 @@
           headers: {'x-csrf-token': _token},
           method: 'POST',
           url: config.url,
-          data: { ids: ids, _method: 'DELETE' }})
+          data: { names: ids, _method: 'DELETE' }})
           .done(function () { location.reload() })
       }
     }
@@ -164,7 +164,7 @@
     order: [[ 1, 'desc' ]],
     pageLength: 100,
   });
-  $('.datatable-Project:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  $('.datatable-Category:not(.ajaxTable)').DataTable({ buttons: dtButtons })
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
         $($.fn.dataTable.tables(true)).DataTable()
             .columns.adjust();

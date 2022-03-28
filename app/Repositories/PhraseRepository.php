@@ -13,13 +13,13 @@ use Barryvdh\Debugbar\Middleware\DebugbarEnabled;
 
 interface IPhraseRepository
 {
-    public function getAllData();
-    public function store($data);
-    public function update($id = null,$data);
+    public function getAllAsync();
+    public function storeAsync($data);
+    public function updateAsync($id = null,$data);
     public function upsert($data);
-    public function view($id);
-    public function delete($id);
-    public function deleteAll($ids);
+    public function viewAsync($id);
+    public function deleteAsync($id);
+    public function deleteAllAsync($ids);
     public function find($phrase, $categoryName, $phraseCategoryName);
     public function phrasesHasPhraseCategory($categoryName);
     public function categoryTranslations($categoryName);
@@ -27,12 +27,12 @@ interface IPhraseRepository
 
 class PhraseRepository implements IPhraseRepository
 {
-    public function getAllData()
+    public function getAllAsync()
     {
         return Phrase::with('category')->get();
     }
 
-    public function store($data)
+    public function storeAsync($data)
     {
         $phrase = new Phrase();
 
@@ -47,7 +47,7 @@ class PhraseRepository implements IPhraseRepository
         return $phrase;
     }
 
-    public function update($id = null, $data)
+    public function updateAsync($id = null, $data)
     {
         $phrase = Phrase::find($id);
 
@@ -80,24 +80,24 @@ class PhraseRepository implements IPhraseRepository
         return $phrase;
     }
 
-    public function view($id)
+    public function viewAsync($id)
     {
         return Phrase::find($id)->load('category');
     }
 
-    public function delete($id)
+    public function deleteAsync($id)
     {
         $phrase = Phrase::find($id);
 
         if(!$phrase)
             throw new ApiNotFoundException();
 
-        return $phrase->delete();
+        return $phrase->deleteAsync();
     }
 
-    public function deleteAll($ids)
+    public function deleteAllAsync($ids)
     {
-        return Phrase::whereIn('id', $ids)->delete();
+        return Phrase::whereIn('id', $ids)->deleteAsync();
     }
 
     public function find($phrase, $categoryName, $phraseCategoryName)

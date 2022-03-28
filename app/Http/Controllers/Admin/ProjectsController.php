@@ -29,30 +29,30 @@ class ProjectsController extends Controller
 
     public function index(IndexProjectRequest $request)
     {
-        $projects = $this->_projectRepository->getAllData();
+        $projects = $this->_projectRepository->getAllAsync();
 
         return view('admin.projects.index', compact('projects'));
     }
 
     public function create(CreateProjectRequest $request)
     {
-        $authors = $this->_userRepository->getAllData()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-        $languages = $this->_languageRepository->getAllData()->pluck('title', 'id');
+        $authors = $this->_userRepository->getAllAsync()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $languages = $this->_languageRepository->getAllAsync()->pluck('title', 'id');
 
         return view('admin.projects.create', compact('authors', 'languages'));
     }
 
     public function store(StoreProjectRequest $request)
     {
-        $project = $this->_projectRepository->store($request);
+        $project = $this->_projectRepository->storeAsync($request);
 
         return redirect()->route('admin.projects.index');
     }
 
     public function edit(Project $project)
     {
-        $authors = $this->_userRepository->getAllData()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-        $languages = $this->_languageRepository->getAllData()->pluck('title', 'id');
+        $authors = $this->_userRepository->getAllAsync()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $languages = $this->_languageRepository->getAllAsync()->pluck('title', 'id');
 
         $project->load('author');
 
@@ -61,14 +61,14 @@ class ProjectsController extends Controller
 
     public function update(UpdateProjectRequest $request, Project $project)
     {
-        $project = $this->_projectRepository->update($project->id, $request);
+        $project = $this->_projectRepository->updateAsync($project->id, $request);
 
         return redirect()->route('admin.projects.index');
     }
 
     public function show(Project $project)
     {
-        $project = $this->_projectRepository->view($project->id);
+        $project = $this->_projectRepository->viewAsync($project->id);
 
         $project->load('languages','categories');
 
@@ -77,14 +77,14 @@ class ProjectsController extends Controller
 
     public function destroy(MassDestroyProjectRequest $request, Project $project)
     {
-        $project = $this->_projectRepository->delete($project->id);
+        $project = $this->_projectRepository->deleteAsync($project->id);
 
         return back();
     }
 
     public function massDestroy(MassDestroyProjectRequest $request)
     {
-        $projects = $this->_projectRepository->deleteAll($request('ids'));
+        $projects = $this->_projectRepository->deleteAllAsync($request('ids'));
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

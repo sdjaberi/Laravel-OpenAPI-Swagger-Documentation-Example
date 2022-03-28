@@ -35,17 +35,17 @@ class TranslationsController extends Controller
 
     public function index(IndexTranslationRequest $request)
     {
-        //$translations = $this->_translationRepository->getAllData();
+        //$translations = $this->_translationRepository->getAllAsync();
 
         return view('admin.translations.index'); //, compact('translations'));
     }
 
     public function create(CreateTranslationRequest $request)
     {
-        $authors = $this->_userRepository->getAllData()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-        $languages = $this->_languageRepository->getAllNotPrimaryData()->pluck('title', 'id')->prepend(trans('global.pleaseSelect'), '');
-        $phrases = $this->_phraseRepository->getAllData()->pluck('phrase', 'id')->prepend(trans('global.pleaseSelect'), '');
-        $primaryLanguage = $this->_languageRepository->getPrimaryData()->take(1)->pluck('title', 'id');
+        $authors = $this->_userRepository->getAllAsync()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $languages = $this->_languageRepository->getAllNotPrimaryAsync()->pluck('title', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $phrases = $this->_phraseRepository->getAllAsync()->pluck('phrase', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $primaryLanguage = $this->_languageRepository->getPrimaryAsync()->take(1)->pluck('title', 'id');
 
         return view('admin.translations.create', compact('authors', 'languages', 'phrases', 'primaryLanguage'));
     }
@@ -54,17 +54,17 @@ class TranslationsController extends Controller
     {
         //dd($request->all());
 
-        $translation = $this->_translationRepository->store($request);
+        $translation = $this->_translationRepository->storeAsync($request);
 
         return redirect()->route('admin.translations.index');
     }
 
     public function edit(Translation $translation)
     {
-        $authors = $this->_userRepository->getAllData()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-        $languages = $this->_languageRepository->getAllNotPrimaryData()->pluck('title', 'id')->prepend(trans('global.pleaseSelect'), '');
-        $phrases = $this->_phraseRepository->getAllData()->pluck('phrase', 'id')->prepend(trans('global.pleaseSelect'), '');
-        $primaryLanguage = $this->_languageRepository->getPrimaryData()->take(1)->pluck('title', 'id');
+        $authors = $this->_userRepository->getAllAsync()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $languages = $this->_languageRepository->getAllNotPrimaryAsync()->pluck('title', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $phrases = $this->_phraseRepository->getAllAsync()->pluck('phrase', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $primaryLanguage = $this->_languageRepository->getPrimaryAsync()->take(1)->pluck('title', 'id');
 
         $translation->load('author', 'language', 'phrase');
 
@@ -76,28 +76,28 @@ class TranslationsController extends Controller
         /*  Validate requested data */
         //$request->validated();
 
-        $translation = $this->_translationRepository->update($translation->id, $request);
+        $translation = $this->_translationRepository->updateAsync($translation->id, $request);
 
         return redirect()->route('admin.translations.index');
     }
 
     public function show(Translation $translation)
     {
-        $translation = $this->_translationRepository->view($translation->id);
+        $translation = $this->_translationRepository->viewAsync($translation->id);
 
         return view('admin.translations.show', compact('translation'));
     }
 
     public function destroy(Translation $translation)
     {
-        $translation = $this->_translationRepository->delete($translation->id);
+        $translation = $this->_translationRepository->deleteAsync($translation->id);
 
         return back();
     }
 
     public function massDestroy(MassDestroyTranslationRequest $request)
     {
-        $translations = $this->_translationRepository->deleteAll($request->ids);
+        $translations = $this->_translationRepository->deleteAllAsync($request->ids);
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
@@ -213,16 +213,16 @@ class TranslationsController extends Controller
 
     /**
      * @param Request $request
-     * @param TranslationStoreRequest $storeRequest
+     * @param TranslationStoreRequest $storeAsyncRequest
      * @return object
      */
-    public function ajaxStore(Request $request, StoreTranslationRequest $storeRequest): object
+    public function ajaxStore(Request $request, StoreTranslationRequest $storeAsyncRequest): object
     {
         /*  Validate requested data */
-        $storeRequest->validated();
+        $storeAsyncRequest->validated();
 
         /* Store data */
-        $translation = $this->_translationRepository->store($request);
+        $translation = $this->_translationRepository->storeAsync($request);
 
         return response()->json(["data" => $translation], 200);
     }
@@ -238,7 +238,7 @@ class TranslationsController extends Controller
         /*  Validate requested data */
         $updateRequest->validated();
 
-        $translation = $this->_translationRepository->update($id, $request);
+        $translation = $this->_translationRepository->updateAsync($id, $request);
 
         return response()->json(["data" => $translation], 200);
     }

@@ -11,22 +11,22 @@ use Barryvdh\Debugbar\Middleware\DebugbarEnabled;
 
 interface IProjectRepository
 {
-    public function getAllData();
-    public function store($data);
-    public function update($id = null,$data);
-    public function view($id);
-    public function delete($id);
-    public function deleteAll($ids);
+    public function getAllAsync();
+    public function storeAsync($data);
+    public function updateAsync($id = null,$data);
+    public function viewAsync($id);
+    public function deleteAsync($id);
+    public function deleteAllAsync($ids);
 }
 
 class ProjectRepository implements IProjectRepository
 {
-    public function getAllData()
+    public function getAllAsync()
     {
         return Project::with('author')->get();
     }
 
-    public function store($data)
+    public function storeAsync($data)
     {
         $project = new Project();
         $project->name = $data['name'];
@@ -39,7 +39,7 @@ class ProjectRepository implements IProjectRepository
         return $project;
     }
 
-    public function update($id = null, $data)
+    public function updateAsync($id = null, $data)
     {
         $project = Project::find($id);
 
@@ -56,7 +56,7 @@ class ProjectRepository implements IProjectRepository
         return $project;
     }
 
-    public function view($id)
+    public function viewAsync($id)
     {
         $project = Project::find($id);
 
@@ -66,19 +66,19 @@ class ProjectRepository implements IProjectRepository
         return $project->load('author');
     }
 
-    public function delete($id)
+    public function deleteAsync($id)
     {
         $project = Project::find($id);
 
         if(!$project)
             throw new ApiNotFoundException();
 
-        return $project->delete();
+        return $project->deleteAsync();
     }
 
-    public function deleteAll($ids)
+    public function deleteAllAsync($ids)
     {
-        return Project::whereIn('id', $ids)->delete();
+        return Project::whereIn('id', $ids)->deleteAsync();
     }
 
 }

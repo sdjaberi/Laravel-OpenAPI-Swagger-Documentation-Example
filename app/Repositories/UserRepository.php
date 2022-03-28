@@ -9,25 +9,25 @@ use Illuminate\Support\Facades\DB;
 
 interface IUserRepository
 {
-    public function getAllData();
-    public function store($data);
-    public function update($id = null,$data);
-    public function view($id);
+    public function getAllAsync();
+    public function storeAsync($data);
+    public function updateAsync($id = null,$data);
+    public function viewAsync($id);
     public function viewByEmail($id);
-    public function delete($id);
-    public function deleteAll($ids);
+    public function deleteAsync($id);
+    public function deleteAllAsync($ids);
 
-    public function storeToken($data);
+    public function storeAsyncToken($data);
 }
 
 class UserRepository implements IUserRepository
 {
-    public function getAllData()
+    public function getAllAsync()
     {
         return User::latest()->get();
     }
 
-    public function store($data)
+    public function storeAsync($data)
     {
         $user = new User();
         $user->name = $data['name'];
@@ -42,7 +42,7 @@ class UserRepository implements IUserRepository
         return $user;
     }
 
-    public function update($id = null, $data)
+    public function updateAsync($id = null, $data)
     {
         $user = User::find($id);
 
@@ -64,7 +64,7 @@ class UserRepository implements IUserRepository
         return $user;
     }
 
-    public function view($id)
+    public function viewAsync($id)
     {
         return User::find($id);
     }
@@ -74,17 +74,17 @@ class UserRepository implements IUserRepository
         return User::find($email);
     }
 
-    public function delete($id)
+    public function deleteAsync($id)
     {
-        return User::find($id)->delete();
+        return User::find($id)->deleteAsync();
     }
 
-    public function deleteAll($ids)
+    public function deleteAllAsync($ids)
     {
-        return User::whereIn('id', $ids)->delete();
+        return User::whereIn('id', $ids)->deleteAsync();
     }
 
-    public function storeToken($user)
+    public function storeAsyncToken($user)
     {
         $tokenResult = $user->createToken('Personal Access Token');
 

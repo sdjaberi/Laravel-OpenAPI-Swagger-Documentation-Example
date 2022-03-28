@@ -845,12 +845,17 @@
                 "title": "LoginOut",
                 "description": "LoginOut model",
                 "properties": {
-                    "id": {
-                        "title": "ID",
-                        "description": "ID",
+                    "user_id": {
+                        "title": "User ID",
+                        "description": "User id",
                         "type": "integer",
                         "format": "int64",
                         "example": 1
+                    },
+                    "token_id": {
+                        "title": "Token ID",
+                        "description": "A JWT token id",
+                        "type": "int64"
                     },
                     "token": {
                         "title": "Token",
@@ -921,7 +926,8 @@
         "securitySchemes": {
             "passport": {
                 "type": "apiKey",
-                "description": "enter your apikey.",
+                "description": "Enter \"Bearer + [space] + [token]\" in the text input below(Value).",
+                "example": "Bearer 1qaz2wsx3edc",
                 "in": "header",
                 "name": "Authorization"
             }

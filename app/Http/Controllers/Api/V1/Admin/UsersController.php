@@ -39,7 +39,7 @@ class UsersController extends Controller
 
     public function update(UpdateUserRequest $request, User $user)
     {
-        $user->update($request->all());
+        $user->updateAsync($request->all());
         $user->roles()->sync($request->input('roles', []));
 
         return (new UserResource($user))
@@ -51,7 +51,7 @@ class UsersController extends Controller
     {
         abort_if(Gate::denies('user_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $user->delete();
+        $user->deleteAsync();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

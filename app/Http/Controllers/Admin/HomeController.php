@@ -35,13 +35,13 @@ class HomeController
         $pool = Pool::create();
 
         $pool[] = async(function () {
-            return $this->_languageRepository->getAllData()->sortBy('id');
+            return $this->_languageRepository->getAllAsync()->sortBy('id');
         })->then(function ($output) {
             $this->languages=$output;
         });
 
         $pool[] = async(function () {
-            return $this->_categoryRepository->getAllData();
+            return $this->_categoryRepository->getAllAsync();
         })->then(function ($output) {
             $this->categories=$output;
         });

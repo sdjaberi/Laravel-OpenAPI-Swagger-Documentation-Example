@@ -8,64 +8,94 @@ use Spatie\Async\Pool;
 
 interface ILanguageRepository
 {
-    public function getAllData();
-    public function getAllNotPrimaryData();
-    public function getAllActiveData();
-    public function getPrimaryData();
-    public function store($data);
-    public function update($id = null,$data);
-    public function view($id);
-    public function delete($id);
-    public function deleteAll($ids);
+    public function getAllAsync();
+    public function getAllNotPrimaryAsync();
+    public function getAllActiveAsync();
+    public function getPrimaryAsync();
+    public function storeAsync($data);
+    public function updateAsync($id = null,$data);
+    public function viewAsync($id);
+    public function deleteAsync($id);
+    public function deleteAllAsync($ids);
 }
 
 class LanguageRepository implements ILanguageRepository
 {
-    public function getAllData()
+    public function getAllAsync()
     {
         $pool = Pool::create();
-
         $pool[] = async(function () {
             return Language::all();
         })->then(function ($output) {
             $this->languages = $output;
         });
-
         await($pool);
 
         return $this->languages;
     }
 
-    public function getAllNotPrimaryData()
+    public function getAllNotPrimaryAsync()
     {
-        return Language::where('is_primary', 0);
+        $pool = Pool::create();
+        $pool[] = async(function () {
+            return Language::where('is_primary', 0);
+        })->then(function ($output) {
+            $this->languages = $output;
+        });
+        await($pool);
+
+        return $this->languages;
     }
 
-    public function getAllActiveData()
+    public function getAllActiveAsync()
     {
-        return Language::where('active', 1);
+        $pool = Pool::create();
+        $pool[] = async(function () {
+            return Language::where('active', 1);
+        })->then(function ($output) {
+            $this->languages = $output;
+        });
+        await($pool);
+
+        return $this->languages;
     }
 
-    public function getPrimaryData()
+    public function getPrimaryAsync()
     {
-        return Language::where('is_primary', 1)->first();
+        $pool = Pool::create();
+        $pool[] = async(function () {
+            return Language::where('is_primary', 1)->first();
+        })->then(function ($output) {
+            $this->language = $output;
+        });
+        await($pool);
+
+        return $this->language;
     }
 
-    public function store($data)
+    public function storeAsync($data)
     {
         $language = new Language();
+
         $language->title = $data['title'];
         $language->iso_code = $data['iso_code'];
         $language->local_name = $data['local_name'];
         $language->text_direction = $data['text_direction'];
         $language->active = !$data['active'] ? 1 : 0;
         $language->is_primary = $data['is_primary'] ? 1 : 0;
-        $language->save();
 
-        return $language;
+        $pool = Pool::create();
+        $pool[] = async(function () use($language) {
+            $language->save();;
+        })->then(function ($output) {
+            $this->language = $output;
+        });
+        await($pool);
+
+        return $this->language;
     }
 
-    public function update($id = null, $data)
+    public function updateAsync($id = null, $data)
     {
         $language = Language::find($id);
 
@@ -78,23 +108,54 @@ class LanguageRepository implements ILanguageRepository
         $language->text_direction = $data['text_direction'];
         $language->active = $data['active'] ? 1 : 0;
         $language->is_primary = $data['is_primary'] ? 1 : 0;
-        $language->save();
 
-        return $language;
+        $pool = Pool::create();
+        $pool[] = async(function () use($language) {
+            $language->save();
+        })->then(function ($output) {
+            $this->language = $output;
+        });
+        await($pool);
+
+        return $this->language;
     }
 
-    public function view($id)
+    public function viewAsync($id)
     {
-        return Language::find($id);
+        $pool = Pool::create();
+        $pool[] = async(function () use($id) {
+            return Language::find($id);
+        })->then(function ($output) {
+            $this->language = $output;
+        });
+        await($pool);
+
+        return $this->language;
     }
 
-    public function delete($id)
+    public function deleteAsync($id)
     {
-        return Language::find($id)->delete();
+        $pool = Pool::create();
+        $pool[] = async(function () use($id) {
+            return Language::find($id)->delete();
+        })->then(function ($output) {
+            $this->language = $output;
+        });
+        await($pool);
+
+        return $this->language;
     }
 
-    public function deleteAll($ids)
+    public function deleteAllAsync($ids)
     {
-        return Language::whereIn('id', $ids)->delete();
+        $pool = Pool::create();
+        $pool[] = async(function () use($ids) {
+            return Language::whereIn('id', $ids)->delete();
+        })->then(function ($output) {
+            $this->languages = $output;
+        });
+        await($pool);
+
+        return $this->languages;
     }
 }

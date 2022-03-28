@@ -3,10 +3,6 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use ProjectRepository;
-use UserRepository;
-use LanguageRepository;
-use CategoryRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -17,10 +13,11 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(ProjectRepository::class);
-        $this->app->bind(UserRepository::class);
-        $this->app->bind(LanguageRepository::class);
-        $this->app->bind(CategoryRepository::class);
+        //$this->app->bind(IBaseRepository::class, BaseRepository::class);
+        //$this->app->bind(IPermissionRepository::class, PermissionRepository::class);
+
+        //$this->app->bind(ProjectRepository::class);
+        //$this->app->bind(UserRepository::class);
     }
 
     /**

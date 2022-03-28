@@ -38,7 +38,7 @@ class PermissionsController extends Controller
 
     public function update(UpdatePermissionRequest $request, Permission $permission)
     {
-        $permission->update($request->all());
+        $permission->updateAsync($request->all());
 
         return (new PermissionResource($permission))
             ->response()
@@ -49,7 +49,7 @@ class PermissionsController extends Controller
     {
         abort_if(Gate::denies('permission_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $permission->delete();
+        $permission->deleteAsync();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

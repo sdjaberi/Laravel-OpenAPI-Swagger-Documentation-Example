@@ -45,7 +45,7 @@ class ProjectsController extends Controller
      */
     public function index()
     {
-        $projects = $this->_projectRepository->getAllData();
+        $projects = $this->_projectRepository->getAllAsync();
 
         return new ProjectResource($projects);
     }
@@ -91,7 +91,7 @@ class ProjectsController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        $project = $this->_projectRepository->store($request->all());
+        $project = $this->_projectRepository->storeAsync($request->all());
 
         return (new ProjectResource($project))
             ->response()
@@ -145,7 +145,7 @@ class ProjectsController extends Controller
      */
     public function show($id)
     {
-        $project = $this->_projectRepository->view($id);
+        $project = $this->_projectRepository->viewAsync($id);
 
         return new ProjectResource($project);
     }
@@ -200,7 +200,7 @@ class ProjectsController extends Controller
      */
     public function update(UpdateProjectRequest $request, $id)
     {
-        $project = $this->_projectRepository->update($id, $request->all());
+        $project = $this->_projectRepository->updateAsync($id, $request->all());
 
         return (new ProjectResource($project))
             ->response()
@@ -248,7 +248,7 @@ class ProjectsController extends Controller
      */
     public function destroy($id)
     {
-        $project = $this->_projectRepository->delete($id);
+        $project = $this->_projectRepository->deleteAsync($id);
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

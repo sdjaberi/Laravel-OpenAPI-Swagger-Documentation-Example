@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\Categories\IndexCategoryRequest;
 use App\Http\Requests\Web\Categories\CreateCategoryRequest;
-use App\Http\Requests\Web\Categories\MassDestroyCategoryRequest;
 use App\Http\Requests\Web\Categories\StoreCategoryRequest;
 use App\Http\Requests\Web\Categories\UpdateCategoryRequest;
+use App\Http\Requests\Web\Categories\ShowCategoryRequest;
+use App\Http\Requests\Web\Categories\MassDestroyCategoryRequest;
+use App\Http\Requests\Web\Categories\DeleteCategoryRequest;
 use App\Http\Requests\Web\Categories\CategoryTranslationRequest;
 use App\Http\Requests\Web\Categories\CategoryImportRequest;
 use App\Http\Requests\Web\Categories\CategoryExportRequest;
@@ -15,7 +17,6 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Models\Category;
 use App\Repositories\CategoryRepository;
 use App\Repositories\ProjectRepository;
-use App\Repositories\TranslationRepository;
 use App\Repositories\LanguageRepository;
 use App\Repositories\PhraseRepository;
 use App\Repositories\PhraseCategoryRepository;
@@ -28,13 +29,9 @@ use Illuminate\Support\Facades\Auth;
 use DOMDocument;
 use DOMImplementation;
 use Illuminate\Contracts\Filesystem\FileNotFoundException as FilesystemFileNotFoundException;
-use Illuminate\Support;
 use Illuminate\Http\File;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Laravie\Parser\FileNotFoundException;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use stdClass;
@@ -42,12 +39,10 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use ZipArchive;
 use Illuminate\Support\Facades\DB;
 
-
 class CategoriesController extends Controller
 {
     private $_categoryRepository;
     private $_projectRepository;
-    private $_translationRepository;
     private $_languageRepository;
     private $_phraseRepository;
     private $_phraseCategoryRepository;
@@ -55,14 +50,12 @@ class CategoriesController extends Controller
     public function __construct(
         CategoryRepository $categoryRepository,
         ProjectRepository $projectRepository,
-        TranslationRepository $translationRepository,
         LanguageRepository $languageRepository,
         PhraseRepository $phraseRepository,
         PhraseCategoryRepository $phraseCategoryRepository)
     {
         $this->_categoryRepository = $categoryRepository;
         $this->_projectRepository = $projectRepository;
-        $this->_translationRepository = $translationRepository;
         $this->_languageRepository = $languageRepository;
         $this->_phraseRepository = $phraseRepository;
         $this->_phraseCategoryRepository = $phraseCategoryRepository;
@@ -70,28 +63,28 @@ class CategoriesController extends Controller
 
     public function index(IndexCategoryRequest $request)
     {
-        $categories = $this->_categoryRepository->getAllData();
+        $categories = $this->_categoryRepository->getAllAsync();
 
         return view('admin.categories.index', compact('categories'));
     }
 
     public function create(CreateCategoryRequest $request)
     {
-        $projects = $this->_projectRepository->getAllData()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $projects = $this->_projectRepository->getAllAsync()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         return view('admin.categories.create', compact('projects'));
     }
 
     public function store(StoreCategoryRequest $request)
     {
-        $category = $this->_categoryRepository->store($request);
+        $category = $this->_categoryRepository->storeAsync($request->all());
 
         return redirect()->route('admin.categories.index');
     }
 
     public function edit(Category $category)
     {
-        $projects = $this->_projectRepository->getAllData()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $projects = $this->_projectRepository->getAllAsync()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $category->load('project');
 
@@ -100,31 +93,31 @@ class CategoriesController extends Controller
 
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        $category = $this->_categoryRepository->update($category->name, $request);
+        $category = $this->_categoryRepository->updateAsync($category->name, $request->all());
 
         return redirect()->route('admin.categories.index');
     }
 
-    public function show(Category $category)
+    public function show(ShowCategoryRequest $request,Category $category)
     {
-        $category = $this->_categoryRepository->view($category->name);
+        $category = $this->_categoryRepository->viewAsync($category->name);
 
-        $category->load('phrases');
-        $category->load('users');
+        //$category->load('phrases');
+        //$category->load('users');
 
         return view('admin.categories.show', compact('category'));
     }
 
-    public function destroy(Category $category)
+    public function destroy(DeleteCategoryRequest $request, Category $category)
     {
-        $category = $this->_categoryRepository->delete($category->name);
+        $result = $this->_categoryRepository->deleteAsync($category->name);
 
         return back();
     }
 
     public function massDestroy(MassDestroyCategoryRequest $request)
     {
-        $categories = $this->_categoryRepository->deleteAll($request('names'));
+        $result = $this->_categoryRepository->deleteAllAsync($request->names);
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
@@ -136,19 +129,19 @@ class CategoriesController extends Controller
         /*  Validate requested data */
         $categoryTranslationRequest->validated();
 
-        $category = $this->_categoryRepository->view($name);
+        $category = $this->_categoryRepository->viewAsync($name);
 
         $category->load('phrases');
         $category->project->load('languages');
 
         $phrases = $category->phrases;
 
-        $languageFrom = $this->_languageRepository->getPrimaryData();
+        $languageFrom = $this->_languageRepository->getPrimaryAsync();
 
         $languagesTo = $category->project->languages
             ->where('id', '!=', $languageFrom->id);
 
-        $languageTo = $this->_languageRepository->getAllNotPrimaryData()
+        $languageTo = $this->_languageRepository->getAllNotPrimaryAsync()
             ->where("title", $to)->first();
 
         $translations = DB::table('phrase_translations')
@@ -188,13 +181,13 @@ class CategoriesController extends Controller
         /*  Validate requested data */
         $categoryImportRequest->validated();
 
-        $category = $this->_categoryRepository->view($name);
+        $category = $this->_categoryRepository->viewAsync($name);
 
         $category->project->load('languages');
 
-        $languageFrom = $this->_languageRepository->getPrimaryData();
+        $languageFrom = $this->_languageRepository->getPrimaryAsync();
 
-        $categories = $this->_categoryRepository->getAllData()->pluck('name', 'name');
+        $categories = $this->_categoryRepository->getAllAsync()->pluck('name', 'name');
 
         return view('admin.categories.import')
             ->with('categories', $categories)
@@ -266,12 +259,12 @@ class CategoriesController extends Controller
 
                         $phraseCategoryDto->filename = json_encode($locationsArray);
 
-                        $phraseCategoryEntity = $this->_phraseCategoryRepository->store($phraseCategoryDto);
+                        $phraseCategoryEntity = $this->_phraseCategoryRepository->storeAsync($phraseCategoryDto);
                     }
 
                     $phraseDto->phrase_category_id = $phraseCategoryEntity->id;
 
-                    $phraseEntity = $this->_phraseRepository->store($phraseDto);
+                    $phraseEntity = $this->_phraseRepository->storeAsync($phraseDto);
                 }
 
             }
@@ -298,21 +291,21 @@ class CategoriesController extends Controller
         /*  Validate requested data */
         $categoryExportRequest->validated();
 
-        $category = $this->_categoryRepository->view($name);
+        $category = $this->_categoryRepository->viewAsync($name);
 
         $category->project->load('languages');
 
-        $languageFrom = $this->_languageRepository->getPrimaryData();
+        $languageFrom = $this->_languageRepository->getPrimaryAsync();
 
         $languagesTo = $category->project->languages
             ->where('id', '!=', $languageFrom->id);
 
         $languageTo = new Language();
         if(isset($to))
-            $languageTo = $this->_languageRepository->getAllNotPrimaryData()
+            $languageTo = $this->_languageRepository->getAllNotPrimaryAsync()
                 ->where("title", $to)->first();
 
-        $categories = $this->_categoryRepository->getAllData()->pluck('name', 'name');
+        $categories = $this->_categoryRepository->getAllAsync()->pluck('name', 'name');
 
         $phrasesCount = $category->phrases->count();
 
@@ -347,9 +340,9 @@ class CategoriesController extends Controller
         // Validate requested data
         $categoryExportRequest->validated();
 
-        $category = $this->_categoryRepository->view($name);
+        $category = $this->_categoryRepository->viewAsync($name);
         $languageTo = $this->_languageRepository
-            ->getAllNotPrimaryData()
+            ->getAllNotPrimaryAsync()
             ->where("title", $to)
             ->first();
 

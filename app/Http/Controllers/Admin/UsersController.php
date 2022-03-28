@@ -36,32 +36,32 @@ class UsersController extends Controller
 
     public function index(IndexUserRequest $request)
     {
-        $users = $this->_userRepository->getAllData();
+        $users = $this->_userRepository->getAllAsync();
 
         return view('admin.users.index', compact('users'));
     }
 
     public function create(CreateUserRequest $request)
     {
-        $roles = $this->_roleRepository->getAllData()->pluck('title', 'id');
-        $categories = $this->_categoryRepository->getAllData()->pluck('name', 'name');
-        $languages = $this->_languageRepository->getAllData()->pluck('title', 'id');
+        $roles = $this->_roleRepository->getAllAsync()->pluck('title', 'id');
+        $categories = $this->_categoryRepository->getAllAsync()->pluck('name', 'name');
+        $languages = $this->_languageRepository->getAllAsync()->pluck('title', 'id');
 
         return view('admin.users.create', compact('roles','categories','languages'));
     }
 
     public function store(StoreUserRequest $request)
     {
-        $user = $this->_userRepository->store($request);
+        $user = $this->_userRepository->storeAsync($request);
 
         return redirect()->route('admin.users.index');
     }
 
     public function edit(User $user)
     {
-        $roles = $this->_roleRepository->getAllData()->pluck('title', 'id');
-        $categories = $this->_categoryRepository->getAllData()->pluck('name', 'name');
-        $languages = $this->_languageRepository->getAllData()->pluck('title', 'id');
+        $roles = $this->_roleRepository->getAllAsync()->pluck('title', 'id');
+        $categories = $this->_categoryRepository->getAllAsync()->pluck('name', 'name');
+        $languages = $this->_languageRepository->getAllAsync()->pluck('title', 'id');
 
         $user->load('roles', 'categories', 'languages');
 
@@ -70,14 +70,14 @@ class UsersController extends Controller
 
     public function update(UpdateUserRequest $request, User $user)
     {
-        $user = $this->_userRepository->update($user->id, $request);
+        $user = $this->_userRepository->updateAsync($user->id, $request);
 
         return redirect()->route('admin.users.index');
     }
 
     public function show(User $user)
     {
-        $user = $this->_userRepository->view($user->id);
+        $user = $this->_userRepository->viewAsync($user->id);
 
         $user->load('roles', 'languages','categories');
 
@@ -86,14 +86,14 @@ class UsersController extends Controller
 
     public function destroy(User $user)
     {
-        $user = $this->_userRepository->delete($user->id);
+        $user = $this->_userRepository->deleteAsync($user->id);
 
         return back();
     }
 
     public function massDestroy(MassDestroyUserRequest $request)
     {
-        $users = $this->_userRepository->deleteAll($request('ids'));
+        $users = $this->_userRepository->deleteAllAsync($request('ids'));
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

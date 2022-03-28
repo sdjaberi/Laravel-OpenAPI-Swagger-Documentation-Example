@@ -11,22 +11,22 @@ use Barryvdh\Debugbar\Middleware\DebugbarEnabled;
 
 interface ITranslationRepository
 {
-    public function getAllData();
-    public function store($data);
-    public function update($id = null,$data);
-    public function view($id);
-    public function delete($id);
-    public function deleteAll($ids);
+    public function getAllAsync();
+    public function storeAsync($data);
+    public function updateAsync($id = null,$data);
+    public function viewAsync($id);
+    public function deleteAsync($id);
+    public function deleteAllAsync($ids);
 }
 
 class TranslationRepository implements ITranslationRepository
 {
-    public function getAllData()
+    public function getAllAsync()
     {
         return Translation::with('phrase','language','author')->get();
     }
 
-    public function store($data)
+    public function storeAsync($data)
     {
         $translation = new Translation();
         $translation->translation = $data['translation'];
@@ -38,7 +38,7 @@ class TranslationRepository implements ITranslationRepository
         return $translation;
     }
 
-    public function update($id = null, $data)
+    public function updateAsync($id = null, $data)
     {
         $translation = Translation::find($id);
 
@@ -54,19 +54,19 @@ class TranslationRepository implements ITranslationRepository
         return $translation;
     }
 
-    public function view($id)
+    public function viewAsync($id)
     {
         return Translation::find($id)->load('phrase','language','author');
     }
 
-    public function delete($id)
+    public function deleteAsync($id)
     {
-        return Translation::find($id)->delete();
+        return Translation::find($id)->deleteAsync();
     }
 
-    public function deleteAll($ids)
+    public function deleteAllAsync($ids)
     {
-        return Translation::whereIn('id', $ids)->delete();
+        return Translation::whereIn('id', $ids)->deleteAsync();
     }
 
 

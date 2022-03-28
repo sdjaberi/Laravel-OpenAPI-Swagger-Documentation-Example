@@ -11,9 +11,7 @@ class Category extends Model
 
     public $table = 'categories';
 
-    protected $primaryKey =  'name'; // or null
-
-    public $incrementing = false;
+    protected $primaryKey =  'name';
 
     // In Laravel 6.0+ make sure to also set $keyType
     protected $keyType = 'string';
@@ -26,6 +24,9 @@ class Category extends Model
 
     protected $fillable = [
         'name',
+        'description',
+        'icon',
+        'project_id',
         'created_at',
         'updated_at',
         'deleted_at',

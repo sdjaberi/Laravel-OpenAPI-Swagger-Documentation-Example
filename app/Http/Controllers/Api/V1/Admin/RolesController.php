@@ -39,7 +39,7 @@ class RolesController extends Controller
 
     public function update(UpdateRoleRequest $request, Role $role)
     {
-        $role->update($request->all());
+        $role->updateAsync($request->all());
         $role->permissions()->sync($request->input('permissions', []));
 
         return (new RoleResource($role))
@@ -51,7 +51,7 @@ class RolesController extends Controller
     {
         abort_if(Gate::denies('role_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $role->delete();
+        $role->deleteAsync();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

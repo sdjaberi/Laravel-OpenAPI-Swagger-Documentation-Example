@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Services\Identity\Models\LoginIn;
 use App\Services\Identity\Models\LoginOut;
 use App\Services\Identity\Models\RegisterIn;
-
 use App\Services\Base\Mapper;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -22,11 +21,11 @@ use Spatie\Async\Pool;
 interface IAccountService
 {
     /*
-    public function getAllData();
-    public function storeOrUpdate($id = null,$data);
-    public function view($id);
+    public function getAllAsync();
+    public function storeAsyncOrUpdate($id = null,$data);
+    public function viewAsync($id);
     public function viewByEmail($id);
-    public function delete($id);
+    public function deleteAsync($id);
     */
 
     public function login(LoginIn $model) : LoginOut;
@@ -127,9 +126,9 @@ class AccountService implements IAccountService
 
         //$tokens =  $user->tokens->pluck('id');
         //Token::whereIn('id', $tokens)
-        //->update(['revoked', true]);
+        //->updateAsync(['revoked', true]);
 
-        //RefreshToken::whereIn('access_token_id', $tokens)->update(['revoked' => true]);
+        //RefreshToken::whereIn('access_token_id', $tokens)->updateAsync(['revoked' => true]);
 
         return true;
     }
@@ -144,9 +143,9 @@ class AccountService implements IAccountService
 
         //dd($user);
 
-        $user = $this->_userRepository->store($user);
+        $user = $this->_userRepository->storeAsync($user);
 
-        $tokenResult = $this->_userRepository->storeToken($user);
+        $tokenResult = $this->_userRepository->storeAsyncToken($user);
 
         $loginOut = $this->_mapper->Map($model, new LoginOut);
         $loginOut->user = $user;
@@ -160,7 +159,7 @@ class AccountService implements IAccountService
         return $loginOut;
     }
 
-    public function view($id)
+    public function viewAsync($id)
     {
         return User::find($id);
     }
@@ -170,8 +169,8 @@ class AccountService implements IAccountService
         return User::find($email);
     }
 
-    public function delete($id)
+    public function deleteAsync($id)
     {
-        return User::find($id)->delete();
+        return User::find($id)->deleteAsync();
     }
 }

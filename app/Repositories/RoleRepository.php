@@ -7,22 +7,22 @@ use App\Http\Exceptions\ApiNotFoundException;
 
 interface IRoleRepository
 {
-    public function getAllData();
-    public function store($data);
-    public function update($id = null,$data);
-    public function view($id);
-    public function delete($id);
-    public function deleteAll($ids);
+    public function getAllAsync();
+    public function storeAsync($data);
+    public function updateAsync($id = null,$data);
+    public function viewAsync($id);
+    public function deleteAsync($id);
+    public function deleteAllAsync($ids);
 }
 
 class RoleRepository implements IRoleRepository
 {
-    public function getAllData()
+    public function getAllAsync()
     {
         return Role::latest()->get();
     }
 
-    public function store($data)
+    public function storeAsync($data)
     {
         $role = new Role();
         $role->title = $data['title'];
@@ -33,7 +33,7 @@ class RoleRepository implements IRoleRepository
         return $role;
     }
 
-    public function update($id = null, $data)
+    public function updateAsync($id = null, $data)
     {
         $role = Role::find($id);
 
@@ -48,18 +48,18 @@ class RoleRepository implements IRoleRepository
         return $role;
     }
 
-    public function view($id)
+    public function viewAsync($id)
     {
         return Role::find($id);
     }
 
-    public function delete($id)
+    public function deleteAsync($id)
     {
-        return Role::find($id)->delete();
+        return Role::find($id)->deleteAsync();
     }
 
-    public function deleteAll($ids)
+    public function deleteAllAsync($ids)
     {
-        return Role::whereIn('id', $ids)->delete();
+        return Role::whereIn('id', $ids)->deleteAsync();
     }
 }

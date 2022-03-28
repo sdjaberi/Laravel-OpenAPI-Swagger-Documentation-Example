@@ -170,7 +170,8 @@ return [
 
         'passport' => [ // Unique name of security
             'type' => 'apiKey', // The type of the security scheme. Valid values are "basic", "apiKey" or "oauth2".
-            'description' => 'enter your apikey.',
+            'description' => 'Enter "Bearer + [space] + [token]" in the text input below(Value).',
+            'example' => 'Bearer 1qaz2wsx3edc',
             'in' => 'header',
             'name' =>  'Authorization',
         ],

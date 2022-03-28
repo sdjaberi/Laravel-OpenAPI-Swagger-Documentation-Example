@@ -23,7 +23,7 @@ class LanguagesController extends Controller
 
     public function index(IndexLanguageRequest $request)
     {
-        $languages = $this->_languageRepository->getAllData();
+        $languages = $this->_languageRepository->getAllAsync();
 
         return view('admin.languages.index', compact('languages'));
     }
@@ -41,7 +41,7 @@ class LanguagesController extends Controller
     {
         //dd($request->all());
 
-        $language = $this->_languageRepository->store($request);
+        $language = $this->_languageRepository->storeAsync($request);
 
         return redirect()->route('admin.languages.index');
     }
@@ -57,14 +57,14 @@ class LanguagesController extends Controller
     {
         //dd($request->all());
 
-        $language = $this->_languageRepository->update($language->id, $request);
+        $language = $this->_languageRepository->updateAsync($language->id, $request);
 
         return redirect()->route('admin.languages.index');
     }
 
     public function show(Language $language)
     {
-        $language = $this->_languageRepository->view($language->id);
+        $language = $this->_languageRepository->viewAsync($language->id);
 
         $language->load('projects');
         $language->load('users');
@@ -74,14 +74,14 @@ class LanguagesController extends Controller
 
     public function destroy(Language $language)
     {
-        $language = $this->_languageRepository->delete($language->id);
+        $language = $this->_languageRepository->deleteAsync($language->id);
 
         return back();
     }
 
     public function massDestroy(MassDestroyLanguageRequest $request)
     {
-        $languages = $this->_languageRepository->deleteAll(request('ids'));
+        $languages = $this->_languageRepository->deleteAllAsync(request('ids'));
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

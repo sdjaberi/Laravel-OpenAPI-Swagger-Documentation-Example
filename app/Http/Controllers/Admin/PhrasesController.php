@@ -32,30 +32,30 @@ class PhrasesController extends Controller
 
     public function index(IndexPhraseRequest $request)
     {
-        $phrases = $this->_phraseRepository->getAllData();
+        $phrases = $this->_phraseRepository->getAllAsync();
 
         return view('admin.phrases.index', compact('phrases'));
     }
 
     public function create(CreatePhraseRequest $request)
     {
-        $categories = $this->_categoryRepository->getAllData()->pluck('name','name')->prepend(trans('global.pleaseSelect'), '');
-        $phraseCategories = $this->_phraseCategoryRepository->getAllData()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $categories = $this->_categoryRepository->getAllAsync()->pluck('name','name')->prepend(trans('global.pleaseSelect'), '');
+        $phraseCategories = $this->_phraseCategoryRepository->getAllAsync()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         return view('admin.phrases.create', compact('categories', 'phraseCategories'));
     }
 
     public function store(StorePhraseRequest $request)
     {
-        $phrase = $this->_phraseRepository->store($request);
+        $phrase = $this->_phraseRepository->storeAsync($request);
 
         return redirect()->route('admin.phrases.index');
     }
 
     public function edit(Phrase $phrase)
     {
-        $categories = $this->_categoryRepository->getAllData()->pluck('name','name')->prepend(trans('global.pleaseSelect'), '');
-        $phraseCategories = $this->_phraseCategoryRepository->getAllData()->pluck('name','id')->prepend(trans('global.pleaseSelect'), '');
+        $categories = $this->_categoryRepository->getAllAsync()->pluck('name','name')->prepend(trans('global.pleaseSelect'), '');
+        $phraseCategories = $this->_phraseCategoryRepository->getAllAsync()->pluck('name','id')->prepend(trans('global.pleaseSelect'), '');
 
         $phrase->load('category');
         $phrase->load('phraseCategory');
@@ -65,28 +65,28 @@ class PhrasesController extends Controller
 
     public function update(UpdatePhraseRequest $request, Phrase $phrase)
     {
-        $phrase = $this->_phraseRepository->update($phrase->id, $request);
+        $phrase = $this->_phraseRepository->updateAsync($phrase->id, $request);
 
         return redirect()->route('admin.phrases.index');
     }
 
     public function show(Phrase $phrase)
     {
-        $phrase = $this->_phraseRepository->view($phrase->id);
+        $phrase = $this->_phraseRepository->viewAsync($phrase->id);
 
         return view('admin.phrases.show', compact('phrase'));
     }
 
     public function destroy(Phrase $phrase)
     {
-        $phrase = $this->_phraseRepository->delete($phrase->id);
+        $phrase = $this->_phraseRepository->deleteAsync($phrase->id);
 
         return back();
     }
 
     public function massDestroy(MassDestroyPhraseRequest $request)
     {
-        $phrases = $this->_phraseRepository->deleteAll($request('ids'));
+        $phrases = $this->_phraseRepository->deleteAllAsync($request('ids'));
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

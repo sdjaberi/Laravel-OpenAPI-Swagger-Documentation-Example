@@ -11,24 +11,24 @@ use Barryvdh\Debugbar\Middleware\DebugbarEnabled;
 
 interface IPhraseCategoryRepository
 {
-    public function getAllData();
-    public function store($data);
-    public function update($id = null,$data);
+    public function getAllAsync();
+    public function storeAsync($data);
+    public function updateAsync($id = null,$data);
     public function upsert($data);
-    public function view($id);
-    public function delete($id);
-    public function deleteAll($ids);
+    public function viewAsync($id);
+    public function deleteAsync($id);
+    public function deleteAllAsync($ids);
     public function findByName($phraseCategoryName);
 }
 
 class PhraseCategoryRepository implements IPhraseCategoryRepository
 {
-    public function getAllData()
+    public function getAllAsync()
     {
         return PhraseCategory::all();
     }
 
-    public function store($data)
+    public function storeAsync($data)
     {
         $phraseCategory = new PhraseCategory();
         $phraseCategory->name = $data->name;
@@ -38,7 +38,7 @@ class PhraseCategoryRepository implements IPhraseCategoryRepository
         return $phraseCategory;
     }
 
-    public function update($id = null, $data)
+    public function updateAsync($id = null, $data)
     {
         $phraseCategory = PhraseCategory::find($id);
 
@@ -68,19 +68,19 @@ class PhraseCategoryRepository implements IPhraseCategoryRepository
         return $phraseCategory;
     }
 
-    public function view($id)
+    public function viewAsync($id)
     {
         return PhraseCategory::find($id);
     }
 
-    public function delete($id)
+    public function deleteAsync($id)
     {
-        return PhraseCategory::find($id)->delete();
+        return PhraseCategory::find($id)->deleteAsync();
     }
 
-    public function deleteAll($ids)
+    public function deleteAllAsync($ids)
     {
-        return PhraseCategory::whereIn('id', $ids)->delete();
+        return PhraseCategory::whereIn('id', $ids)->deleteAsync();
     }
 
     public function findByName($phraseCategoryName)
