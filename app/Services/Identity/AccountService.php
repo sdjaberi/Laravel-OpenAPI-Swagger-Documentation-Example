@@ -145,7 +145,7 @@ class AccountService implements IAccountService
 
         $user = $this->_userRepository->storeAsync($user);
 
-        $tokenResult = $this->_userRepository->storeAsyncToken($user);
+        $tokenResult = $this->_userRepository->storeTokenAsync($user);
 
         $loginOut = $this->_mapper->Map($model, new LoginOut);
         $loginOut->user = $user;

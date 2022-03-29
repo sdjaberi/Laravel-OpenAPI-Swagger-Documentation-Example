@@ -1,25 +1,21 @@
 <?php
 
-namespace App\Http\Requests\Web\Projects;
+namespace App\Http\Requests\Web\Roles;
 
-use App\Models\Project;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
-use Symfony\Component\HttpFoundation\Response;
-use App\Http\Exceptions\ApiRequestException;
-use App\Http\Exceptions\ApiNotFoundException;
-use App\Http\Exceptions\ApiUnAuthException;
 use App\Http\Exceptions\ApiPermissionException;
+use App\Http\Exceptions\ApiUnAuthException;
 
-class CreateProjectRequest extends FormRequest
+class ShowRoleRequest extends FormRequest
 {
     public function authorize()
     {
         if(!Auth::user())
             throw new ApiUnAuthException('Please Login First');
 
-        if(!Gate::allows('project_create'))
+        if(!Gate::allows('role_show'))
             throw new ApiPermissionException();
 
         return true;

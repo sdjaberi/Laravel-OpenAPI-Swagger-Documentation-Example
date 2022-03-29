@@ -19,7 +19,9 @@ class Phrase extends Model
 
     protected $fillable = [
         'phrase',
+        'base_id',
         'category_name',
+        'phrase_category_id',
         'created_at',
         'updated_at',
         'deleted_at',

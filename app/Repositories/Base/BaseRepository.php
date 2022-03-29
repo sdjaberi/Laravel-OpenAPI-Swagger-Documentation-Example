@@ -18,14 +18,14 @@ interface IBaseRepository
     * @param array $attributes
     * @return Model
     */
-   public function storeAsync(array $attributes): Model;
+   public function storeAsync(array $attributes, array $relations = []): Model;
 
     /**
     * @param $id
     * @param array $attributes
     * @return bool
     */
-    public function updateAsync($id = null, array $attributes): ?bool;
+    public function updateAsync($id = null, array $attributes, array $relations = []): ?bool;
 
     /**
     * @param array $attributes
@@ -83,34 +83,49 @@ class BaseRepository implements IBaseRepository
 
     /**
     * @param array $attributes
+    * @param array $relations
     *
     * @return Model
     */
-    public function storeAsync(array $attributes): Model
+    public function storeAsync(array $attributes, array $relations = []): Model
     {
         return
-            $this->asyncExecution(function() use($attributes) {
-                return $this->model->create($attributes);
+            $this->asyncExecution(function() use($attributes, $relations) {
+
+                $model = $this->model->create($attributes);
+
+                if(isset($relations)){
+                    foreach ($relations as $relation)
+                        $model->$relation()->sync($attributes[$relation]);
+                }
+
+                return $model;
             });
     }
 
     /**
     * @param array $attributes
+    * @param array $relations
     * @param string $id
     *
     * @return bool
     */
-    public function updateAsync($id = null, array $attributes): ?bool
+    public function updateAsync($id = null, array $attributes, array $relations = []): ?bool
     {
         return
-            $this->asyncExecution(function() use($id, $attributes) {
+            $this->asyncExecution(function() use($id, $attributes, $relations) {
 
-                $this->model = $this->model->find($id);
+                $model = $this->model->with($relations)->find($id);
 
-                if(!$this->model)
+                if(!$model)
                     throw new ApiNotFoundException();
 
-                return $this->model->update($attributes);
+                if(isset($relations)){
+                    foreach ($relations as $relation)
+                        $model->$relation()->sync($attributes[$relation]);
+                }
+
+                return $model->update($attributes);
             });
     }
 
@@ -163,14 +178,20 @@ class BaseRepository implements IBaseRepository
             });
     }
 
-    function asyncExecution(callable $fn)
+    public function asyncExecution(callable $fn)
     {
         $pool = Pool::create();
+
         $pool[] = async(function () use($fn){
             return $fn();
         })->then(function ($output) {
             $this->result = $output;
+        })
+        ->catch(function ($exception) {
+            // Handle the thrown exception for this child process.
+            throw $exception;
         });
+
         await($pool);
 
         return $this->result;

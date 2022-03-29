@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\Translations\IndexTranslationRequest;
-use App\Http\Requests\Web\Translations\CreateTranslationRequest;
-use App\Http\Requests\Web\Translations\MassDestroyTranslationRequest;
 use App\Http\Requests\Web\Translations\StoreTranslationRequest;
 use App\Http\Requests\Web\Translations\UpdateTranslationRequest;
+use App\Http\Requests\Web\Translations\ShowTranslationRequest;
+use App\Http\Requests\Web\Translations\DeleteTranslationRequest;
+use App\Http\Requests\Web\Translations\MassDestroyTranslationRequest;
 use App\Http\Requests\Web\Translations\UpdateTranslationAjaxRequest;
 use Symfony\Component\HttpFoundation\Response;
 use App\Models\Translation;
@@ -16,7 +17,6 @@ use App\Repositories\UserRepository;
 use App\Repositories\LanguageRepository;
 use App\Repositories\PhraseRepository;
 use Illuminate\Http\Request;
-use PHPUnit\Framework\MockObject\Rule\Parameters;
 
 class TranslationsController extends Controller
 {
@@ -25,7 +25,12 @@ class TranslationsController extends Controller
     private $_languageRepository;
     private $_phraseRepository;
 
-    public function __construct(TranslationRepository $translationRepository, UserRepository $userRepository, LanguageRepository $languageRepository, PhraseRepository $phraseRepository)
+    public function __construct(
+        TranslationRepository $translationRepository,
+        UserRepository $userRepository,
+        LanguageRepository $languageRepository,
+        PhraseRepository $phraseRepository
+        )
     {
         $this->_translationRepository = $translationRepository;
         $this->_userRepository = $userRepository;
@@ -40,7 +45,7 @@ class TranslationsController extends Controller
         return view('admin.translations.index'); //, compact('translations'));
     }
 
-    public function create(CreateTranslationRequest $request)
+    public function create()
     {
         $authors = $this->_userRepository->getAllAsync()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
         $languages = $this->_languageRepository->getAllNotPrimaryAsync()->pluck('title', 'id')->prepend(trans('global.pleaseSelect'), '');
@@ -52,9 +57,7 @@ class TranslationsController extends Controller
 
     public function store(StoreTranslationRequest $request)
     {
-        //dd($request->all());
-
-        $translation = $this->_translationRepository->storeAsync($request);
+        $translation = $this->_translationRepository->storeAsync($request->all());
 
         return redirect()->route('admin.translations.index');
     }
@@ -76,28 +79,30 @@ class TranslationsController extends Controller
         /*  Validate requested data */
         //$request->validated();
 
-        $translation = $this->_translationRepository->updateAsync($translation->id, $request);
+        //dd($request->all());
+
+        $result = $this->_translationRepository->updateAsync($translation->id, $request->all());
 
         return redirect()->route('admin.translations.index');
     }
 
-    public function show(Translation $translation)
+    public function show(ShowTranslationRequest $request, Translation $translation)
     {
         $translation = $this->_translationRepository->viewAsync($translation->id);
 
         return view('admin.translations.show', compact('translation'));
     }
 
-    public function destroy(Translation $translation)
+    public function destroy(DeleteTranslationRequest $request, Translation $translation)
     {
-        $translation = $this->_translationRepository->deleteAsync($translation->id);
+        $result = $this->_translationRepository->deleteAsync($translation->id);
 
         return back();
     }
 
     public function massDestroy(MassDestroyTranslationRequest $request)
     {
-        $translations = $this->_translationRepository->deleteAllAsync($request->ids);
+        $result = $this->_translationRepository->deleteAllAsync($request->ids);
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

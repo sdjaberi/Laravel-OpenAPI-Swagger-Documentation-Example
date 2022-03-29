@@ -44,7 +44,7 @@
 
             <div class="form-group">
                 <label for="is_primary" >{{ trans('cruds.language.fields.is_primary') }}</label>
-                <input class="form-control {{ $errors->has('is_primary') ? 'is-invalid' : '' }}" type="checkbox" name="is_primary" id="is_primary" value="{{ old('is_primary', '') }}">
+                <input class="form-control {{ $errors->has('is_primary') ? 'is-invalid' : '' }}" type="checkbox" name="is_primary" id="is_primary" value="">
                 @if($errors->has('is_primary'))
                     <div class="invalid-feedback">
                         {{ $errors->first('is_primary') }}
@@ -55,7 +55,7 @@
 
             <div class="form-group">
                 <label for="active" >{{ trans('cruds.language.fields.active') }}</label>
-                <input class="form-control {{ $errors->has('active') ? 'is-invalid' : '' }}" type="checkbox" name="active" id="active" value="{{ old('active', '') }}"
+                <input class="form-control {{ $errors->has('active') ? 'is-invalid' : '' }}" type="checkbox" name="active" id="active" value=""
                     checked>
                 @if($errors->has('active'))
                     <div class="invalid-feedback">

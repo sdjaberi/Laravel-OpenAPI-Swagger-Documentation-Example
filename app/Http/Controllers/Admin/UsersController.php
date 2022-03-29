@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\Users\IndexUserRequest;
-use App\Http\Requests\Web\Users\CreateUserRequest;
-use App\Http\Requests\Web\Users\MassDestroyUserRequest;
 use App\Http\Requests\Web\Users\StoreUserRequest;
 use App\Http\Requests\Web\Users\UpdateUserRequest;
+use App\Http\Requests\Web\Users\ShowUserRequest;
+use App\Http\Requests\Web\Users\DeleteUserRequest;
+use App\Http\Requests\Web\Users\MassDestroyUserRequest;
 use App\Models\User;
 use Symfony\Component\HttpFoundation\Response;
 use App\Repositories\UserRepository;
@@ -41,7 +42,7 @@ class UsersController extends Controller
         return view('admin.users.index', compact('users'));
     }
 
-    public function create(CreateUserRequest $request)
+    public function create()
     {
         $roles = $this->_roleRepository->getAllAsync()->pluck('title', 'id');
         $categories = $this->_categoryRepository->getAllAsync()->pluck('name', 'name');
@@ -52,7 +53,11 @@ class UsersController extends Controller
 
     public function store(StoreUserRequest $request)
     {
-        $user = $this->_userRepository->storeAsync($request);
+    //$user->password = bcrypt($data['password']);
+        $attributes = $request->all();
+        $attributes['password'] = bcrypt($attributes['password']);
+
+        $user = $this->_userRepository->storeAsync($attributes, ['roles','categories','languages']);
 
         return redirect()->route('admin.users.index');
     }
@@ -70,12 +75,16 @@ class UsersController extends Controller
 
     public function update(UpdateUserRequest $request, User $user)
     {
-        $user = $this->_userRepository->updateAsync($user->id, $request);
+        $attributes = $request->all();
+        if(strlen(trim($attributes['password'])) > 0)
+            $attributes['password'] = bcrypt($attributes['password']);
+
+        $user = $this->_userRepository->updateAsync($user->id, $attributes, ['roles','categories','languages']);
 
         return redirect()->route('admin.users.index');
     }
 
-    public function show(User $user)
+    public function show(ShowUserRequest $request, User $user)
     {
         $user = $this->_userRepository->viewAsync($user->id);
 
@@ -84,16 +93,16 @@ class UsersController extends Controller
         return view('admin.users.show', compact('user'));
     }
 
-    public function destroy(User $user)
+    public function destroy(DeleteUserRequest $request, User $user)
     {
-        $user = $this->_userRepository->deleteAsync($user->id);
+        $result = $this->_userRepository->deleteAsync($user->id);
 
         return back();
     }
 
     public function massDestroy(MassDestroyUserRequest $request)
     {
-        $users = $this->_userRepository->deleteAllAsync($request('ids'));
+        $result = $this->_userRepository->deleteAllAsync($request->ids);
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

@@ -32,24 +32,8 @@ class HomeController
 
     public function index()
     {
-        $pool = Pool::create();
-
-        $pool[] = async(function () {
-            return $this->_languageRepository->getAllAsync()->sortBy('id');
-        })->then(function ($output) {
-            $this->languages=$output;
-        });
-
-        $pool[] = async(function () {
-            return $this->_categoryRepository->getAllAsync();
-        })->then(function ($output) {
-            $this->categories=$output;
-        });
-
-        await($pool);
-
-        $languages = $this->languages;
-        $categories = $this->categories;
+        $languages = $this->_languageRepository->getAllAsync()->sortBy('id');
+        $categories = $this->_categoryRepository->getAllAsync();
 
         return view('home', compact('languages','categories'));
     }

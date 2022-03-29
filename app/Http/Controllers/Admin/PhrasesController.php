@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\Phrases\IndexPhraseRequest;
-use App\Http\Requests\Web\Phrases\CreatePhraseRequest;
-use App\Http\Requests\Web\Phrases\MassDestroyPhraseRequest;
 use App\Http\Requests\Web\Phrases\StorePhraseRequest;
 use App\Http\Requests\Web\Phrases\UpdatePhraseRequest;
+use App\Http\Requests\Web\Phrases\ShowPhraseRequest;
+use App\Http\Requests\Web\Phrases\DeletePhraseRequest;
+use App\Http\Requests\Web\Phrases\MassDestroyPhraseRequest;
 use Symfony\Component\HttpFoundation\Response;
 use App\Models\Phrase;
 use App\Repositories\PhraseRepository;
@@ -32,12 +33,12 @@ class PhrasesController extends Controller
 
     public function index(IndexPhraseRequest $request)
     {
-        $phrases = $this->_phraseRepository->getAllAsync();
+        $phrases = $this->_phraseRepository->getAllWithCategory();
 
         return view('admin.phrases.index', compact('phrases'));
     }
 
-    public function create(CreatePhraseRequest $request)
+    public function create()
     {
         $categories = $this->_categoryRepository->getAllAsync()->pluck('name','name')->prepend(trans('global.pleaseSelect'), '');
         $phraseCategories = $this->_phraseCategoryRepository->getAllAsync()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
@@ -47,7 +48,7 @@ class PhrasesController extends Controller
 
     public function store(StorePhraseRequest $request)
     {
-        $phrase = $this->_phraseRepository->storeAsync($request);
+        $phrase = $this->_phraseRepository->storeAsync($request->all());
 
         return redirect()->route('admin.phrases.index');
     }
@@ -65,19 +66,19 @@ class PhrasesController extends Controller
 
     public function update(UpdatePhraseRequest $request, Phrase $phrase)
     {
-        $phrase = $this->_phraseRepository->updateAsync($phrase->id, $request);
+        $result = $this->_phraseRepository->updateAsync($phrase->id, $request->all());
 
         return redirect()->route('admin.phrases.index');
     }
 
-    public function show(Phrase $phrase)
+    public function show(ShowPhraseRequest $request, Phrase $phrase)
     {
         $phrase = $this->_phraseRepository->viewAsync($phrase->id);
 
         return view('admin.phrases.show', compact('phrase'));
     }
 
-    public function destroy(Phrase $phrase)
+    public function destroy(DeletePhraseRequest $request, Phrase $phrase)
     {
         $phrase = $this->_phraseRepository->deleteAsync($phrase->id);
 
@@ -86,7 +87,7 @@ class PhrasesController extends Controller
 
     public function massDestroy(MassDestroyPhraseRequest $request)
     {
-        $phrases = $this->_phraseRepository->deleteAllAsync($request('ids'));
+        $phrases = $this->_phraseRepository->deleteAllAsync($request->ids);
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

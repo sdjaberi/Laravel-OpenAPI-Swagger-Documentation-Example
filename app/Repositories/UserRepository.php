@@ -3,97 +3,59 @@
 namespace App\Repositories;
 
 use App\Models\User;
-use App\Http\Exceptions\ApiNotFoundException;
+use App\Repositories\Base\BaseRepository;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
+use Laravel\Passport\PersonalAccessTokenResult;
 
 interface IUserRepository
 {
-    public function getAllAsync();
-    public function storeAsync($data);
-    public function updateAsync($id = null,$data);
-    public function viewAsync($id);
-    public function viewByEmail($id);
-    public function deleteAsync($id);
-    public function deleteAllAsync($ids);
-
-    public function storeAsyncToken($data);
+    public function viewByEmailAsync($id): User;
+    public function storeTokenAsync($data): PersonalAccessTokenResult;
 }
 
-class UserRepository implements IUserRepository
+class UserRepository extends BaseRepository implements IUserRepository
 {
-    public function getAllAsync()
+    /**
+    * UserRepository constructor.
+    *
+    * @param User $model
+    */
+    public function __construct(User $model)
     {
-        return User::latest()->get();
+        parent::__construct($model);
     }
 
-    public function storeAsync($data)
+    /**
+    * @param string $email
+    *
+    * @return User
+    */
+    public function viewByEmailAsync($email):User
     {
-        $user = new User();
-        $user->name = $data['name'];
-        $user->email = $data['email'];
-        $user->password = bcrypt($data['password']);
-        $user->save();
-
-        $user->roles()->sync($data['roles']);
-        $user->languages()->sync($data['languages']);
-        $user->categories()->sync($data['categories']);
-
-        return $user;
+        return
+            parent::asyncExecution(function() use($email) {
+                return parent::getAllAsync()->first('email', $email);
+            });
     }
 
-    public function updateAsync($id = null, $data)
+    /**
+    * @param User $user
+    *
+    * @return PersonalAccessTokenResult
+    */
+    public function storeTokenAsync($user): PersonalAccessTokenResult
     {
-        $user = User::find($id);
+        return
+            parent::asyncExecution(function() use($user) {
+                $tokenResult = $user->createToken('Personal Access Token');
 
-        if(!$user)
-            throw new ApiNotFoundException();
+                $token = $tokenResult->token;
+                $token->expires_at = Carbon::now()->addWeeks(1);
 
-        $user->name = $data['name'];
-        $user->email = $data['email'];
+                $token->save();
 
-        if(strlen(trim($data['password'])) > 0)
-            $user->password = bcrypt($data['password']);
-
-        $user->save();
-
-        $user->roles()->sync($data['roles']);
-        $user->languages()->sync($data['languages']);
-        $user->categories()->sync($data['categories']);
-
-        return $user;
-    }
-
-    public function viewAsync($id)
-    {
-        return User::find($id);
-    }
-
-    public function viewByEmail($email)
-    {
-        return User::find($email);
-    }
-
-    public function deleteAsync($id)
-    {
-        return User::find($id)->deleteAsync();
-    }
-
-    public function deleteAllAsync($ids)
-    {
-        return User::whereIn('id', $ids)->deleteAsync();
-    }
-
-    public function storeAsyncToken($user)
-    {
-        $tokenResult = $user->createToken('Personal Access Token');
-
-        $token = $tokenResult->token;
-        $token->expires_at = Carbon::now()->addWeeks(1);
-
-        $token->save();
-
-        return $tokenResult;
+                return $tokenResult;
+            });
     }
 
 }

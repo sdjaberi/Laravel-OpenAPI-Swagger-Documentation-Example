@@ -3,71 +3,62 @@
 namespace App\Repositories;
 
 use App\Models\Translation;
-use Illuminate\Support\Facades\Gate;
-use App\Http\Exceptions\ApiNotFoundException;
-use App\Http\Exceptions\ApiPermissionException;
-use Barryvdh\Debugbar\Facades\Debugbar;
-use Barryvdh\Debugbar\Middleware\DebugbarEnabled;
+use App\Repositories\Base\BaseRepository;
+use Illuminate\Database\Eloquent\Collection;
 
 interface ITranslationRepository
 {
-    public function getAllAsync();
-    public function storeAsync($data);
-    public function updateAsync($id = null,$data);
-    public function viewAsync($id);
-    public function deleteAsync($id);
-    public function deleteAllAsync($ids);
+    public function findTranslationsCount($categoryName, $languageId): Collection;
+    public function findTranslations($categoryName, $languageId): Collection;
 }
 
-class TranslationRepository implements ITranslationRepository
+class TranslationRepository extends BaseRepository implements ITranslationRepository
 {
-    public function getAllAsync()
+    /**
+    * TranslationRepository constructor.
+    *
+    * @param Translation $model
+    */
+    public function __construct(Translation $model)
     {
-        return Translation::with('phrase','language','author')->get();
+        parent::__construct($model);
     }
 
-    public function storeAsync($data)
+    /**
+    * @param string $categoryName
+    * @param integer $languageId
+    *
+    * @return Collection
+    */
+    public function findTranslationsCount($categoryName, $languageId): Collection
     {
-        $translation = new Translation();
-        $translation->translation = $data['translation'];
-        $translation->phrase_id = $data['phrase_id'];
-        $translation->language_id = $data['language_id'];
-        $translation->user_id = $data['user_id'];
-        $translation->save();
-
-        return $translation;
+        return
+            parent::asyncExecution(function() use($categoryName, $languageId) {
+                return Translation::join('phrases', 'phrase_translations.phrase_id', '=', 'phrases.id')
+                    ->select('phrase_translations.id', 'phrase_translations.language_id', 'phrases.category_name')
+                    ->where([
+                        ($categoryName) ? ['category_name', $categoryName] : [],
+                        ($languageId) ? ['language_id', $languageId] : []
+                    ]);
+            });
     }
 
-    public function updateAsync($id = null, $data)
+    /**
+    * @param string $categoryName
+    * @param integer $languageId
+    *
+    * @return Collection
+    */
+    public function findTranslations($categoryName, $languageId): Collection
     {
-        $translation = Translation::find($id);
-
-        if(!$translation)
-            throw new ApiNotFoundException();
-
-        $translation->translation = $data['translation'];
-        $translation->phrase_id = $data['phrase_id'];
-        $translation->language_id = $data['language_id'];
-        $translation->user_id = $data['user_id'];
-        $translation->save();
-
-        return $translation;
+        return
+            parent::asyncExecution(function() use($categoryName, $languageId) {
+                return Translation::join('phrases', 'phrase_translations.phrase_id', '=', 'phrases.id')
+                    ->select('phrase_translations.*', 'phrases.*')
+                    ->where([
+                        ($categoryName) ? ['category_name', $categoryName] : [],
+                        ($languageId) ? ['language_id', $languageId] : []
+                    ]);
+            });
     }
-
-    public function viewAsync($id)
-    {
-        return Translation::find($id)->load('phrase','language','author');
-    }
-
-    public function deleteAsync($id)
-    {
-        return Translation::find($id)->deleteAsync();
-    }
-
-    public function deleteAllAsync($ids)
-    {
-        return Translation::whereIn('id', $ids)->deleteAsync();
-    }
-
-
 }

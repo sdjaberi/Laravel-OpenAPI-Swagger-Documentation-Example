@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\Roles\IndexRoleRequest;
-use App\Http\Requests\Web\Roles\CreateRoleRequest;
-use App\Http\Requests\Web\Roles\MassDestroyRoleRequest;
 use App\Http\Requests\Web\Roles\StoreRoleRequest;
 use App\Http\Requests\Web\Roles\UpdateRoleRequest;
+use App\Http\Requests\Web\Roles\ShowRoleRequest;
+use App\Http\Requests\Web\Roles\DeleteRoleRequest;
+use App\Http\Requests\Web\Roles\MassDestroyRoleRequest;
 use App\Models\Role;
 use Symfony\Component\HttpFoundation\Response;
 use App\Repositories\RoleRepository;
@@ -31,7 +32,7 @@ class RolesController extends Controller
         return view('admin.roles.index', compact('roles'));
     }
 
-    public function create(CreateRoleRequest $request)
+    public function create()
     {
         $permissions = $this->_permissionRepository->getAllAsync()->pluck('title', 'id');
 
@@ -40,7 +41,7 @@ class RolesController extends Controller
 
     public function store(StoreRoleRequest $request)
     {
-        $role = $this->_roleRepository->storeAsync($request);
+        $role = $this->_roleRepository->storeAsync($request->all(), ['permissions']);
 
         return redirect()->route('admin.roles.index');
     }
@@ -56,21 +57,21 @@ class RolesController extends Controller
 
     public function update(UpdateRoleRequest $request, Role $role)
     {
-        $role = $this->_roleRepository->updateAsync($role->id, $request);
+        $role = $this->_roleRepository->updateAsync($role->id, $request->all(), ['permissions']);
 
         return redirect()->route('admin.roles.index');
     }
 
-    public function show(Role $role)
+    public function show(ShowRoleRequest $request, Role $role)
     {
         $role = $this->_roleRepository->viewAsync($role->id);
 
-        $role->load('permissions','rolesUsers');
+        //$role->load('permissions','rolesUsers');
 
         return view('admin.roles.show', compact('role'));
     }
 
-    public function destroy(MassDestroyRoleRequest $request, Role $role)
+    public function destroy(DeleteRoleRequest $request, Role $role)
     {
         $role = $this->_roleRepository->deleteAsync($role->id);
 
@@ -79,7 +80,7 @@ class RolesController extends Controller
 
     public function massDestroy(MassDestroyRoleRequest $request)
     {
-        $roles = $this->_roleRepository->deleteAllAsync($request('ids'));
+        $roles = $this->_roleRepository->deleteAllAsync($request->ids);
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

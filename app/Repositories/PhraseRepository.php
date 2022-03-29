@@ -3,139 +3,80 @@
 namespace App\Repositories;
 
 use App\Models\Phrase;
-use Illuminate\Support\Facades\Gate;
-use App\Http\Exceptions\ApiNotFoundException;
-use App\Http\Exceptions\ApiPermissionException;
-use App\Models\PhraseCategory;
-use App\Models\Translation;
-use Barryvdh\Debugbar\Facades\Debugbar;
-use Barryvdh\Debugbar\Middleware\DebugbarEnabled;
+use App\Repositories\Base\BaseRepository;
+use Illuminate\Database\Eloquent\Collection;
 
 interface IPhraseRepository
 {
-    public function getAllAsync();
-    public function storeAsync($data);
-    public function updateAsync($id = null,$data);
-    public function upsert($data);
-    public function viewAsync($id);
-    public function deleteAsync($id);
-    public function deleteAllAsync($ids);
-    public function find($phrase, $categoryName, $phraseCategoryName);
-    public function phrasesHasPhraseCategory($categoryName);
-    public function categoryTranslations($categoryName);
+    public function getAllWithCategory(): Collection;
+    public function find($phrase, $categoryName, $phraseCategoryName): Phrase;
+    public function phrasesHasPhraseCategory($categoryName): Collection;
 }
 
-class PhraseRepository implements IPhraseRepository
+class PhraseRepository extends BaseRepository implements IPhraseRepository
 {
-    public function getAllAsync()
+    private $_phraseCategoryRepository;
+
+    /**
+    * PhraseRepository constructor.
+    *
+    * @param Phrase $model
+    */
+    public function __construct(Phrase $model, PhraseCategoryRepository $phraseCategoryRepository)
     {
-        return Phrase::with('category')->get();
+        parent::__construct($model);
+        $this->_phraseCategoryRepository = $phraseCategoryRepository;
     }
 
-    public function storeAsync($data)
+    /**
+    *
+    * @return Collection
+    */
+    public function getAllWithCategory(): Collection
     {
-        $phrase = new Phrase();
-
-        if(property_exists($data, 'base_id'))
-            $phrase->base_id = $data->base_id;
-
-        $phrase->phrase = $data->phrase;
-        $phrase->category_name = $data->category_name;
-        $phrase->phrase_category_id = $data->phrase_category_id;
-        $phrase->save();
-
-        return $phrase;
+        return
+            parent::asyncExecution(function() {
+                return Phrase::with('category')->get();
+            });
     }
 
-    public function updateAsync($id = null, $data)
+    /**
+    * @param string $phrase$
+    * @param string $categoryName
+    * @param string $phraseCategoryName
+    *
+    * @return Phrase
+    */
+    public function find($phrase, $categoryName, $phraseCategoryName): Phrase
     {
-        $phrase = Phrase::find($id);
+        return
+            parent::asyncExecution(function() use($phrase, $categoryName, $phraseCategoryName) {
 
-        if(!$phrase)
-            throw new ApiNotFoundException();
+                $phraseCategory = ($phraseCategoryName) ? $this->_phraseCategoryRepository->getByNameAsync($phraseCategoryName)->get() : null;
 
-        if(property_exists($data, 'base_id'))
-            $phrase->base_id = $data->base_id;
+                $phraseEntity = parent::getAllAsync()->where(
+                    [
+                        ($phrase) ? ['phrase', $phrase] : [],
+                        ($categoryName) ? ['category_name', $categoryName] : [],
+                        ($phraseCategory) ? ['phrase_category_id', $phraseCategory->id] : [],
+                    ]
+                )->first();
 
-        $phrase->phrase = $data['phrase'];
-        $phrase->category_name = $data['category_name'];
-        $phrase->phrase_category_id = $data['phrase_category_id'];
-        $phrase->save();
-
-        return $phrase;
+                return $phraseEntity;
+            });
     }
 
-    public function upsert($data)
+    /**
+    * @param string $categoryName
+    *
+    * @return Collection
+    */
+    public function phrasesHasPhraseCategory($categoryName): Collection
     {
-        $phrase = new Phrase();
-
-        $phrase->phrase = $data->phrase;
-        $phrase->category_name = $data->category_name;
-        $phrase->phrase_category_id = $data->phrase_category_id;
-
-        $phrase = Phrase::updateOrCreate([$phrase->phrase, $phrase->category_name, $phrase->phrase_category_id]);
-
-        //$phrase->updateOrCreate();
-
-        return $phrase;
-    }
-
-    public function viewAsync($id)
-    {
-        return Phrase::find($id)->load('category');
-    }
-
-    public function deleteAsync($id)
-    {
-        $phrase = Phrase::find($id);
-
-        if(!$phrase)
-            throw new ApiNotFoundException();
-
-        return $phrase->deleteAsync();
-    }
-
-    public function deleteAllAsync($ids)
-    {
-        return Phrase::whereIn('id', $ids)->deleteAsync();
-    }
-
-    public function find($phrase, $categoryName, $phraseCategoryName)
-    {
-        $phraseCategory = PhraseCategory::where('name', $phraseCategoryName)->first();
-
-        if($phraseCategory)
-            $phraseEntity = Phrase::where(
-                [
-                    ['phrase', $phrase],
-                    ['category_name', $categoryName],
-                    ['phrase_category_id', $phraseCategory->id],
-
-                ]
-            )->first();
-        else
-            $phraseEntity = Phrase::where(
-                [
-                    ['phrase', $phrase],
-                    ['category_name', $categoryName],
-                ]
-            )->first();
-
-
-        return $phraseEntity;
-    }
-
-    public function phrasesHasPhraseCategory($categoryName)
-    {
-        return Phrase::where('category_name', $categoryName)->whereNotNull('phrase_category_id');;
-    }
-
-
-    public function categoryTranslations($categoryName)
-    {
-        $phrasesIds = Phrase::where('category_name', $categoryName)->select('id')->get();
-
-        return Translation::whereIn('phrase_id', $phrasesIds);
+        return
+            parent::asyncExecution(function() use($categoryName) {
+                return parent::getAllAsync()->where('category_name', $categoryName)->whereNotNull('phrase_category_id');
+            });
     }
 
 }

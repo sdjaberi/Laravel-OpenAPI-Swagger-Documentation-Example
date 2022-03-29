@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\Projects\IndexProjectRequest;
-use App\Http\Requests\Web\Projects\CreateProjectRequest;
-use App\Http\Requests\Web\Projects\MassDestroyProjectRequest;
 use App\Http\Requests\Web\Projects\StoreProjectRequest;
 use App\Http\Requests\Web\Projects\UpdateProjectRequest;
+use App\Http\Requests\Web\Projects\ShowProjectRequest;
+use App\Http\Requests\Web\Projects\DeleteProjectRequest;
+use App\Http\Requests\Web\Projects\MassDestroyProjectRequest;
 use Symfony\Component\HttpFoundation\Response;
 use App\Models\Project;
 use App\Repositories\ProjectRepository;
@@ -34,7 +35,7 @@ class ProjectsController extends Controller
         return view('admin.projects.index', compact('projects'));
     }
 
-    public function create(CreateProjectRequest $request)
+    public function create()
     {
         $authors = $this->_userRepository->getAllAsync()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
         $languages = $this->_languageRepository->getAllAsync()->pluck('title', 'id');
@@ -44,7 +45,7 @@ class ProjectsController extends Controller
 
     public function store(StoreProjectRequest $request)
     {
-        $project = $this->_projectRepository->storeAsync($request);
+        $project = $this->_projectRepository->storeAsync($request->all(), ['languages']);
 
         return redirect()->route('admin.projects.index');
     }
@@ -54,28 +55,26 @@ class ProjectsController extends Controller
         $authors = $this->_userRepository->getAllAsync()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
         $languages = $this->_languageRepository->getAllAsync()->pluck('title', 'id');
 
-        $project->load('author');
+        $project->load('author', 'languages');
 
         return view('admin.projects.edit', compact('authors', 'languages', 'project'));
     }
 
     public function update(UpdateProjectRequest $request, Project $project)
     {
-        $project = $this->_projectRepository->updateAsync($project->id, $request);
+        $project = $this->_projectRepository->updateAsync($project->id, $request->all(), ['languages']);
 
         return redirect()->route('admin.projects.index');
     }
 
-    public function show(Project $project)
+    public function show(ShowProjectRequest $request, Project $project)
     {
         $project = $this->_projectRepository->viewAsync($project->id);
-
-        $project->load('languages','categories');
 
         return view('admin.projects.show', compact('project'));
     }
 
-    public function destroy(MassDestroyProjectRequest $request, Project $project)
+    public function destroy(DeleteProjectRequest $request, Project $project)
     {
         $project = $this->_projectRepository->deleteAsync($project->id);
 
@@ -84,7 +83,7 @@ class ProjectsController extends Controller
 
     public function massDestroy(MassDestroyProjectRequest $request)
     {
-        $projects = $this->_projectRepository->deleteAllAsync($request('ids'));
+        $projects = $this->_projectRepository->deleteAllAsync($request->ids);
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

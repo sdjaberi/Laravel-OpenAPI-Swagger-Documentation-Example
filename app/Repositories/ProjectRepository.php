@@ -3,82 +3,35 @@
 namespace App\Repositories;
 
 use App\Models\Project;
-use Illuminate\Support\Facades\Gate;
-use App\Http\Exceptions\ApiNotFoundException;
-use App\Http\Exceptions\ApiPermissionException;
-use Barryvdh\Debugbar\Facades\Debugbar;
-use Barryvdh\Debugbar\Middleware\DebugbarEnabled;
+use App\Repositories\Base\BaseRepository;
+use Illuminate\Database\Eloquent\Collection;
 
 interface IProjectRepository
 {
-    public function getAllAsync();
-    public function storeAsync($data);
-    public function updateAsync($id = null,$data);
-    public function viewAsync($id);
-    public function deleteAsync($id);
-    public function deleteAllAsync($ids);
+    public function getAllWithAuthor(): Collection;
 }
 
-class ProjectRepository implements IProjectRepository
+class ProjectRepository extends BaseRepository implements IProjectRepository
 {
-    public function getAllAsync()
+    /**
+    * ProjectRepository constructor.
+    *
+    * @param Project $model
+    */
+    public function __construct(Project $model)
     {
-        return Project::with('author')->get();
+        parent::__construct($model);
     }
 
-    public function storeAsync($data)
+    /**
+    *
+    * @return Collection
+    */
+    public function getAllWithAuthor(): Collection
     {
-        $project = new Project();
-        $project->name = $data['name'];
-        $project->description = $data['description'];
-        $project->author_id = $data['author_id'];
-        $project->save();
-
-        $project->languages()->sync($data['languages']);
-
-        return $project;
+        return
+            parent::asyncExecution(function() {
+                return Project::with('author')->get();
+            });
     }
-
-    public function updateAsync($id = null, $data)
-    {
-        $project = Project::find($id);
-
-        if(!$project)
-            throw new ApiNotFoundException();
-
-        $project->name = $data['name'];
-        $project->description = $data['description'];
-        $project->author_id = $data['author_id'];
-        $project->save();
-
-        $project->languages()->sync($data['languages']);
-
-        return $project;
-    }
-
-    public function viewAsync($id)
-    {
-        $project = Project::find($id);
-
-        if(!$project)
-            throw new ApiNotFoundException();
-
-        return $project->load('author');
-    }
-
-    public function deleteAsync($id)
-    {
-        $project = Project::find($id);
-
-        if(!$project)
-            throw new ApiNotFoundException();
-
-        return $project->deleteAsync();
-    }
-
-    public function deleteAllAsync($ids)
-    {
-        return Project::whereIn('id', $ids)->deleteAsync();
-    }
-
 }

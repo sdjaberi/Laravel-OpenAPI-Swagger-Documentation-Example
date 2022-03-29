@@ -1,25 +1,21 @@
 <?php
 
-namespace App\Http\Requests\Web\Languages;
+namespace App\Http\Requests\Web\Users;
 
-use App\Models\Project;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
-use Symfony\Component\HttpFoundation\Response;
-use App\Http\Exceptions\ApiRequestException;
-use App\Http\Exceptions\ApiNotFoundException;
-use App\Http\Exceptions\ApiUnAuthException;
 use App\Http\Exceptions\ApiPermissionException;
+use App\Http\Exceptions\ApiUnAuthException;
 
-class EditLanguageRequest extends FormRequest
+class ShowUserRequest extends FormRequest
 {
     public function authorize()
     {
         if(!Auth::user())
             throw new ApiUnAuthException('Please Login First');
 
-        if(!Gate::allows('language_edit'))
+        if(!Gate::allows('user_show'))
             throw new ApiPermissionException();
 
         return true;

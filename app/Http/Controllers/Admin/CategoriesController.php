@@ -4,12 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\Categories\IndexCategoryRequest;
-use App\Http\Requests\Web\Categories\CreateCategoryRequest;
 use App\Http\Requests\Web\Categories\StoreCategoryRequest;
 use App\Http\Requests\Web\Categories\UpdateCategoryRequest;
 use App\Http\Requests\Web\Categories\ShowCategoryRequest;
-use App\Http\Requests\Web\Categories\MassDestroyCategoryRequest;
 use App\Http\Requests\Web\Categories\DeleteCategoryRequest;
+use App\Http\Requests\Web\Categories\MassDestroyCategoryRequest;
 use App\Http\Requests\Web\Categories\CategoryTranslationRequest;
 use App\Http\Requests\Web\Categories\CategoryImportRequest;
 use App\Http\Requests\Web\Categories\CategoryExportRequest;
@@ -68,7 +67,7 @@ class CategoriesController extends Controller
         return view('admin.categories.index', compact('categories'));
     }
 
-    public function create(CreateCategoryRequest $request)
+    public function create()
     {
         $projects = $this->_projectRepository->getAllAsync()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
@@ -170,7 +169,6 @@ class CategoriesController extends Controller
         }
 
         if($method == 'POST'){
-            //dd('POST', $name, $categoryImportRequest, $categoryImportRequest->file, \request()->file);
             return $this->importPost($name, $categoryImportRequest);
 
         }
@@ -246,7 +244,7 @@ class CategoriesController extends Controller
                     $phraseDto->phrase = $phrase;
                     $phraseDto->category_name = $categoryName;
 
-                    $phraseCategoryEntity = $this->_phraseCategoryRepository->findByName($phraseCategoryName);
+                    $phraseCategoryEntity = $this->_phraseCategoryRepository->getByName($phraseCategoryName);
 
                     if(!$phraseCategoryEntity)
                     {
@@ -317,10 +315,11 @@ class CategoriesController extends Controller
             ->get()
             ->count();
 
-        $translations = $this->_phraseRepository->categoryTranslations($category->name);
-
-        if(isset($to))
-            $translations = $translations->where('language_id', $languageTo->id);
+        $translations = $this->_translationRepository->
+            findTranslationsCount(
+                $category->name,
+                isset($to) ? $languageTo->id : null
+            );
 
         $translationsCount = $translations->count();
 
@@ -352,6 +351,8 @@ class CategoriesController extends Controller
             $this->exportXML($category, $languageTo, $folderName);
         else
         {
+            ini_set('memory_limit', '1024M');
+
             $category->project->load('languages');
             $languages = $category->project->languages->whereNotIn('is_primary', 1);
 

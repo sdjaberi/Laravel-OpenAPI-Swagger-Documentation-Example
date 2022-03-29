@@ -20,6 +20,10 @@ class Language extends Model
     protected $fillable = [
         'title',
         'iso_code',
+        'text_direction',
+        'is_primary',
+        'active',
+        'local_name',
         'created_at',
         'updated_at',
         'deleted_at',

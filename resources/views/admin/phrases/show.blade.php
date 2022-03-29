@@ -52,7 +52,9 @@
                             {{ trans('cruds.phrase.fields.phrase_category_id') }}
                         </th>
                         <td>
-                            {{ $phrase->phraseCategory->name ?? '' }} => {{ json_encode($phrase->phraseCategory->filename) ?? '' }}
+                            @if(isset($phrase->phraseCategory))
+                                {{ $phrase->phraseCategory->name ?? '' }} => {{ json_encode($phrase->phraseCategory->filename) ?? '' }}
+                            @endif
                         </td>
                     </tr>
 

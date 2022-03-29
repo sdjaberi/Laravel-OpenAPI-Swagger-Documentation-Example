@@ -18,8 +18,10 @@ class Translation extends Model
     ];
 
     protected $fillable = [
+        'translation',
         'language_id',
         'phrase_id',
+        'user_id',
         'created_at',
         'updated_at',
         'deleted_at',
