@@ -18,8 +18,9 @@
                                     <th rowspan="1">Title</th>
                                     @php $projectIds = array(); @endphp
 
-                                    @foreach($categories as $category1)
-                                    @php $colspan = count($category1->project->categories); @endphp
+                                    @foreach($categories->sortBy('project_id') as $category1)
+                                    @php $colspan = count($category1->project->categories);
+                                    @endphp
 
                                         @if (!in_array($category1->project_id, $projectIds))
                                         @php array_push($projectIds, $category1->project_id);  @endphp
@@ -38,7 +39,7 @@
                                     <th>
                                         {{ trans('cruds.language.title') }}
                                     </th>
-                                    @foreach($categories as $category2)
+                                    @foreach($categories->sortBy('project_id') as $category2)
                                     <th>
                                         {{ $category2->name }}
                                     </th>
@@ -66,7 +67,7 @@
 
                                         </td>
 
-                                        @foreach($categories as $category3)
+                                        @foreach($categories->sortBy('project_id') as $category3)
                                         <td class="text-center">
                                             @php
                                                 $categoryLanguages = $category3->project->languages;

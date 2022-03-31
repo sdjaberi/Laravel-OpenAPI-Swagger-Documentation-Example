@@ -33,7 +33,7 @@ class PhrasesController extends Controller
 
     public function index(IndexPhraseRequest $request)
     {
-        $phrases = $this->_phraseRepository->getAllWithCategory();
+        $phrases = $this->_phraseRepository->getAllWithCategoryAsync()->get();
 
         return view('admin.phrases.index', compact('phrases'));
     }

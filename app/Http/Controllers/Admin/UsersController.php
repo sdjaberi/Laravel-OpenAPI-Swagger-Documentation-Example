@@ -37,7 +37,7 @@ class UsersController extends Controller
 
     public function index(IndexUserRequest $request)
     {
-        $users = $this->_userRepository->getAllAsync();
+        $users = $this->_userRepository->getAllAsync()->get();
 
         return view('admin.users.index', compact('users'));
     }

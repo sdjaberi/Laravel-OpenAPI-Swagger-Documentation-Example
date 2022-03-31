@@ -17,29 +17,6 @@ class LoginOut extends IDto
 {
     /**
      * @OA\Property(
-     *     title="User ID",
-     *     description="User id",
-     *     format="int64",
-     *     example=1
-     * )
-     *
-     * @var integer
-     */
-    public $user_id;
-
-    /**
-     * @OA\Property(
-     *      title="Token ID",
-     *      description="A JWT token id",
-     *      type="int64"
-     * )
-     *
-     * @var string
-     */
-    public $token_id;
-
-    /**
-     * @OA\Property(
      *      title="Token",
      *      description="A JWT token",
      *      type="string"
@@ -47,7 +24,18 @@ class LoginOut extends IDto
      *
      * @var string
      */
-    public $token;
+    public $accessToken;
+
+    /**
+     * @OA\Property(
+     *      title="Refresh Token",
+     *      description="A JWT refresh token",
+     *      type="string"
+     * )
+     *
+     * @var string
+     */
+    public $refreshToken;
 
     /**
      * @OA\Property(
@@ -60,18 +48,7 @@ class LoginOut extends IDto
      *
      * @var \DateTime
      */
-    public $expires_at;
-
-    /**
-     * @OA\Property(
-     *      title="Refresh Token",
-     *      description="A JWT token",
-     *      type="string"
-     * )
-     *
-     * @var string
-     */
-    public $refreshToken;
+    public $expires_in;
 
     /**
      * @OA\Property(
@@ -85,27 +62,14 @@ class LoginOut extends IDto
      */
     public $token_type;
 
-
-    //----------------------------
-
     /**
      * @OA\Property(
-     *     title="User",
-     *     description="User model"
+     *     title="User Data",
+     *     description="User Data",
      * )
      *
-     * @var \App\Virtual\Models\User
+     * @var stdClass
      */
-    public $user;
+    public $userData;
 
-
-    /**
-     * @OA\Property(
-     *     title="Role",
-     *     description="Role model"
-     * )
-     *
-     * @var \App\Virtual\Models\Role
-     */
-    public $role;
 }

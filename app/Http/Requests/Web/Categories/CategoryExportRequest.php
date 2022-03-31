@@ -29,7 +29,7 @@ class CategoryExportRequest extends FormRequest
         if(Auth::user()->languages->where('title', $language)->isEmpty() && isset($language))
             throw new ApiPermissionException();
 
-        if(!Gate::allows('export'))
+        if(!Gate::allows('translation_export'))
             throw new ApiPermissionException();
 
         return true;

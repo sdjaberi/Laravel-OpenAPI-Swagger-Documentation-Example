@@ -4,13 +4,13 @@ namespace App\Repositories;
 
 use App\Models\Phrase;
 use App\Repositories\Base\BaseRepository;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Builder;
 
 interface IPhraseRepository
 {
-    public function getAllWithCategory(): Collection;
-    public function find($phrase, $categoryName, $phraseCategoryName): Phrase;
-    public function phrasesHasPhraseCategory($categoryName): Collection;
+    public function getAllWithCategoryAsync(): Builder;
+    public function findAsync($phrase, $categoryName, $phraseCategoryName): Phrase;
+    public function phrasesHasPhraseCategoryAsync($categoryName): Builder;
 }
 
 class PhraseRepository extends BaseRepository implements IPhraseRepository
@@ -30,13 +30,13 @@ class PhraseRepository extends BaseRepository implements IPhraseRepository
 
     /**
     *
-    * @return Collection
+    * @return Builder
     */
-    public function getAllWithCategory(): Collection
+    public function getAllWithCategoryAsync(): Builder
     {
         return
             parent::asyncExecution(function() {
-                return Phrase::with('category')->get();
+                return Phrase::with('category');
             });
     }
 
@@ -47,7 +47,7 @@ class PhraseRepository extends BaseRepository implements IPhraseRepository
     *
     * @return Phrase
     */
-    public function find($phrase, $categoryName, $phraseCategoryName): Phrase
+    public function findAsync($phrase, $categoryName, $phraseCategoryName): Phrase
     {
         return
             parent::asyncExecution(function() use($phrase, $categoryName, $phraseCategoryName) {
@@ -69,9 +69,9 @@ class PhraseRepository extends BaseRepository implements IPhraseRepository
     /**
     * @param string $categoryName
     *
-    * @return Collection
+    * @return Builder
     */
-    public function phrasesHasPhraseCategory($categoryName): Collection
+    public function phrasesHasPhraseCategoryAsync($categoryName): Builder
     {
         return
             parent::asyncExecution(function() use($categoryName) {

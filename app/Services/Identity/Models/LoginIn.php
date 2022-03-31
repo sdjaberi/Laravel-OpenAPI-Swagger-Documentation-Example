@@ -20,7 +20,7 @@ class LoginIn extends IDto
      *     title="Email",
      *     description="Email",
      *     type="string",
-     *     example="example@example.com"
+     *     example="admin@admin.admin"
      * )
      *
      * @var string
@@ -32,7 +32,7 @@ class LoginIn extends IDto
      *     title="Password",
      *     description="Password",
      *     type="string",
-     *     example="j#dH5iJ3@"
+     *     example="password"
      * )
      *
      * @var string

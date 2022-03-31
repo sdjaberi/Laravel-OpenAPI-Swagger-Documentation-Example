@@ -40,16 +40,11 @@
                 </th>
             </tr>
             </thead>
-            @php
-                $test = $translations->where('phrase_id', 25)->where('language_id', 29)->first();
-
-                //dd($test);
-            @endphp
             <tbody>
             @foreach($phrases as $phrase)
                 <tr>
                     <td style="width: 7%">{{ $phrase->base_id }}</td>
-                    <td style="width: 43%">{{ $phrase->phrase }}</td>
+                    <td style="width: 43%">{{ $phrase->phrase }} <span class="badge badge-success" data-toggle="tooltip" title="Phrase Category" >{{ $phrase->phraseCategory ? $phrase->phraseCategory->name : "" }}</span></td>
 
                     <td id="td-{{ $phrase->id }} {{ $to->text_direction === 'rtl' ? 'text-right': 'text-left' }}" style="{{ $to->text_direction === 'rtl' ? 'direction: rtl': '' }}>
                     @php

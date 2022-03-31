@@ -24,7 +24,7 @@ class PermissionsController extends Controller
 
     public function index(IndexPermissionRequest $request)
     {
-        $permissions = $this->_permissionRepository->getAllAsync();
+        $permissions = $this->_permissionRepository->getAllAsync()->get();
 
         return view('admin.permissions.index', compact('permissions'));
     }

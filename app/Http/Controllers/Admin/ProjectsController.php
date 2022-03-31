@@ -30,7 +30,7 @@ class ProjectsController extends Controller
 
     public function index(IndexProjectRequest $request)
     {
-        $projects = $this->_projectRepository->getAllAsync();
+        $projects = $this->_projectRepository->getAllAsync()->get();
 
         return view('admin.projects.index', compact('projects'));
     }

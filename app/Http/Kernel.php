@@ -13,7 +13,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
 
-        //\App\Http\Middleware\Cors::class,
+        \Fruitcake\Cors\HandleCors::class,
     ];
 
     protected $middlewareGroups = [
@@ -24,6 +24,7 @@ class Kernel extends HttpKernel
 
             //\App\Http\Middleware\AuthGates::class,
             \App\Http\Middleware\ForceJsonResponse::class,
+            \Fruitcake\Cors\HandleCors::class,
         ],
         'web' => [
             \App\Http\Middleware\EncryptCookies::class,
@@ -53,7 +54,6 @@ class Kernel extends HttpKernel
         'scopes'           => \Laravel\Passport\Http\Middleware\CheckScopes::class,
         'scope'            => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
 
-        'cors'             => \App\Http\Middleware\Cors::class,
         'swfix'            => \App\Http\Middleware\SwaggerFix::class,
         'json.response'    => \App\Http\Middleware\ForceJsonResponse::class,
     ];

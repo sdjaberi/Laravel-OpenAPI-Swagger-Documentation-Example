@@ -9,12 +9,12 @@ Route::group([
         'prefix' => 'v1',
         'as' => 'api.',
         'namespace' => 'Api\V1\Admin',
-        'middleware' => ['api', 'swfix', 'cors', 'json.response'],
+        'middleware' => ['api', 'swfix', 'json.response'],
     ]
     ,
     function () {
         // public routes
-        Route::post('login', 'Auth\AuthController@login')->name('login.api');
+        Route::match(['get', 'post'],'login', 'Auth\AuthController@login')->name('login.api');
         Route::post('register', 'Auth\AuthController@register')->name('register.api');
         Route::group(['middleware' => 'auth:api']
         ,function() {
@@ -105,8 +105,8 @@ Route::group([
     'translation_edit'              => 'translation_edit',
     'translation_create'            => 'translation_create',
 
-    'import'                    => 'Import',
-    'export'                    => 'Export',
+    'translation_import'            => 'Import',
+    'translation_export'            => 'Export',
     */
 
 });

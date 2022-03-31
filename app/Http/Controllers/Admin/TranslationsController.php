@@ -123,8 +123,6 @@ class TranslationsController extends Controller
         $order_arr = $request->get('order');
         $search_arr = $request->get('search');
 
-        //dd($request->all());
-
         $columnIndex = isset($columnIndex_arr[0]['column']) ? $columnIndex_arr[0]['column'] : null; // Column index
         $columnName = $columnName_arr[$columnIndex]['data']; // Column name
         $columnSortOrder = $order_arr[0]['dir']; // asc or desc
@@ -187,7 +185,6 @@ class TranslationsController extends Controller
         $data_arr = array();
 
         foreach($records as $record){
-            //dd($record);
             $id = $record->id;
             $base_id = $record->base_id;
             $translation = $record->translation;
@@ -227,7 +224,7 @@ class TranslationsController extends Controller
         $storeAsyncRequest->validated();
 
         /* Store data */
-        $translation = $this->_translationRepository->storeAsync($request);
+        $translation = $this->_translationRepository->storeAsync($request->all());
 
         return response()->json(["data" => $translation], 200);
     }
@@ -243,7 +240,8 @@ class TranslationsController extends Controller
         /*  Validate requested data */
         $updateRequest->validated();
 
-        $translation = $this->_translationRepository->updateAsync($id, $request);
+        $translation = $this->_translationRepository->updateAsync($id, $request->all());
+        $translation = $this->_translationRepository->viewAsync($id);
 
         return response()->json(["data" => $translation], 200);
     }

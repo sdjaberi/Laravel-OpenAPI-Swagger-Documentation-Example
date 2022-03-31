@@ -72,13 +72,13 @@
                                 {{ count($category->phrases) ?? '' }}
                             </td>
                             <td>
-                                @can('import')
+                                @can('translation_import')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.categories.import', $category->name) }}">
                                         <i class="fas fa-file-import"></i>
                                         {{ trans('cruds.category.exportImport.import') }}
                                     </a>
                                 @endcan
-                                @can('export')
+                                @can('translation_export')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.categories.export', $category->name) }}">
                                         <i class="fas fa-file-export"></i>
                                         {{ trans('cruds.category.exportImport.export') }}

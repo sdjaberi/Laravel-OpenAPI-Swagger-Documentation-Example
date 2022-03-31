@@ -4,12 +4,12 @@ namespace App\Repositories;
 
 use App\Models\Language;
 use App\Repositories\Base\BaseRepository;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Builder;
 
 interface ILanguageRepository
 {
-    public function getAllNotPrimaryAsync(): Collection;
-    public function getAllActiveAsync(): Collection;
+    public function getAllNotPrimaryAsync(): Builder;
+    public function getAllActiveAsync(): Builder;
     public function getPrimaryAsync(): Language;
 }
 
@@ -27,9 +27,9 @@ class LanguageRepository extends BaseRepository implements ILanguageRepository
 
     /**
     *
-    * @return Collection
+    * @return Builder
     */
-    public function getAllNotPrimaryAsync(): Collection
+    public function getAllNotPrimaryAsync(): Builder
     {
         return
             parent::asyncExecution(function() {
@@ -39,9 +39,9 @@ class LanguageRepository extends BaseRepository implements ILanguageRepository
 
     /**
     *
-    * @return Collection
+    * @return Builder
     */
-    public function getAllActiveAsync(): Collection
+    public function getAllActiveAsync(): Builder
     {
         return
             parent::asyncExecution(function() {

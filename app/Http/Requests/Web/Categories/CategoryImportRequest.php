@@ -25,7 +25,7 @@ class CategoryImportRequest extends FormRequest
         if(Auth::user()->categories->where('name', $category_name)->isEmpty())
             throw new ApiPermissionException();
 
-        if(!Gate::allows('import'))
+        if(!Gate::allows('translation_import'))
             throw new ApiPermissionException();
 
         return true;

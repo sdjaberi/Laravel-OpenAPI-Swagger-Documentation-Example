@@ -27,7 +27,7 @@ class RolesController extends Controller
 
     public function index(IndexRoleRequest $request)
     {
-        $roles = $this->_roleRepository->getAllAsync();
+        $roles = $this->_roleRepository->getAllAsync()->get();
 
         return view('admin.roles.index', compact('roles'));
     }

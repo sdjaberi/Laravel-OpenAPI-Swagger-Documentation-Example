@@ -78,7 +78,8 @@ class AuthController extends Controller
 
         $result = $this->_accountService->login($loginIn);
 
-        return response([$result, 'message' => 'Login Successful!']);
+        return response([$result ,'message' => 'Login Successful!']);
+        //return response([$result, 'message' => 'Login Successful!']);
     }
 
     /**

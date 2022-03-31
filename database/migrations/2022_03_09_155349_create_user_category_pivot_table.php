@@ -18,7 +18,7 @@ class CreateUserCategoryPivotTable extends Migration
             $table->foreign('user_id', 'user_fk_896888')->references('id')->on('users')->onDelete('cascade');
 
             $table->string('category_name');
-            $table->foreign('category_name', 'category_fk_896888')->references('name')->on('categories')->onDelete('cascade');
+            $table->foreign('category_name', 'category_fk_896888')->references('name')->on('categories')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

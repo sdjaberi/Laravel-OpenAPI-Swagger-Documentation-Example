@@ -827,13 +827,13 @@
                         "title": "Email",
                         "description": "Email",
                         "type": "string",
-                        "example": "example@example.com"
+                        "example": "admin@admin.admin"
                     },
                     "password": {
                         "title": "Password",
                         "description": "Password",
                         "type": "string",
-                        "example": "j#dH5iJ3@"
+                        "example": "password"
                     }
                 },
                 "type": "object",

@@ -16,7 +16,9 @@ use Laravel\Passport\RefreshToken;
 use Laravel\Passport\Token;
 use App\Repositories\RoleRepository;
 use App\Repositories\UserRepository;
-use Spatie\Async\Pool;
+use Laravel\Passport\Client as OClient;
+use GuzzleHttp\Client;
+use stdClass;
 
 interface IAccountService
 {
@@ -71,13 +73,13 @@ class AccountService implements IAccountService
 
         $credentials = (array) $model;
 
-        if (!Auth::attempt($credentials)) {
+        if (!Auth::attempt($credentials))
             throw new ApiUnAuthException();
-        }
 
         $user = Auth::user();
 
         $userPermissions = [];
+        $userRoles = [];
 
         if (!app()->runningInConsole() && $user) {
 
@@ -85,26 +87,66 @@ class AccountService implements IAccountService
             {
                 $rolepermissions = $role->permissions->map(fn($permission) => $permission->title);
 
+                array_push($userRoles, $role->title);
                 array_push($userPermissions, $rolepermissions);
             }
 
             $userPermissions = array_unique($userPermissions);
         }
 
-        $tokenResult = $user->createToken('Personal Access Token', $userPermissions[0]->toArray());
+        $oClient = OClient::where('password_client', 1)->first();
 
-        $token = $tokenResult->token;
-        $token->expires_at = Carbon::now()->addWeeks(1);
-        $token->save();
+        $tokenResult = $this->getTokenAndRefreshToken($oClient, $model->email , $model->password, $userPermissions);
 
-        $loginOut->user = $user;
-        $loginOut->id = $token->id;
-        $loginOut->role = $user->roles;
-        $loginOut->token = $tokenResult->accessToken;
-        $loginOut->expires_at = $token->expires_at;
-        $loginOut->token_type = 'Bearer';
+        $tokenResult = $tokenResult;
+
+        $loginOut->accessToken = $tokenResult['access_token'];
+        $loginOut->refreshToken = $tokenResult['refresh_token'];
+        $loginOut->expires_in = $tokenResult['expires_in'];
+        $loginOut->token_type = $tokenResult['token_type'];
+
+        $userData = new stdClass();
+
+        $userData->fullname = $user->name;
+        $userData->email = $user->email;
+        $userData->username = $user->email;
+        $userData->id = $user->id;
+        $userData->role = $userRoles[0];
+
+
+        $userData->ability = $userPermissions[0]->map(function($permission) {
+
+            $ability = new stdClass();
+            $ability->action  = explode("_", $permission)[1];
+            $ability->subject = explode("_", $permission)[0];
+
+            return (object) $ability;
+        });
+
+        $loginOut->userData = $userData;
 
         return $loginOut;
+    }
+
+    public function getTokenAndRefreshToken(OClient $oClient, $email, $password, $userPermissions) {
+        $oClient = OClient::where('password_client', 1)->first();
+        $http = new Client;
+
+        $response = $http->request('POST', env('APP_URL', 'http://localhost') . '/oauth/token', [
+            'form_params' => [
+                'grant_type' => 'password',
+                'client_id' => $oClient->id,
+                'client_secret' => $oClient->secret,
+                'username' => $email,
+                'password' => $password,
+                'scope' => $userPermissions,
+            ],
+        ]);
+
+        $result = json_decode((string) $response->getBody(), true);
+
+        return $result;
+        //return response()->json($result, $this->successStatus);
     }
 
     public function me() : User

@@ -32,8 +32,8 @@ class HomeController
 
     public function index()
     {
-        $languages = $this->_languageRepository->getAllAsync()->sortBy('id');
-        $categories = $this->_categoryRepository->getAllAsync();
+        $languages = $this->_languageRepository->getAllAsync()->get();
+        $categories = $this->_categoryRepository->getAllAsync()->get();
 
         return view('home', compact('languages','categories'));
     }

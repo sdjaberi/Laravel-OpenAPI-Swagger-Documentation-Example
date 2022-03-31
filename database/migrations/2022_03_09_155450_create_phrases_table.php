@@ -22,7 +22,7 @@ class CreatePhrasesTable extends Migration
             $table->longText('phrase');
 
             $table->string('category_name')->index();
-            $table->foreign('category_name', 'category_fk_896900')->references('name')->on('categories')->onDelete('cascade');
+            $table->foreign('category_name', 'category_fk_896900')->references('name')->on('categories')->onDelete('cascade')->onUpdate('cascade');
 
             $table->timestamps();
 

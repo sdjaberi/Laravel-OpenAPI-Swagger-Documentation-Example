@@ -5,14 +5,15 @@ namespace App\Repositories\Base;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Exceptions\ApiNotFoundException;
+use Illuminate\Database\Eloquent\Builder;
 use Spatie\Async\Pool;
 
 interface IBaseRepository
 {
     /**
-    * @return Collection
+    * @return Builder
     */
-   public function getAllAsync(): Collection;
+   public function getAllAsync(): Builder;
 
     /**
     * @param array $attributes
@@ -71,13 +72,13 @@ class BaseRepository implements IBaseRepository
 
     /**
     *
-    * @return Collection
+    * @return Builder
     */
-    public function getAllAsync(): Collection
+    public function getAllAsync(): Builder
     {
         return
             $this->asyncExecution(function() {
-                return $this->model::latest()->get();
+                return $this->model::latest();
             });
     }
 

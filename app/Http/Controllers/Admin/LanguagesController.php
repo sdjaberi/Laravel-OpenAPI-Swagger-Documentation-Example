@@ -24,7 +24,7 @@ class LanguagesController extends Controller
 
     public function index(IndexLanguageRequest $request)
     {
-        $languages = $this->_languageRepository->getAllAsync();
+        $languages = $this->_languageRepository->getAllAsync()->get();
 
         return view('admin.languages.index', compact('languages'));
     }

@@ -19,6 +19,7 @@ use App\Repositories\ProjectRepository;
 use App\Repositories\LanguageRepository;
 use App\Repositories\PhraseRepository;
 use App\Repositories\PhraseCategoryRepository;
+use App\Repositories\TranslationRepository;
 use App\Http\Resources\Admin\CategoryResource;
 use App\Models\Phrase;
 use App\Models\PhraseCategory;
@@ -45,24 +46,28 @@ class CategoriesController extends Controller
     private $_languageRepository;
     private $_phraseRepository;
     private $_phraseCategoryRepository;
+    private $_translationRepository;
 
     public function __construct(
         CategoryRepository $categoryRepository,
         ProjectRepository $projectRepository,
         LanguageRepository $languageRepository,
         PhraseRepository $phraseRepository,
-        PhraseCategoryRepository $phraseCategoryRepository)
+        PhraseCategoryRepository $phraseCategoryRepository,
+        TranslationRepository $translationRepository
+        )
     {
         $this->_categoryRepository = $categoryRepository;
         $this->_projectRepository = $projectRepository;
         $this->_languageRepository = $languageRepository;
         $this->_phraseRepository = $phraseRepository;
         $this->_phraseCategoryRepository = $phraseCategoryRepository;
+        $this->_translationRepository = $translationRepository;
     }
 
     public function index(IndexCategoryRequest $request)
     {
-        $categories = $this->_categoryRepository->getAllAsync();
+        $categories = $this->_categoryRepository->getAllAsync()->get();
 
         return view('admin.categories.index', compact('categories'));
     }
@@ -143,11 +148,7 @@ class CategoriesController extends Controller
         $languageTo = $this->_languageRepository->getAllNotPrimaryAsync()
             ->where("title", $to)->first();
 
-        $translations = DB::table('phrase_translations')
-            ->where('language_id', $languageTo->id)
-            ->join('phrases', 'phrase_translations.phrase_id', '=', 'phrases.id')
-            ->select('phrase_translations.id', 'phrase_translations.translation', 'phrase_translations.language_id', 'phrases.id as phrase_id')
-            ->get();
+        $translations = $this->_translationRepository->findTranslations($category->name, $languageTo ? $languageTo->id : null)->get();
 
         return view('admin.categories.translate')
             ->with('category', $category)
@@ -236,7 +237,7 @@ class CategoriesController extends Controller
                 $phraseCategoryName = $context->name;
                 $phrase = $message->source;
 
-                $phraseEntity = $this->_phraseRepository->find($phrase, $categoryName, $phraseCategoryName);
+                $phraseEntity = $this->_phraseRepository->findAsync($phrase, $categoryName, $phraseCategoryName);
 
                 if(!$phraseEntity) {
 
@@ -244,7 +245,7 @@ class CategoriesController extends Controller
                     $phraseDto->phrase = $phrase;
                     $phraseDto->category_name = $categoryName;
 
-                    $phraseCategoryEntity = $this->_phraseCategoryRepository->getByName($phraseCategoryName);
+                    $phraseCategoryEntity = $this->_phraseCategoryRepository->getByNameAsync($phraseCategoryName);
 
                     if(!$phraseCategoryEntity)
                     {
@@ -253,18 +254,17 @@ class CategoriesController extends Controller
 
                         $locationsArray = array();
                         foreach ($context->message as $message)
-                        array_push($locationsArray, $message->location);
+                            array_push($locationsArray, $message->location);
 
                         $phraseCategoryDto->filename = json_encode($locationsArray);
 
-                        $phraseCategoryEntity = $this->_phraseCategoryRepository->storeAsync($phraseCategoryDto);
+                        $phraseCategoryEntity = $this->_phraseCategoryRepository->storeAsync((array) $phraseCategoryDto);
                     }
 
                     $phraseDto->phrase_category_id = $phraseCategoryEntity->id;
 
-                    $phraseEntity = $this->_phraseRepository->storeAsync($phraseDto);
+                    $phraseEntity = $this->_phraseRepository->storeAsync((array) $phraseDto);
                 }
-
             }
         }
 
@@ -309,7 +309,7 @@ class CategoriesController extends Controller
 
         $phrasesCategoriesCount = $this->
             _phraseRepository
-            ->phrasesHasPhraseCategory($category->name)
+            ->phrasesHasPhraseCategoryAsync($category->name)
             ->select('phrase_category_id')
             ->groupBy('phrase_category_id')
             ->get()

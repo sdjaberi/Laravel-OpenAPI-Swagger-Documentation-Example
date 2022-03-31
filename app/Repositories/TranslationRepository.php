@@ -4,12 +4,12 @@ namespace App\Repositories;
 
 use App\Models\Translation;
 use App\Repositories\Base\BaseRepository;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Builder;
 
 interface ITranslationRepository
 {
-    public function findTranslationsCount($categoryName, $languageId): Collection;
-    public function findTranslations($categoryName, $languageId): Collection;
+    public function findTranslationsCount($categoryName, $languageId): Builder;
+    public function findTranslations($categoryName, $languageId): Builder;
 }
 
 class TranslationRepository extends BaseRepository implements ITranslationRepository
@@ -28,17 +28,17 @@ class TranslationRepository extends BaseRepository implements ITranslationReposi
     * @param string $categoryName
     * @param integer $languageId
     *
-    * @return Collection
+    * @return Builder
     */
-    public function findTranslationsCount($categoryName, $languageId): Collection
+    public function findTranslationsCount($categoryName, $languageId): Builder
     {
         return
             parent::asyncExecution(function() use($categoryName, $languageId) {
                 return Translation::join('phrases', 'phrase_translations.phrase_id', '=', 'phrases.id')
                     ->select('phrase_translations.id', 'phrase_translations.language_id', 'phrases.category_name')
                     ->where([
-                        ($categoryName) ? ['category_name', $categoryName] : [],
-                        ($languageId) ? ['language_id', $languageId] : []
+                        ($categoryName) ? ['category_name', $categoryName] : ['category_name'],
+                        ($languageId) ? ['language_id', $languageId] : ['language_id']
                     ]);
             });
     }
@@ -47,17 +47,17 @@ class TranslationRepository extends BaseRepository implements ITranslationReposi
     * @param string $categoryName
     * @param integer $languageId
     *
-    * @return Collection
+    * @return Builder
     */
-    public function findTranslations($categoryName, $languageId): Collection
+    public function findTranslations($categoryName, $languageId): Builder
     {
         return
             parent::asyncExecution(function() use($categoryName, $languageId) {
                 return Translation::join('phrases', 'phrase_translations.phrase_id', '=', 'phrases.id')
-                    ->select('phrase_translations.*', 'phrases.*')
+                    ->select('phrase_translations.*', 'phrases.id as phrase_id', 'phrases.phrase', 'phrases.category_name')
                     ->where([
-                        ($categoryName) ? ['category_name', $categoryName] : [],
-                        ($languageId) ? ['language_id', $languageId] : []
+                        ($categoryName) ? ['category_name', $categoryName] : ['category_name'],
+                        ($languageId) ? ['language_id', $languageId] : ['language_id']
                     ]);
             });
     }

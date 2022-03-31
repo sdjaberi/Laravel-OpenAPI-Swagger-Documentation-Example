@@ -7,7 +7,7 @@ use App\Repositories\Base\BaseRepository;
 
 interface IPhraseCategoryRepository
 {
-    public function getByNameAsync($phraseCategoryName);
+    public function getByNameAsync($phraseCategoryName): PhraseCategory;
 }
 
 class PhraseCategoryRepository extends BaseRepository implements IPhraseCategoryRepository
