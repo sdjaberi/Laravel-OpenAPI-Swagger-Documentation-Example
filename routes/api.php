@@ -15,6 +15,7 @@ Route::group([
     function () {
         // public routes
         Route::match(['get', 'post'],'login', 'Auth\AuthController@login')->name('login.api');
+        Route::match(['get', 'post'],'refreshToken', 'Auth\AuthController@refreshToken')->name('refreshToken.api');
         Route::post('register', 'Auth\AuthController@register')->name('register.api');
         Route::group(['middleware' => 'auth:api']
         ,function() {

@@ -81,6 +81,68 @@
                 }
             }
         },
+        "/refreshToken": {
+            "post": {
+                "tags": [
+                    "Account"
+                ],
+                "summary": "Get a JWT via given credentials by a valid refresh token",
+                "description": "Returns bearer string token",
+                "operationId": "getJwtToken by a valid refresh token",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RefreshTokenIn"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Auth"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiRequestException"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiAccessDeniedException"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnprocessableEntityException"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/me": {
             "get": {
                 "tags": [
@@ -845,34 +907,22 @@
                 "title": "LoginOut",
                 "description": "LoginOut model",
                 "properties": {
-                    "user_id": {
-                        "title": "User ID",
-                        "description": "User id",
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 1
-                    },
-                    "token_id": {
-                        "title": "Token ID",
-                        "description": "A JWT token id",
-                        "type": "int64"
-                    },
-                    "token": {
+                    "accessToken": {
                         "title": "Token",
                         "description": "A JWT token",
                         "type": "string"
                     },
-                    "expires_at": {
+                    "refreshToken": {
+                        "title": "Refresh Token",
+                        "description": "A JWT refresh token",
+                        "type": "string"
+                    },
+                    "expires_in": {
                         "title": "Expires At",
                         "description": "Expires At",
                         "type": "string",
                         "format": "datetime",
                         "example": "2020-01-27 17:50:45"
-                    },
-                    "refreshToken": {
-                        "title": "Refresh Token",
-                        "description": "A JWT token",
-                        "type": "string"
                     },
                     "token_type": {
                         "title": "Token Type",
@@ -880,18 +930,62 @@
                         "type": "string",
                         "example": "Bearer"
                     },
-                    "user": {
-                        "title": "User",
-                        "description": "User model"
-                    },
-                    "role": {
-                        "title": "Role",
-                        "description": "Role model"
+                    "userData": {
+                        "title": "User Data",
+                        "description": "User Data"
                     }
                 },
                 "type": "object",
                 "xml": {
                     "name": "LoginOut"
+                }
+            },
+            "RefreshTokenIn": {
+                "title": "RefreshTokenIn",
+                "description": "RefreshTokenIn model",
+                "properties": {
+                    "refreshToken": {
+                        "title": "Refresh Token",
+                        "description": "A JWT refresh token",
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "RefreshTokenIn"
+                }
+            },
+            "RefreshTokenOut": {
+                "title": "RefreshTokenOut",
+                "description": "RefreshTokenOut model",
+                "properties": {
+                    "accessToken": {
+                        "title": "Token",
+                        "description": "A JWT token",
+                        "type": "string"
+                    },
+                    "refreshToken": {
+                        "title": "Refresh Token",
+                        "description": "A JWT refresh token",
+                        "type": "string"
+                    },
+                    "expires_in": {
+                        "title": "Expires At",
+                        "description": "Expires At",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    },
+                    "token_type": {
+                        "title": "Token Type",
+                        "description": "Token Type",
+                        "type": "string",
+                        "example": "Bearer"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "RefreshTokenOut"
                 }
             },
             "RegisterIn": {

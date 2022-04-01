@@ -3,17 +3,14 @@
 namespace App\Http\Controllers\Api\V1\Admin\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\User;
-use App\Services\Identity\Models\Login;
 use App\Services\Identity\Models\LoginIn;
-use App\Services\Identity\Models\LoginOut;
+use App\Services\Identity\Models\RefreshTokenIn;
 use App\Services\Identity\Models\RegisterIn;
 
 use App\Repositories\UserRepository;
-use Illuminate\Support\Facades\Auth;
 use App\Services\Identity\AccountService;
 use App\Http\Requests\Api\Auth\LoginRequest;
+use App\Http\Requests\Api\Auth\RefreshTokenRequest;
 use App\Http\Requests\Api\Auth\RegisterRequest;
 use App\Services\Base\Mapper;
 
@@ -78,8 +75,56 @@ class AuthController extends Controller
 
         $result = $this->_accountService->login($loginIn);
 
-        return response([$result ,'message' => 'Login Successful!']);
-        //return response([$result, 'message' => 'Login Successful!']);
+        return response(['result' => $result ,'message' => 'Login Successful!']);
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/refreshToken",
+     *      operationId="getJwtToken by a valid refresh token",
+     *      tags={"Account"},
+     *      summary="Get a JWT via given credentials by a valid refresh token",
+     *      description="Returns bearer string token",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/RefreshTokenIn")
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/Auth")
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiRequestException")
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiAccessDeniedException")
+     *      ),
+     *      @OA\Response(
+     *          response="422",
+     *          description="Unprocessable Entity",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiUnprocessableEntityException")
+     *      ),
+     * )
+     */
+
+    public function refreshToken(RefreshTokenRequest $request)
+    {
+        $request->validated();
+
+        $refreshTokenIn = new RefreshTokenIn;
+        $refreshTokenIn->refreshToken = $request['refreshToken'];
+
+        $result = $this->_accountService->refreshToken($refreshTokenIn);
+
+        //dd($result);
+
+
+        return response(['result' => $result ,'message' => 'Login Successful!']);
     }
 
     /**

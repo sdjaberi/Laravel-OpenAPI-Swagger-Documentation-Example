@@ -6,6 +6,8 @@ use App\Http\Exceptions\ApiUnAuthException;
 use App\Models\User;
 use App\Services\Identity\Models\LoginIn;
 use App\Services\Identity\Models\LoginOut;
+use App\Services\Identity\Models\RefreshTokenIn;
+use App\Services\Identity\Models\RefreshTokenOut;
 use App\Services\Identity\Models\RegisterIn;
 use App\Services\Base\Mapper;
 use Carbon\Carbon;
@@ -19,6 +21,8 @@ use App\Repositories\UserRepository;
 use Laravel\Passport\Client as OClient;
 use GuzzleHttp\Client;
 use stdClass;
+use Laravel\Passport\TokenRepository;
+use Laravel\Passport\RefreshTokenRepository;
 
 interface IAccountService
 {
@@ -31,10 +35,10 @@ interface IAccountService
     */
 
     public function login(LoginIn $model) : LoginOut;
+    public function refreshToken(RefreshTokenIn $model) : RefreshTokenOut;
     public function me() : User;
     public function logout();
     public function register(RegisterIn $model) : LoginOut;
-
 
     /*
 
@@ -56,15 +60,23 @@ class AccountService implements IAccountService
     private $_mapper;
     private $_roleRepository;
     private $_userRepository;
+    private $_tokenRepository;
+    private $_refreshTokenRepository;
+
 
     public function __construct(
         Mapper $mapper,
         RoleRepository $roleRepository,
-        UserRepository $userRepository)
+        UserRepository $userRepository,
+        TokenRepository $tokenRepository,
+        RefreshTokenRepository $refreshTokenRepository
+        )
     {
         $this->_mapper = $mapper;
         $this->_roleRepository = $roleRepository;
         $this->_userRepository = $userRepository;
+        $this->_tokenRepository = $tokenRepository;
+        $this->_refreshTokenRepository = $refreshTokenRepository;
     }
 
     public function login(LoginIn $model) : LoginOut
@@ -98,8 +110,6 @@ class AccountService implements IAccountService
 
         $tokenResult = $this->getTokenAndRefreshToken($oClient, $model->email , $model->password, $userPermissions);
 
-        $tokenResult = $tokenResult;
-
         $loginOut->accessToken = $tokenResult['access_token'];
         $loginOut->refreshToken = $tokenResult['refresh_token'];
         $loginOut->expires_in = $tokenResult['expires_in'];
@@ -112,7 +122,6 @@ class AccountService implements IAccountService
         $userData->username = $user->email;
         $userData->id = $user->id;
         $userData->role = $userRoles[0];
-
 
         $userData->ability = $userPermissions[0]->map(function($permission) {
 
@@ -146,7 +155,44 @@ class AccountService implements IAccountService
         $result = json_decode((string) $response->getBody(), true);
 
         return $result;
-        //return response()->json($result, $this->successStatus);
+    }
+
+
+    public function refreshToken(RefreshTokenIn $model) : RefreshTokenOut
+    {
+
+
+        $refreshTokenOut = $this->_mapper->Map($model, new RefreshTokenOut());
+
+        $oClient = OClient::where('password_client', 1)->first();
+
+        $tokenResult = $this->getRefreshToken($oClient, $model->refreshToken);
+
+        $refreshTokenOut->accessToken = $tokenResult['access_token'];
+        $refreshTokenOut->refreshToken = $tokenResult['refresh_token'];
+        $refreshTokenOut->expires_in = $tokenResult['expires_in'];
+        $refreshTokenOut->token_type = $tokenResult['token_type'];
+
+        return $refreshTokenOut;
+    }
+
+    public function getRefreshToken(OClient $oClient, $refreshToken) {
+        $oClient = OClient::where('password_client', 1)->first();
+        $http = new Client;
+
+        $response = $http->request('POST', env('APP_URL', 'http://localhost') . '/oauth/token', [
+            'form_params' => [
+                'grant_type' => 'refresh_token',
+                'client_id' => $oClient->id,
+                'client_secret' => $oClient->secret,
+                'refresh_token' => $refreshToken,
+                'scope' => '',
+            ],
+        ]);
+
+        $result = json_decode((string) $response->getBody(), true);
+
+        return $result;
     }
 
     public function me() : User
@@ -160,22 +206,19 @@ class AccountService implements IAccountService
     {
         $currentUser = $this->me();
 
-        if (!$token = $currentUser->token()) {
-            throw new ApiUnAuthException();
-        }
+        $currentUser->tokens
+            ->each(function ($token, $key) {
+                $this->revokeAccessAndRefreshTokens($token->id);
+            });
 
-        $token->revoke();
-
-        //$tokens =  $user->tokens->pluck('id');
-        //Token::whereIn('id', $tokens)
-        //->updateAsync(['revoked', true]);
-
-        //RefreshToken::whereIn('access_token_id', $tokens)->updateAsync(['revoked' => true]);
-
-        return true;
+        return response()->json('Logged out successfully', 200);
     }
 
+    protected function revokeAccessAndRefreshTokens($tokenId) {
 
+        $this->_tokenRepository->revokeAccessToken($tokenId);
+        $this->_refreshTokenRepository->revokeRefreshTokensByAccessTokenId($tokenId);
+    }
 
     public function register(RegisterIn $model) : LoginOut
     {
