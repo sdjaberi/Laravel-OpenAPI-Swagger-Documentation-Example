@@ -10,12 +10,7 @@ use App\Services\Identity\Models\RefreshTokenIn;
 use App\Services\Identity\Models\RefreshTokenOut;
 use App\Services\Identity\Models\RegisterIn;
 use App\Services\Base\Mapper;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
-use phpDocumentor\Reflection\Types\Boolean;
-use Laravel\Passport\RefreshToken;
-use Laravel\Passport\Token;
 use App\Repositories\RoleRepository;
 use App\Repositories\UserRepository;
 use Laravel\Passport\Client as OClient;
@@ -58,7 +53,6 @@ interface IAccountService
 class AccountService implements IAccountService
 {
     private $_mapper;
-    private $_roleRepository;
     private $_userRepository;
     private $_tokenRepository;
     private $_refreshTokenRepository;
@@ -98,7 +92,6 @@ class AccountService implements IAccountService
             foreach ($user->roles as $role)
             {
                 $rolepermissions = $role->permissions->map(fn($permission) => $permission->title);
-
                 array_push($userRoles, $role->title);
                 array_push($userPermissions, $rolepermissions);
             }
@@ -141,6 +134,13 @@ class AccountService implements IAccountService
         $oClient = OClient::where('password_client', 1)->first();
         $http = new Client;
 
+        $permissionsString = null;
+        foreach ($userPermissions[0] as $key => $permission) {
+            $permissionsString .= $permission.' ';
+        }
+
+        //dd($permissionsString);
+
         $response = $http->request('POST', env('APP_URL', 'http://localhost') . '/oauth/token', [
             'form_params' => [
                 'grant_type' => 'password',
@@ -148,7 +148,7 @@ class AccountService implements IAccountService
                 'client_secret' => $oClient->secret,
                 'username' => $email,
                 'password' => $password,
-                'scope' => $userPermissions,
+                'scope' => $permissionsString,
             ],
         ]);
 
@@ -160,8 +160,6 @@ class AccountService implements IAccountService
 
     public function refreshToken(RefreshTokenIn $model) : RefreshTokenOut
     {
-
-
         $refreshTokenOut = $this->_mapper->Map($model, new RefreshTokenOut());
 
         $oClient = OClient::where('password_client', 1)->first();
@@ -197,14 +195,20 @@ class AccountService implements IAccountService
 
     public function me() : User
     {
-        $currentUser = Auth::user();
+        $currentUser = auth()->user();
+
+        if (!$currentUser)
+            throw new ApiUnAuthException();
 
         return $currentUser;
     }
 
     public function logout()
     {
-        $currentUser = $this->me();
+        $currentUser = Auth::user();
+
+        if (!$currentUser)
+            throw new ApiUnAuthException();
 
         $currentUser->tokens
             ->each(function ($token, $key) {

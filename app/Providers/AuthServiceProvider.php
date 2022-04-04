@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Role;
 use Carbon\Carbon;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
@@ -27,6 +28,26 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        if (!app()->runningInConsole()) {
+            $roles            = Role::with('permissions')->get();
+            $permissionsArray = [];
+            $permissionsTokens = [];
+
+            foreach ($roles as $role) {
+                foreach ($role->permissions as $permissions) {
+                    $permissionsArray[$permissions->title][] = $role->id;
+                }
+            }
+
+            foreach ($permissionsArray as $title => $roles) {
+                $permissionsTokens[$title] =  ucwords(str_replace("_", " ", $title));
+            }
+
+            //dd($permissionsTokens);
+
+            Passport::tokensCan($permissionsTokens);
+        }
+/*
         Passport::tokensCan([
             'permission_create'         => 'Permission Create',
             'permission_edit'           => 'Permission edit',
@@ -81,8 +102,10 @@ class AuthServiceProvider extends ServiceProvider
 
             'translation_import'            => 'Import',
             'translation_export'            => 'Export',
-        ]);
 
+            'all_manage'                    => 'All Manage',
+        ]);
+*/
 
         //if (!app()->runningInConsole()) {
             Passport::routes();

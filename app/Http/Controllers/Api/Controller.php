@@ -6,7 +6,7 @@ class Controller
 {
     /**
      * @OA\Info(
-     *      version="1.0.0",
+     *      version="2.0.0",
      *      title="Water-id Translator Documentation",
      *      description="L5 Swagger OpenApi description",
      *      @OA\Contact(
@@ -22,11 +22,19 @@ class Controller
      *      url=L5_SWAGGER_CONST_HOST,
      *      description="Water-id Translator API Server"
      * )
-
      *
+     * @OA\Tag(
+     *     name="Account",
+     *     description="API Endpoints of Authorization Actions"
+     * )
      * @OA\Tag(
      *     name="Projects",
      *     description="API Endpoints of Projects"
      * )
+     * @OA\Tag(
+     *     name="Phrases",
+     *     description="API Endpoints of Phrases"
+     * )
+     *
      */
 }

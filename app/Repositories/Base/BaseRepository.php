@@ -5,6 +5,9 @@ namespace App\Repositories\Base;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Exceptions\ApiNotFoundException;
+use App\Services\Base\IPageableFilter;
+use Doctrine\DBAL\Query\QueryBuilder;
+use Facade\Ignition\QueryRecorder\Query;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Async\Pool;
 
@@ -13,7 +16,7 @@ interface IBaseRepository
     /**
     * @return Builder
     */
-   public function getAllAsync(): Builder;
+   public function getAllAsync(IPageableFilter $filter, array $include): Builder;
 
     /**
     * @param array $attributes
@@ -26,7 +29,7 @@ interface IBaseRepository
     * @param array $attributes
     * @return bool
     */
-    public function updateAsync($id = null, array $attributes, array $relations = []): ?bool;
+    public function updateAsync($id = null, array $attributes, array $relations = []): ?Model;
 
     /**
     * @param array $attributes
@@ -74,11 +77,20 @@ class BaseRepository implements IBaseRepository
     *
     * @return Builder
     */
-    public function getAllAsync(): Builder
+    public function getAllAsync(IPageableFilter $filter, array $include): Builder
     {
         return
-            $this->asyncExecution(function() {
-                return $this->model::latest();
+            $this->asyncExecution(function() use($filter, $include) {
+
+                $query = $this->model;
+
+                $query = $query->orderBy( !isset($filter->sort) ? "id" : $filter->sort);
+                $query = $query->take( !isset($filter->limit) ? 50 : $filter->limit);
+                $query = $query->skip( !isset($filter->skip) ? 0 : $filter->skip);
+
+                $query = $query->with($include);
+
+                return $query;
             });
     }
 
@@ -111,7 +123,7 @@ class BaseRepository implements IBaseRepository
     *
     * @return bool
     */
-    public function updateAsync($id = null, array $attributes, array $relations = []): ?bool
+    public function updateAsync($id = null, array $attributes, array $relations = []): ?Model
     {
         return
             $this->asyncExecution(function() use($id, $attributes, $relations) {
@@ -126,7 +138,9 @@ class BaseRepository implements IBaseRepository
                         $model->$relation()->sync($attributes[$relation]);
                 }
 
-                return $model->update($attributes);
+                $model->update($attributes);
+
+                return $model;
             });
     }
 

@@ -1,9 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ApiController;
-use App\Http\Controllers\Admin\ProjectsController;
 
 Route::group([
         'prefix' => 'v1',
@@ -16,12 +13,30 @@ Route::group([
         // public routes
         Route::match(['get', 'post'],'login', 'Auth\AuthController@login')->name('login.api');
         Route::match(['get', 'post'],'refreshToken', 'Auth\AuthController@refreshToken')->name('refreshToken.api');
+
         Route::post('register', 'Auth\AuthController@register')->name('register.api');
+
         Route::group(['middleware' => 'auth:api']
         ,function() {
             // our routes to be protected will go in here
-            Route::get('logout', 'Auth\AuthController@logout')->name('logout.api');
             Route::get('me', 'Auth\AuthController@me')->name('me.api');
+            Route::get('logout', 'Auth\AuthController@logout')->name('logout.api');
+
+            // Projects
+            //Route::apiResource('projects', 'ProjectsController')->middleware(['auth:api', 'scopes:project_edit,project_create,project_delete']);
+            Route::get('projects', 'ProjectsController@index')->name('index.api')->middleware(['auth:api', 'scopes:project_access']);
+            Route::get('projects/{id}', 'ProjectsController@show')->name('show.api')->middleware(['auth:api', 'scopes:project_show']);
+            Route::post('projects', 'ProjectsController@store')->name('store.api')->middleware(['auth:api', 'scopes:project_create']);
+            Route::put('projects/{id}', 'ProjectsController@update')->name('update.api')->middleware(['auth:api', 'scopes:project_edit']);
+            Route::delete('projects/{id}', 'ProjectsController@destroy')->name('destroy.api')->middleware(['auth:api', 'scopes:project_delete']);
+
+            // Phrases
+            //Route::apiResource('phrases', 'PhrasesController')->middleware(['auth:api', 'scopes:phrase_edit,phrase_create,phrase_delete']);
+            Route::get('phrases', 'PhrasesController@index')->name('index.api')->middleware(['auth:api', 'scopes:phrase_access']);
+            Route::get('phrases/{id}', 'PhrasesController@show')->name('show.api')->middleware(['auth:api', 'scopes:phrase_show']);
+            Route::post('phrases', 'PhrasesController@store')->name('store.api')->middleware(['auth:api', 'scopes:phrase_create']);
+            Route::put('phrases/{id}', 'PhrasesController@update')->name('update.api')->middleware(['auth:api', 'scopes:phrase_edit']);
+            Route::delete('phrases/{id}', 'PhrasesController@destroy')->name('destroy.api')->middleware(['auth:api', 'scopes:phrase_delete']);
 
             // Permissions
             Route::apiResource('permissions', 'PermissionsController');
@@ -37,22 +52,23 @@ Route::group([
             Route::put('users/{id}', 'UsersController@update')->name('update.api')->middleware(['auth:api', 'scopes:user_edit']);
             Route::delete('users/{id}', 'UsersController@destroy')->name('destroy.api')->middleware(['auth:api', 'scopes:user_delete']);
 
-            // Projects
-            //Route::apiResource('projects', 'ProjectsController')->middleware(['auth:api', 'scopes:project_edit,project_create,project_delete']);
-            Route::get('projects', 'ProjectsController@index')->name('index.api')->middleware(['auth:api', 'scopes:project_access']);
-            Route::get('projects/{id}', 'ProjectsController@show')->name('show.api')->middleware(['auth:api', 'scopes:project_show']);
-            Route::post('projects', 'ProjectsController@store')->name('store.api')->middleware(['auth:api', 'scopes:project_create']);
-            Route::put('projects/{id}', 'ProjectsController@update')->name('update.api')->middleware(['auth:api', 'scopes:project_edit']);
-            Route::delete('projects/{id}', 'ProjectsController@destroy')->name('destroy.api')->middleware(['auth:api', 'scopes:project_delete']);
+
+            // Translations
+            //Route::apiResource('translations', 'TranslationsController')->middleware(['auth:api', 'scopes:translation_edit,translation_create,translation_delete']);
+            Route::get('translations', 'TranslationsController@index')->name('index.api')->middleware(['auth:api', 'scopes:translation_access']);
+            Route::get('translations/{id}', 'TranslationsController@show')->name('show.api')->middleware(['auth:api', 'scopes:translation_show']);
+            Route::post('translations', 'TranslationsController@store')->name('store.api')->middleware(['auth:api', 'scopes:translation_create']);
+            Route::put('translations/{id}', 'TranslationsController@update')->name('update.api')->middleware(['auth:api', 'scopes:translation_edit']);
+            Route::delete('translations/{id}', 'TranslationsController@destroy')->name('destroy.api')->middleware(['auth:api', 'scopes:translation_delete']);
+
+            // Languages
+            //Route::apiResource('languages', 'LanguagesController')->middleware(['auth:api', 'scopes:language_edit,language_create,language_delete']);
+            Route::get('languages', 'LanguagesController@index')->name('index.api')->middleware(['auth:api', 'scopes:language_access']);
+            Route::get('languages/{id}', 'LanguagesController@show')->name('show.api')->middleware(['auth:api', 'scopes:language_show']);
+            Route::post('languages', 'LanguagesController@store')->name('store.api')->middleware(['auth:api', 'scopes:language_create']);
+            Route::put('languages/{id}', 'LanguagesController@update')->name('update.api')->middleware(['auth:api', 'scopes:language_edit']);
+            Route::delete('languages/{id}', 'LanguagesController@destroy')->name('destroy.api')->middleware(['auth:api', 'scopes:language_delete']);
     });
-
-    //Route::post('login', 'Auth\AuthController@login');
-    //Route::post('logout', 'Auth\AuthController@logout');
-    //Route::post('me', 'Auth\AuthController@me');
-
-    //Route::post('authorize', 'Auth\AuthController@authorize');
-    //Route::post('token', 'Auth\AuthController@token');
-    //Route::post('refresh', 'Auth\AuthController@refresh');
 
 /*
     'permission_create'         => 'Permission Create',

@@ -4,32 +4,68 @@ namespace App\Http\Controllers\Api\V1\Admin;
 
 use App\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use App\Http\Requests\Api\Projects\StoreProjectRequest;
-use App\Http\Requests\Api\Projects\UpdateProjectRequest;
-use App\Http\Resources\Admin\ProjectResource;
-use App\Repositories\ProjectRepository;
+use App\Http\Requests\Api\Phrases\StorePhraseRequest;
+use App\Http\Requests\Api\Phrases\UpdatePhraseRequest;
+use App\Http\Resources\Admin\PhraseResource;
+use App\Repositories\PhraseRepository;
+use App\Services\Phrase\PhraseService;
+use App\Services\Phrase\Models\PhrasePageableFilter;
+use Illuminate\Http\Request;
 
-class ProjectsController extends Controller
+class PhrasesController extends Controller
 {
-    private $_projectRepository;
+    private $_phraseRepository;
+    private $_phraseService;
 
-    public function __construct(ProjectRepository $projectRepository)
+    public function __construct(
+        PhraseRepository $phraseRepository,
+        PhraseService $phraseService
+        )
     {
-        $this->_projectRepository = $projectRepository;
+        $this->_phraseRepository = $phraseRepository;
+        $this->_phraseService = $phraseService;
     }
 
     /**
      * @OA\Get(
-     *      path="/projects",
-     *      operationId="getProjectsList",
-     *      tags={"Projects"},
+     *      path="/phrases",
+     *      operationId="getPhrasesList",
+     *      tags={"Phrases"},
      *      security={{"passport": {*}}},
-     *      summary="Get list of projects",
-     *      description="Returns list of projects",
+     *      summary="Get list of phrases",
+     *      description="Returns list of phrases",
+     *      @OA\Parameter(
+     *          name="skip",
+     *          description="Number of item to skip",
+     *          example=100,
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="limit",
+     *          description="Number of item per page",
+     *          example=20,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="sort",
+     *          description="Column name to sort",
+     *          example="id",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/ProjectResource")
+     *          @OA\JsonContent(ref="#/components/schemas/PhraseResource")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -43,29 +79,40 @@ class ProjectsController extends Controller
      *      ),
      * )
      */
-    public function index()
+    public function index(Request $request)
     {
-        $projects = $this->_projectRepository->getAllAsync()->get();
+        $filter = new phrasePageableFilter;
 
-        return new ProjectResource($projects);
+        if($request->input('skip'))
+            $filter->skip = $request->input('skip');
+
+        if($request->input('limit'))
+            $filter->limit = $request->input('limit');
+
+        if($request->input('sort'))
+            $filter->sort = $request->input('sort');
+
+        $phrases = $this->_phraseService->getAll($filter);
+
+        return new PhraseResource($phrases);
     }
 
     /**
      * @OA\Post(
-     *      path="/projects",
-     *      operationId="storeProject",
-     *      tags={"Projects"},
+     *      path="/phrases",
+     *      operationId="storePhrase",
+     *      tags={"Phrases"},
      *      security={{"passport": {"*"}}},
-     *      summary="Store new project",
-     *      description="Returns project data",
+     *      summary="Store new phrase",
+     *      description="Returns phrase data",
      *      @OA\RequestBody(
      *          required=true,
-     *          @OA\JsonContent(ref="#/components/schemas/StoreProjectRequest")
+     *          @OA\JsonContent(ref="#/components/schemas/StorePhraseRequest")
      *      ),
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/Project")
+     *          @OA\JsonContent(ref="#/components/schemas/Phrase")
      *       ),
      *      @OA\Response(
      *          response="400",
@@ -89,26 +136,26 @@ class ProjectsController extends Controller
      *      ),
      * )
      */
-    public function store(StoreProjectRequest $request)
+    public function store(StorePhraseRequest $request)
     {
-        $project = $this->_projectRepository->storeAsync($request->all());
+        $phrase = $this->_phraseRepository->storeAsync($request->all());
 
-        return (new ProjectResource($project))
+        return (new PhraseResource($phrase))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
     /**
      * @OA\Get(
-     *      path="/projects/{id}",
-     *      operationId="getProjectById",
-     *      tags={"Projects"},
+     *      path="/phrases/{id}",
+     *      operationId="getPhraseById",
+     *      tags={"Phrases"},
      *      security={{"passport": {"*"}}},
-     *      summary="Get project information",
-     *      description="Returns project data",
+     *      summary="Get phrase information",
+     *      description="Returns phrase data",
      *      @OA\Parameter(
      *          name="id",
-     *          description="Project id",
+     *          description="Phrase id",
      *          required=true,
      *          in="path",
      *          @OA\Schema(
@@ -118,7 +165,7 @@ class ProjectsController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/Project")
+     *          @OA\JsonContent(ref="#/components/schemas/Phrase")
      *       ),
      *      @OA\Response(
      *          response="400",
@@ -145,22 +192,22 @@ class ProjectsController extends Controller
      */
     public function show($id)
     {
-        $project = $this->_projectRepository->viewAsync($id);
+        $phrase = $this->_phraseRepository->viewAsync($id);
 
-        return new ProjectResource($project);
+        return new PhraseResource($phrase);
     }
 
     /**
      * @OA\Put(
-     *      path="/projects/{id}",
-     *      operationId="updateProject",
-     *      tags={"Projects"},
+     *      path="/phrases/{id}",
+     *      operationId="updatePhrase",
+     *      tags={"Phrases"},
      *      security={{"passport": {"*"}}},
-     *      summary="Update existing project",
-     *      description="Returns updated project data",
+     *      summary="Update existing phrase",
+     *      description="Returns updated phrase data",
      *      @OA\Parameter(
      *          name="id",
-     *          description="Project id",
+     *          description="Phrase id",
      *          required=true,
      *          in="path",
      *          @OA\Schema(
@@ -169,12 +216,12 @@ class ProjectsController extends Controller
      *      ),
      *      @OA\RequestBody(
      *          required=true,
-     *          @OA\JsonContent(ref="#/components/schemas/UpdateProjectRequest")
+     *          @OA\JsonContent(ref="#/components/schemas/UpdatePhraseRequest")
      *      ),
      *      @OA\Response(
      *          response=202,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/Project")
+     *          @OA\JsonContent(ref="#/components/schemas/Phrase")
      *       ),
      *      @OA\Response(
      *          response="400",
@@ -198,26 +245,26 @@ class ProjectsController extends Controller
      *      ),
      * )
      */
-    public function update(UpdateProjectRequest $request, $id)
+    public function update(UpdatePhraseRequest $request, $id)
     {
-        $project = $this->_projectRepository->updateAsync($id, $request->all());
+        $phrase = $this->_phraseRepository->updateAsync($id, $request->all());
 
-        return (new ProjectResource($project))
+        return (new PhraseResource($phrase))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
     /**
      * @OA\Delete(
-     *      path="/projects/{id}",
-     *      operationId="deleteProject",
-     *      tags={"Projects"},
+     *      path="/phrases/{id}",
+     *      operationId="deletePhrase",
+     *      tags={"Phrases"},
      *      security={{"passport": {"*"}}},
-     *      summary="Delete existing project",
+     *      summary="Delete existing phrase",
      *      description="Deletes a record and returns no content",
      *      @OA\Parameter(
      *          name="id",
-     *          description="Project id",
+     *          description="Phrase id",
      *          required=true,
      *          in="path",
      *          @OA\Schema(
@@ -248,7 +295,7 @@ class ProjectsController extends Controller
      */
     public function destroy($id)
     {
-        $result = $this->_projectRepository->deleteAsync($id);
+        $result = $this->_phraseRepository->deleteAsync($id);
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

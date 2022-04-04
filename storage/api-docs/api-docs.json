@@ -10,7 +10,7 @@
             "name": "Apache 2.0",
             "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
         },
-        "version": "1.0.0"
+        "version": "2.0.0"
     },
     "servers": [
         {
@@ -221,6 +221,394 @@
                         "description": "Forbidden"
                     }
                 }
+            }
+        },
+        "/phrases": {
+            "get": {
+                "tags": [
+                    "Phrases"
+                ],
+                "summary": "Get list of phrases",
+                "description": "Returns list of phrases",
+                "operationId": "getPhrasesList",
+                "parameters": [
+                    {
+                        "name": "skip",
+                        "in": "query",
+                        "description": "Number of item to skip",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 100
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Number of item per page",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 20
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Column name to sort",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PhraseResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnAuthException"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid scope(s) provided.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiAccessDeniedException"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Phrases"
+                ],
+                "summary": "Store new phrase",
+                "description": "Returns phrase data",
+                "operationId": "storePhrase",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StorePhraseRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Phrase"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiRequestException"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnAuthException"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid scope(s) provided.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiAccessDeniedException"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnprocessableEntityException"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": [
+                            "*"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/phrases/{id}": {
+            "get": {
+                "tags": [
+                    "Phrases"
+                ],
+                "summary": "Get phrase information",
+                "description": "Returns phrase data",
+                "operationId": "getPhraseById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Phrase id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Phrase"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiRequestException"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnAuthException"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid scope(s) provided.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiAccessDeniedException"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": [
+                            "*"
+                        ]
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Phrases"
+                ],
+                "summary": "Update existing phrase",
+                "description": "Returns updated phrase data",
+                "operationId": "updatePhrase",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Phrase id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdatePhraseRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Phrase"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiRequestException"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnAuthException"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid scope(s) provided.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiAccessDeniedException"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": [
+                            "*"
+                        ]
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Phrases"
+                ],
+                "summary": "Delete existing phrase",
+                "description": "Deletes a record and returns no content",
+                "operationId": "deletePhrase",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Phrase id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnAuthException"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid scope(s) provided.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiAccessDeniedException"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": [
+                            "*"
+                        ]
+                    }
+                ]
             }
         },
         "/projects": {
@@ -661,6 +1049,70 @@
                     "name": "Auth"
                 }
             },
+            "Phrase": {
+                "title": "Phrase",
+                "description": "Phrase model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "base_id": {
+                        "title": "Base ID",
+                        "description": "Base ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "phrase": {
+                        "title": "Phrase",
+                        "description": "Phrase",
+                        "type": "string",
+                        "example": "A new phrase"
+                    },
+                    "category_name": {
+                        "title": "Category Name",
+                        "description": "Category Name",
+                        "type": "string",
+                        "example": "A category name"
+                    },
+                    "phrase_category_id": {
+                        "title": "Phrase Category ID",
+                        "description": "Phrase Category ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "description": "Updated at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    },
+                    "deleted_at": {
+                        "title": "Deleted at",
+                        "description": "Deleted at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Phrase"
+                }
+            },
             "Project": {
                 "title": "Project",
                 "description": "Project model",
@@ -775,6 +1227,42 @@
                 },
                 "type": "object"
             },
+            "StorePhraseRequest": {
+                "title": "Store Phrase request",
+                "description": "Store Phrase request body data",
+                "required": [
+                    "phrase"
+                ],
+                "properties": {
+                    "base_id": {
+                        "title": "Base ID",
+                        "description": "Base ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "phrase": {
+                        "title": "Phrase",
+                        "description": "Phrase",
+                        "type": "string",
+                        "example": "A new phrase"
+                    },
+                    "category_name": {
+                        "title": "Category Name",
+                        "description": "Category Name",
+                        "type": "string",
+                        "example": "A category name"
+                    },
+                    "phrase_category_id": {
+                        "title": "Phrase Category ID",
+                        "description": "Phrase Category ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
             "StoreProjectRequest": {
                 "title": "Store Project request",
                 "description": "Store Project request body data",
@@ -806,6 +1294,42 @@
                         "description": "Language's ids of the new project",
                         "type": "array[int64]",
                         "example": "[1,2]"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdatePhraseRequest": {
+                "title": "Update Phrase request",
+                "description": "Update Phrase request body data",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "base_id": {
+                        "title": "Base ID",
+                        "description": "Base ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "phrase": {
+                        "title": "Phrase",
+                        "description": "Phrase",
+                        "type": "string",
+                        "example": "A new phrase"
+                    },
+                    "category_name": {
+                        "title": "Category Name",
+                        "description": "Category Name",
+                        "type": "string",
+                        "example": "A category name"
+                    },
+                    "phrase_category_id": {
+                        "title": "Phrase Category ID",
+                        "description": "Phrase Category ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
                     }
                 },
                 "type": "object"
@@ -861,6 +1385,24 @@
                 "type": "object",
                 "xml": {
                     "name": "AuthResource"
+                }
+            },
+            "PhraseResource": {
+                "title": "PhraseResource",
+                "description": "Phrase resource",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "ref": null
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "PhraseResource"
                 }
             },
             "ProjectResource": {
@@ -1015,6 +1557,111 @@
                 "xml": {
                     "name": "RegisterIn"
                 }
+            },
+            "PhraseFilter": {
+                "title": "PhraseFilter",
+                "description": "PhraseFilter model",
+                "xml": {
+                    "name": "PhraseFilter"
+                }
+            },
+            "PhraseOut": {
+                "title": "PhraseOut",
+                "description": "PhraseOut model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "base_id": {
+                        "title": "Base ID",
+                        "description": "Base ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "phrase": {
+                        "title": "Phrase",
+                        "description": "Phrase",
+                        "type": "string",
+                        "example": "A new phrase"
+                    },
+                    "category_name": {
+                        "title": "Category Name",
+                        "description": "Category Name",
+                        "type": "string",
+                        "example": "A category name"
+                    },
+                    "phrase_category_id": {
+                        "title": "Phrase Category ID",
+                        "description": "Phrase Category ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "description": "Updated at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    },
+                    "deleted_at": {
+                        "title": "Deleted at",
+                        "description": "Deleted at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "PhraseOut"
+                }
+            },
+            "PhrasePageableFilter": {
+                "title": "PhrasePageableFilter",
+                "description": "PhrasePageableFilter model",
+                "xml": {
+                    "name": "PhrasePageableFilter"
+                },
+                "allOf": [
+                    {
+                        "properties": {
+                            "skip": {
+                                "title": "Skip",
+                                "description": "Skip",
+                                "type": "integer",
+                                "example": "100"
+                            },
+                            "limit": {
+                                "title": "Limit",
+                                "description": "Limit",
+                                "type": "integer",
+                                "example": "200"
+                            },
+                            "sort": {
+                                "title": "Sort",
+                                "description": "Sort",
+                                "type": "string",
+                                "example": "asc or decs"
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "#/components/schemas/PhraseFilter"
+                    }
+                ]
             }
         },
         "securitySchemes": {
@@ -1029,8 +1676,16 @@
     },
     "tags": [
         {
+            "name": "Account",
+            "description": "API Endpoints of Authorization Actions"
+        },
+        {
             "name": "Projects",
             "description": "API Endpoints of Projects"
+        },
+        {
+            "name": "Phrases",
+            "description": "API Endpoints of Phrases"
         }
     ]
 }
