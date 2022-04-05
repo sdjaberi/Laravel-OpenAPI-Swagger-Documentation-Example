@@ -6,9 +6,11 @@ use App\Services\Base\IFilter;
 
 class IPageableFilter extends IFilter
 {
-    public int $skip;
+    public int $page;
 
-    public int $limit;
+    public int $perPage;
 
-    public string $sort;
+    public string $sortBy;
+
+    public bool $sortDesc;
 }

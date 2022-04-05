@@ -28,6 +28,7 @@ class Mapper
             // match properties
             //
 
+            //dd($name, $value, $source->{$name});
             $matchingSourcePropertyExists = array_key_exists($name, $sourceProperties);
             if ($matchingSourcePropertyExists)
             {

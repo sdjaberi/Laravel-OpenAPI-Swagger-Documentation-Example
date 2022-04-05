@@ -233,17 +233,17 @@
                 "operationId": "getPhrasesList",
                 "parameters": [
                     {
-                        "name": "skip",
+                        "name": "page",
                         "in": "query",
-                        "description": "Number of item to skip",
+                        "description": "Page number",
                         "required": false,
                         "schema": {
                             "type": "integer"
                         },
-                        "example": 100
+                        "example": 1
                     },
                     {
-                        "name": "limit",
+                        "name": "perPage",
                         "in": "query",
                         "description": "Number of item per page",
                         "schema": {
@@ -252,13 +252,47 @@
                         "example": 20
                     },
                     {
-                        "name": "sort",
+                        "name": "sortBy",
                         "in": "query",
-                        "description": "Column name to sort",
+                        "description": "Column name to sort by",
                         "schema": {
                             "type": "string"
                         },
                         "example": "id"
+                    },
+                    {
+                        "name": "sortDesc",
+                        "in": "query",
+                        "description": "Column name to sort descending",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "true"
+                    },
+                    {
+                        "name": "phrase",
+                        "in": "query",
+                        "description": "Phrase",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Category name",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "phraseCategory",
+                        "in": "query",
+                        "description": "Phrase category name",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -1638,23 +1672,47 @@
                 "allOf": [
                     {
                         "properties": {
-                            "skip": {
-                                "title": "Skip",
-                                "description": "Skip",
+                            "page": {
+                                "title": "Page",
+                                "description": "Page",
+                                "type": "integer",
+                                "example": "2"
+                            },
+                            "perPage": {
+                                "title": "PerPage",
+                                "description": "PerPage",
                                 "type": "integer",
                                 "example": "100"
                             },
-                            "limit": {
-                                "title": "Limit",
-                                "description": "Limit",
-                                "type": "integer",
-                                "example": "200"
-                            },
-                            "sort": {
-                                "title": "Sort",
-                                "description": "Sort",
+                            "sortBy": {
+                                "title": "SortBY",
+                                "description": "SortBy",
                                 "type": "string",
-                                "example": "asc or decs"
+                                "example": "id"
+                            },
+                            "sortDesc": {
+                                "title": "SortDesc",
+                                "description": "SortDesc",
+                                "type": "boolean",
+                                "example": "true"
+                            },
+                            "phrase": {
+                                "title": "Phrase",
+                                "description": "Phrase",
+                                "type": "string",
+                                "example": "Homepage"
+                            },
+                            "category": {
+                                "title": "Category",
+                                "description": "Category",
+                                "type": "string",
+                                "example": "Website"
+                            },
+                            "phraseCategory": {
+                                "title": "PhraseCategory",
+                                "description": "PhraseCategory",
+                                "type": "string",
+                                "example": "Setting"
                             }
                         }
                     },

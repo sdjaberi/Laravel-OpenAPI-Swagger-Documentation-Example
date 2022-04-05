@@ -7,8 +7,6 @@ use App\Models\Category;
 use App\Services\Phrase\Models\PhraseFilter;
 use App\Services\Phrase\Models\PhrasePageableFilter;
 use App\Services\Phrase\Models\PhraseOut;
-use App\Services\Category\Models\CategoryOut;
-use App\Services\PhraseCategory\Models\PhraseCategoryOut;
 use App\Services\Base\Mapper;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\PhraseRepository;
@@ -124,9 +122,7 @@ class PhraseService implements IPhraseService
 
             $phraseDto->category = $this->_mapper->Map((object)$phrase->category->toArray(), $categoryDto);
 
-            $phraseCategoryDto = new PhraseCategoryOut();
-
-            $phraseDto->phraseCategory = $this->_mapper->Map((object)$phrase->phraseCategory->toArray(), $phraseCategoryDto);
+            dd($phraseDto->category);
 
             /*
             $phraseDto->category  = $phrase->id;

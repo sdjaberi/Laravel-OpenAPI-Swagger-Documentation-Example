@@ -16,7 +16,7 @@ interface IBaseRepository
     /**
     * @return Builder
     */
-   public function getAllAsync(IPageableFilter $filter, array $include): Builder;
+   public function getAllAsync(IPageableFilter $filter = null, array $include = []): Builder;
 
     /**
     * @param array $attributes
@@ -77,16 +77,23 @@ class BaseRepository implements IBaseRepository
     *
     * @return Builder
     */
-    public function getAllAsync(IPageableFilter $filter, array $include): Builder
+    public function getAllAsync(IPageableFilter $filter = null, array $include = []): Builder
     {
         return
             $this->asyncExecution(function() use($filter, $include) {
 
                 $query = $this->model;
 
-                $query = $query->orderBy( !isset($filter->sort) ? "id" : $filter->sort);
-                $query = $query->take( !isset($filter->limit) ? 50 : $filter->limit);
-                $query = $query->skip( !isset($filter->skip) ? 0 : $filter->skip);
+                if(!is_null($filter))
+                {
+                    $query = $query->orderBy(
+                        !isset($filter->sortBy) ? "id" : $filter->sortBy,
+                        isset($filter->sortDesc) && $filter->sortDesc  ? "desc" : "asc" );
+                    $query = $query->take(
+                        !isset($filter->perPage) ? 50 : $filter->perPage);
+                    $query = $query->skip(
+                        !isset($filter->page) ? 1 : $filter->perPage * ($filter->page - 1));
+                }
 
                 $query = $query->with($include);
 

@@ -1,77 +1,65 @@
 <?php
 
-namespace App\Services\Phrase\Models;
+namespace App\Services\Project\Models;
 
 use App\Services\Base\IDto;
 
 /**
  * @OA\Schema(
- *     title="PhraseOut",
- *     description="PhraseOut model",
+ *     title="ProjectOut",
+ *     description="ProjectOut model",
  *     @OA\Xml(
- *         name="PhraseOut"
+ *         name="ProjectOut"
  *     )
  * )
  */
-class PhraseOut extends IDto
+class ProjectOut extends IDto
 {
     /**
      * @OA\Property(
-     *     title="ID",
-     *     description="ID",
-     *     format="int64",
-     *     example=1
-     * )
-     *
-     * @var integer
-     */
-    public $id;
-
-    /**
-     * @OA\Property(
-     *     title="Base ID",
-     *     description="Base ID",
-     *     format="int64",
-     *     example=1
-     * )
-     *
-     * @var integer
-     */
-    public $base_id;
-
-    /**
-     * @OA\Property(
-     *      title="Phrase",
-     *      description="Phrase",
-     *      example="A new phrase"
+     *     title="Name",
+     *     description="Name",
+     *     format="string",
+     *     example="Notes"
      * )
      *
      * @var string
      */
-    public $phrase;
+    public $name;
 
     /**
      * @OA\Property(
-     *      title="Category Name",
-     *      description="Category Name",
-     *      example="A category name"
-     * )
-     *
-     * @var string
-     */
-    public $category_name;
-
-    /**
-     * @OA\Property(
-     *     title="Phrase Category ID",
-     *     description="Phrase Category ID",
+     *     title="Project ID",
+     *     description="Project ID",
      *     format="int64",
      *     example=1
      * )
      *
      * @var integer
      */
-    public $phrase_category_id;
+    public $project_id;
+
+    /**
+     * @OA\Property(
+     *      title="Description",
+     *      description="Description",
+     *      example="A new description"
+     * )
+     *
+     * @var string
+     */
+    public $description;
+
+    /**
+     * @OA\Property(
+     *      title="Icon",
+     *      description="Icon",
+     *      example="fa fa-explore"
+     * )
+     *
+     * @var string
+     */
+    public $icon;
 
     /**
      * @OA\Property(
@@ -114,23 +102,14 @@ class PhraseOut extends IDto
 
 
     /************************* Models **********************/
-    /**
+        /**
      * @OA\Property(
      *      title="PhraseCategory",
      *      description="Phrase Category Model",
      * )
      *
-     * @var \App\Services\PhraseCategory\Models\PhraseCategoryOut
+     * @var \App\Services\Project\Models\ProjectOut
      */
-    public $phraseCategory;
+    public $project;
 
-    /**
-     * @OA\Property(
-     *      title="Category",
-     *      description="Category Model",
-     * )
-     *
-     * @var \App\Services\Category\Models\CategoryOut
-     */
-    public $category;
 }

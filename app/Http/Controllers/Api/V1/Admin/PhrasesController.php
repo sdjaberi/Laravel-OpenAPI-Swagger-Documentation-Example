@@ -8,22 +8,28 @@ use App\Http\Requests\Api\Phrases\StorePhraseRequest;
 use App\Http\Requests\Api\Phrases\UpdatePhraseRequest;
 use App\Http\Resources\Admin\PhraseResource;
 use App\Repositories\PhraseRepository;
+use App\Services\Base\Mapper;
 use App\Services\Phrase\PhraseService;
 use App\Services\Phrase\Models\PhrasePageableFilter;
 use Illuminate\Http\Request;
+use phpDocumentor\Reflection\PseudoTypes\False_;
+use phpDocumentor\Reflection\PseudoTypes\True_;
 
 class PhrasesController extends Controller
 {
     private $_phraseRepository;
     private $_phraseService;
+    private $_mapper;
 
     public function __construct(
         PhraseRepository $phraseRepository,
-        PhraseService $phraseService
+        PhraseService $phraseService,
+        Mapper $mapper
         )
     {
         $this->_phraseRepository = $phraseRepository;
         $this->_phraseService = $phraseService;
+        $this->_mapper = $mapper;
     }
 
     /**
@@ -35,9 +41,9 @@ class PhrasesController extends Controller
      *      summary="Get list of phrases",
      *      description="Returns list of phrases",
      *      @OA\Parameter(
-     *          name="skip",
-     *          description="Number of item to skip",
-     *          example=100,
+     *          name="page",
+     *          description="Page number",
+     *          example=1,
      *          required=false,
      *          in="query",
      *          @OA\Schema(
@@ -45,7 +51,7 @@ class PhrasesController extends Controller
      *          )
      *      ),
      *      @OA\Parameter(
-     *          name="limit",
+     *          name="perPage",
      *          description="Number of item per page",
      *          example=20,
      *          in="query",
@@ -54,12 +60,46 @@ class PhrasesController extends Controller
      *          )
      *      ),
      *      @OA\Parameter(
-     *          name="sort",
-     *          description="Column name to sort",
+     *          name="sortBy",
+     *          description="Column name to sort by",
      *          example="id",
      *          in="query",
      *          @OA\Schema(
      *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="sortDesc",
+     *          description="Column name to sort descending",
+     *          example="true",
+     *          required=true,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="boolean",
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="phrase",
+     *          description="Phrase",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="category",
+     *          description="Category name",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="phraseCategory",
+     *          description="Phrase category name",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string",
      *          )
      *      ),
      *      @OA\Response(
@@ -81,20 +121,22 @@ class PhrasesController extends Controller
      */
     public function index(Request $request)
     {
-        $filter = new phrasePageableFilter;
+        $filterObject = json_decode(json_encode($request->all()), false);
 
-        if($request->input('skip'))
-            $filter->skip = $request->input('skip');
+        $filter = new phrasePageableFilter();
 
-        if($request->input('limit'))
-            $filter->limit = $request->input('limit');
+        foreach ($filterObject as $key => $value)
+            $filter->$key = $value;
 
-        if($request->input('sort'))
-            $filter->sort = $request->input('sort');
+        if($filterObject->sortDesc == 'true')
+            $filter->$key = True;
+        else
+            $filter->$key = False;
 
-        $phrases = $this->_phraseService->getAll($filter);
+        $phrases = $this->_phraseService->getAll($filter, ['translations']);
+        $phrasesTotal = $this->_phraseService->getCount($filter);
 
-        return new PhraseResource($phrases);
+        return new PhraseResource([ 'data' => $phrases, 'total' => $phrasesTotal]);
     }
 
     /**
