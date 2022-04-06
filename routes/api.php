@@ -38,6 +38,15 @@ Route::group([
             Route::put('phrases/{id}', 'PhrasesController@update')->name('update.api')->middleware(['auth:api', 'scopes:phrase_edit']);
             Route::delete('phrases/{id}', 'PhrasesController@destroy')->name('destroy.api')->middleware(['auth:api', 'scopes:phrase_delete']);
 
+
+            // Categories
+            //Route::apiResource('categories', 'CategoriesController')->middleware(['auth:api', 'scopes:category_edit,category_create,category_delete']);
+            Route::get('categories', 'CategoriesController@index')->name('index.api')->middleware(['auth:api', 'scopes:category_access']);
+            Route::get('categories/{id}', 'CategoriesController@show')->name('show.api')->middleware(['auth:api', 'scopes:category_show']);
+            Route::post('categories', 'CategoriesController@store')->name('store.api')->middleware(['auth:api', 'scopes:category_create']);
+            Route::put('categories/{id}', 'CategoriesController@update')->name('update.api')->middleware(['auth:api', 'scopes:category_edit']);
+            Route::delete('categories/{id}', 'CategoriesController@destroy')->name('destroy.api')->middleware(['auth:api', 'scopes:category_delete']);
+
             // Permissions
             Route::apiResource('permissions', 'PermissionsController');
 

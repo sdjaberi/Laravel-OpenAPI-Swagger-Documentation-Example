@@ -1,73 +1,39 @@
 <?php
 
-namespace App\Services\Phrase;
+namespace App\Services\Category;
 
 use App\Http\Exceptions\ApiUnAuthException;
 use App\Models\Category;
-use App\Services\Phrase\Models\PhraseFilter;
-use App\Services\Phrase\Models\PhrasePageableFilter;
-use App\Services\Phrase\Models\PhraseOut;
+use App\Services\Category\Models\CategoryFilter;
+use App\Services\Category\Models\CategoryPageableFilter;
+use App\Services\Category\Models\CategoryOut;
 use App\Services\Base\Mapper;
-use Illuminate\Support\Facades\Auth;
-use App\Repositories\PhraseRepository;
-use Ramsey\Uuid\Type\Integer;
-use stdClass;
+use App\Repositories\CategoryRepository;
 
-interface IPhraseService
+interface ICategoryService
 {
-    /*
-    public function getAllAsync();
-    public function storeAsyncOrUpdate($id = null,$data);
-    public function viewAsync($id);
-    public function viewByEmail($id);
-    public function deleteAsync($id);
-    */
-
-    public function getAll(PhrasePageableFilter $filter, array $include= []);
-    public function getCount(PhrasePageableFilter $filter) : int;
-
-    //public function refreshToken(RefreshTokenIn $model) : RefreshTokenOut;
-    //public function me() : User;
-    //public function logout();
-    //public function register(RegisterIn $model) : LoginOut;
-
-    /*
-        IEnumerable<botOut> GetAll(botPageableFilter filter);
-
-        int Count(botFilter filter);
-
-        Task<botOut> GetByIdAsync(int id);
-
-        Task<botOut> CreateAsync(botIn model);
-
-        Task<botOut> UpdateAsync(int id, botIn model);
-
-        Task DeleteAsync(int id);
-
-        Task PauseAsync(int id);
-
-        Task ResumeAsync(int id);
-    */
+    public function getAll(CategoryPageableFilter $filter, array $include= []);
+    public function getCount(CategoryPageableFilter $filter) : int;
 
 }
 
-class PhraseService implements IPhraseService
+class CategoryService implements ICategoryService
 {
     private $_mapper;
-    private $_phraseRepository;
+    private $_categoryRepository;
 
     public function __construct(
         Mapper $mapper,
-        PhraseRepository $phraseRepository
+        CategoryRepository $categoryRepository
         )
     {
         $this->_mapper = $mapper;
-        $this->_phraseRepository = $phraseRepository;
+        $this->_categoryRepository = $categoryRepository;
     }
 
-    public function getAll(PhrasePageableFilter $filter, array $include = [])
+    public function getAll(CategoryPageableFilter $filter, array $include = [])
     {
-        $result = $this->_phraseRepository->getAllAsync($filter, $include);
+        $result = $this->_categoryRepository->getAllAsync($filter, $include);
 
         if(isset($filter->phrase))
         {
@@ -92,27 +58,10 @@ class PhraseService implements IPhraseService
                 ->where('phrase_categories.name' , 'like', '%' .$filter->phraseCategory. '%');
         }
 
-        /*
-        foreach ($includeSearch as $key => $search) {
-            # code...
-            $table = explode(".", $search)[0];
-            $column = explode(".", $search)[1];
-
-            $valueCol = $include[$key];
-
-            $query = $query
-            ->join($table, $this->model->getTable().'.'.$include[$key].'_'.$column, '=', $table.'.'.$column)
-            ->select($table.'.*', $this->model->getTable().'.*')
-            ->orWhere($table.'.'.$column, 'like', '%' .$filter->$valueCol. '%');
-
-            //dd($table.'.'.$column);
-        }
-        */
-
         $resultDto = $result->get()->map(function($phrase) {
 
             //dd($phrase);
-            $phraseDto = new PhraseOut($phrase);
+            $phraseDto = new CategoryOut($phrase);
 
             //dd($phrase->toArray());
 
@@ -140,7 +89,7 @@ class PhraseService implements IPhraseService
         return $resultDto;
     }
 
-    public function getCount(PhrasePageableFilter $filter) : int
+    public function getCount(CategoryPageableFilter $filter) : int
     {
         $result = $this->_phraseRepository->getAllAsync();
 
@@ -172,16 +121,16 @@ class PhraseService implements IPhraseService
 
     public function viewAsync($id)
     {
-        return User::find($id);
+        return Category::find($id);
     }
 
     public function viewByEmail($email)
     {
-        return User::find($email);
+        return Category::find($email);
     }
 
     public function deleteAsync($id)
     {
-        return User::find($id)->deleteAsync();
+        return Category::find($id)->deleteAsync();
     }
 }

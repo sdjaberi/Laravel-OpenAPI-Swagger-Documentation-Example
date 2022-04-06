@@ -15,7 +15,7 @@ use App\Services\Base\IPageableFilter;
  *     )
  * )
  */
-class PhraseFilter extends IPageableFilter
+class PhraseFilter extends IFilter
 {
     public int $id;
 

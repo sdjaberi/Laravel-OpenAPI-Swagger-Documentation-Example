@@ -75,6 +75,18 @@ class PhraseOut extends IDto
 
     /**
      * @OA\Property(
+     *     title="Translations Count",
+     *     description="Translations Count",
+     *     format="int64",
+     *     example=1
+     * )
+     *
+     * @var integer
+     */
+    public $translations_count;
+
+    /**
+     * @OA\Property(
      *     title="Created at",
      *     description="Created at",
      *     example="2020-01-27 17:50:45",

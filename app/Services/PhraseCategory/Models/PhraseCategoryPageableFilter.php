@@ -1,20 +1,19 @@
 <?php
 
-namespace App\Services\Phrase\Models;
+namespace App\Services\PhraseCategory\Models;
 
-use App\Services\Base\IPageableFilter;
-use App\Services\Phrase\Models\PhraseFilter;
+use App\Services\PhraseCategory\Models\PhraseCategoryFilter;
 
 /**
  * @OA\Schema(
- *     title="PhrasePageableFilter",
- *     description="PhrasePageableFilter model",
+ *     title="PhraseCategoryPageableFilter",
+ *     description="PhraseCategoryPageableFilter model",
  *     @OA\Xml(
- *         name="PhrasePageableFilter"
+ *         name="PhraseCategoryPageableFilter"
  *     )
  * )
  */
-class PhrasePageableFilter extends PhraseFilter
+class PhraseCategoryPageableFilter extends PhraseCategoryFilter
 {
     /**
      * @OA\Property(

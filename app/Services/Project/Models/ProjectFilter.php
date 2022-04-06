@@ -1,21 +1,20 @@
 <?php
 
-namespace App\Services\Phrase\Models;
+namespace App\Services\Project\Models;
 
-use App\Services\Base\IFilter;
 use App\Services\Base\IPageableFilter;
 
 
 /**
  * @OA\Schema(
- *     title="PhraseFilter",
- *     description="PhraseFilter model",
+ *     title="ProjectFilter",
+ *     description="Project Filter model",
  *     @OA\Xml(
- *         name="PhraseFilter"
+ *         name="ProjectFilter"
  *     )
  * )
  */
-class PhraseFilter extends IPageableFilter
+class ProjectFilter extends IPageableFilter
 {
     public int $id;
 

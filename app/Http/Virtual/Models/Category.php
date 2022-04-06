@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Services\Category\Models;
+namespace App\Http\Virtual\Models;
 
-use App\Services\Base\IDto;
+use App\Http\Virtual\Models\Base\Model;
 
 /**
  * @OA\Schema(
- *     title="CategoryOut",
- *     description="CategoryOut model",
+ *     title="Category",
+ *     description="Category model",
  *     @OA\Xml(
- *         name="CategoryOut"
+ *         name="Category"
  *     )
  * )
  */
-class CategoryOut extends IDto
+class Category extends Model
 {
     /**
      * @OA\Property(
@@ -61,14 +61,4 @@ class CategoryOut extends IDto
      */
     public $icon;
 
-    /************************* Models **********************/
-    /**
-     * @OA\Property(
-     *      title="PhraseCategory",
-     *      description="Phrase Category Model",
-     * )
-     *
-     * @var \App\Services\Project\Models\ProjectOut
-     */
-    public $project;
 }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Virtual\Models;
 
+use App\Http\Virtual\Models\Base\Model;
+
 /**
  * @OA\Schema(
  *     title="Phrase",
@@ -11,21 +13,8 @@ namespace App\Http\Virtual\Models;
  *     )
  * )
  */
-class Phrase
+class Phrase extends Model
 {
-    /**
-     * @OA\Property(
-     *     title="ID",
-     *     description="ID",
-     *     format="int64",
-     *     example=1
-     * )
-     *
-     * @var integer
-     */
-
-    private $id;
-
     /**
      * @OA\Property(
      *     title="Base ID",
@@ -36,7 +25,7 @@ class Phrase
      *
      * @var integer
      */
-    private $base_id;
+    public $base_id;
 
     /**
      * @OA\Property(
@@ -70,44 +59,5 @@ class Phrase
      *
      * @var integer
      */
-    private $phrase_category_id;
-
-    /**
-     * @OA\Property(
-     *     title="Created at",
-     *     description="Created at",
-     *     example="2020-01-27 17:50:45",
-     *     format="datetime",
-     *     type="string"
-     * )
-     *
-     * @var \DateTime
-     */
-    private $created_at;
-
-    /**
-     * @OA\Property(
-     *     title="Updated at",
-     *     description="Updated at",
-     *     example="2020-01-27 17:50:45",
-     *     format="datetime",
-     *     type="string"
-     * )
-     *
-     * @var \DateTime
-     */
-    private $updated_at;
-
-    /**
-     * @OA\Property(
-     *     title="Deleted at",
-     *     description="Deleted at",
-     *     example="2020-01-27 17:50:45",
-     *     format="datetime",
-     *     type="string"
-     * )
-     *
-     * @var \DateTime
-     */
-    private $deleted_at;
+    public $phrase_category_id;
 }

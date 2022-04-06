@@ -1,43 +1,29 @@
 <?php
 
-namespace App\Services\PhraseCategory\Models;
-
-use App\Services\Base\IDto;
+namespace App\Http\Virtual\Models\Base;
 
 /**
  * @OA\Schema(
- *     title="PhraseCategoryOut",
- *     description="PhraseCategoryOut model",
+ *     title="Model",
+ *     description="Model",
  *     @OA\Xml(
- *         name="PhraseCategoryOut"
+ *         name="Model"
  *     )
  * )
  */
-class PhraseCategoryOut extends IDto
+class Model
 {
     /**
      * @OA\Property(
-     *     title="Name",
-     *     description="Name",
-     *     format="string",
-     *     example="Notes"
+     *     title="ID",
+     *     description="ID",
+     *     format="int64",
+     *     example=1
      * )
      *
      * @var string
      */
-    public $name;
-
-    /**
-     * @OA\Property(
-     *     title="File Name",
-     *     description="File Name",
-     *     format="string",
-     *     example="[{'@attributes':{'filename':'..\/flux\/views\/settings\/dataschemes\/AccountScheme.qml','line':'26'}}]"
-     * )
-     *
-     * @var integer
-     */
-    //public $filename ;
+    private $id;
 
     /**
      * @OA\Property(
@@ -50,7 +36,7 @@ class PhraseCategoryOut extends IDto
      *
      * @var \DateTime
      */
-    public $created_at;
+    private $created_at;
 
     /**
      * @OA\Property(
@@ -63,7 +49,7 @@ class PhraseCategoryOut extends IDto
      *
      * @var \DateTime
      */
-    public $updated_at;
+    private $updated_at;
 
     /**
      * @OA\Property(
@@ -76,5 +62,5 @@ class PhraseCategoryOut extends IDto
      *
      * @var \DateTime
      */
-    public $deleted_at;
+    private $deleted_at;
 }

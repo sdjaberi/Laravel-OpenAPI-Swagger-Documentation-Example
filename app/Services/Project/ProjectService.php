@@ -1,19 +1,15 @@
 <?php
 
-namespace App\Services\Phrase;
+namespace App\Services\Project;
 
-use App\Http\Exceptions\ApiUnAuthException;
-use App\Models\Category;
-use App\Services\Phrase\Models\PhraseFilter;
-use App\Services\Phrase\Models\PhrasePageableFilter;
-use App\Services\Phrase\Models\PhraseOut;
+use App\Models\Project;
+use App\Services\Project\Models\ProjectFilter;
+use App\Services\Project\Models\ProjectPageableFilter;
+use App\Services\Project\Models\ProjectOut;
 use App\Services\Base\Mapper;
-use Illuminate\Support\Facades\Auth;
-use App\Repositories\PhraseRepository;
-use Ramsey\Uuid\Type\Integer;
-use stdClass;
+use App\Repositories\ProjectRepository;
 
-interface IPhraseService
+interface IProjectService
 {
     /*
     public function getAllAsync();
@@ -23,8 +19,8 @@ interface IPhraseService
     public function deleteAsync($id);
     */
 
-    public function getAll(PhrasePageableFilter $filter, array $include= []);
-    public function getCount(PhrasePageableFilter $filter) : int;
+    public function getAll(ProjectPageableFilter $filter, array $include= []);
+    public function getCount(ProjectPageableFilter $filter) : int;
 
     //public function refreshToken(RefreshTokenIn $model) : RefreshTokenOut;
     //public function me() : User;
@@ -51,23 +47,23 @@ interface IPhraseService
 
 }
 
-class PhraseService implements IPhraseService
+class ProjectService implements IProjectService
 {
     private $_mapper;
-    private $_phraseRepository;
+    private $_projectRepository;
 
     public function __construct(
         Mapper $mapper,
-        PhraseRepository $phraseRepository
+        ProjectRepository $projectRepository
         )
     {
         $this->_mapper = $mapper;
-        $this->_phraseRepository = $phraseRepository;
+        $this->_projectRepository = $projectRepository;
     }
 
-    public function getAll(PhrasePageableFilter $filter, array $include = [])
+    public function getAll(ProjectPageableFilter $filter, array $include = [])
     {
-        $result = $this->_phraseRepository->getAllAsync($filter, $include);
+        $result = $this->_projectRepository->getAllAsync($filter, $include);
 
         if(isset($filter->phrase))
         {
@@ -112,13 +108,13 @@ class PhraseService implements IPhraseService
         $resultDto = $result->get()->map(function($phrase) {
 
             //dd($phrase);
-            $phraseDto = new PhraseOut($phrase);
+            $phraseDto = new ProjectOut($phrase);
 
             //dd($phrase->toArray());
 
             $phraseDto = $this->_mapper->Map((object)$phrase->toArray(), $phraseDto);
 
-            $categoryDto = new CategoryOut();
+            $categoryDto = new ProjectOut();
 
             $phraseDto->category = $this->_mapper->Map((object)$phrase->category->toArray(), $categoryDto);
 
@@ -140,7 +136,7 @@ class PhraseService implements IPhraseService
         return $resultDto;
     }
 
-    public function getCount(PhrasePageableFilter $filter) : int
+    public function getCount(ProjectPageableFilter $filter) : int
     {
         $result = $this->_phraseRepository->getAllAsync();
 
@@ -172,16 +168,16 @@ class PhraseService implements IPhraseService
 
     public function viewAsync($id)
     {
-        return User::find($id);
+        return Project::find($id);
     }
 
     public function viewByEmail($email)
     {
-        return User::find($email);
+        return Project::find($email);
     }
 
     public function deleteAsync($id)
     {
-        return User::find($id)->deleteAsync();
+        return Project::find($id)->deleteAsync();
     }
 }

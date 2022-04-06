@@ -2,6 +2,8 @@
 
 namespace App\Http\Virtual\Models;
 
+use App\Http\Virtual\Models\Base\Model;
+
 /**
  * @OA\Schema(
  *     title="Project",
@@ -11,20 +13,8 @@ namespace App\Http\Virtual\Models;
  *     )
  * )
  */
-class Project
+class Project extends Model
 {
-    /**
-     * @OA\Property(
-     *     title="ID",
-     *     description="ID",
-     *     format="int64",
-     *     example=1
-     * )
-     *
-     * @var integer
-     */
-    private $id;
-
     /**
      * @OA\Property(
      *      title="Name",
@@ -49,45 +39,6 @@ class Project
 
     /**
      * @OA\Property(
-     *     title="Created at",
-     *     description="Created at",
-     *     example="2020-01-27 17:50:45",
-     *     format="datetime",
-     *     type="string"
-     * )
-     *
-     * @var \DateTime
-     */
-    private $created_at;
-
-    /**
-     * @OA\Property(
-     *     title="Updated at",
-     *     description="Updated at",
-     *     example="2020-01-27 17:50:45",
-     *     format="datetime",
-     *     type="string"
-     * )
-     *
-     * @var \DateTime
-     */
-    private $updated_at;
-
-    /**
-     * @OA\Property(
-     *     title="Deleted at",
-     *     description="Deleted at",
-     *     example="2020-01-27 17:50:45",
-     *     format="datetime",
-     *     type="string"
-     * )
-     *
-     * @var \DateTime
-     */
-    private $deleted_at;
-
-    /**
-     * @OA\Property(
      *      title="Author ID",
      *      description="Author's id of the new project",
      *      format="int64",
@@ -107,5 +58,5 @@ class Project
      *
      * @var \App\Virtual\Models\User
      */
-    private $author;
+    public $author;
 }

@@ -2,35 +2,17 @@
 
 namespace App\Services\Phrase;
 
-use App\Http\Exceptions\ApiUnAuthException;
-use App\Models\Category;
-use App\Services\Phrase\Models\PhraseFilter;
-use App\Services\Phrase\Models\PhrasePageableFilter;
-use App\Services\Phrase\Models\PhraseOut;
+use App\Models\PhraseCategory;
+use App\Services\PhraseCategory\Models\PhraseCategoryFilter;
+use App\Services\PhraseCategory\Models\PhraseCategoryPageableFilter;
+use App\Services\PhraseCategory\Models\PhraseCategoryOut;
 use App\Services\Base\Mapper;
-use Illuminate\Support\Facades\Auth;
-use App\Repositories\PhraseRepository;
-use Ramsey\Uuid\Type\Integer;
-use stdClass;
+use App\Repositories\PhraseCategoryRepository;
 
-interface IPhraseService
+interface IPhraseCategoryService
 {
-    /*
-    public function getAllAsync();
-    public function storeAsyncOrUpdate($id = null,$data);
-    public function viewAsync($id);
-    public function viewByEmail($id);
-    public function deleteAsync($id);
-    */
-
-    public function getAll(PhrasePageableFilter $filter, array $include= []);
-    public function getCount(PhrasePageableFilter $filter) : int;
-
-    //public function refreshToken(RefreshTokenIn $model) : RefreshTokenOut;
-    //public function me() : User;
-    //public function logout();
-    //public function register(RegisterIn $model) : LoginOut;
-
+    public function getAll(PhraseCategoryPageableFilter $filter, array $include= []);
+    public function getCount(PhraseCategoryPageableFilter $filter) : int;
     /*
         IEnumerable<botOut> GetAll(botPageableFilter filter);
 
@@ -51,21 +33,21 @@ interface IPhraseService
 
 }
 
-class PhraseService implements IPhraseService
+class PhraseCategoryService implements IPhraseCategoryService
 {
     private $_mapper;
-    private $_phraseRepository;
+    private $_phraseCategoryRepository;
 
     public function __construct(
         Mapper $mapper,
-        PhraseRepository $phraseRepository
+        PhraseCategoryRepository $phraseCategoryRepository
         )
     {
         $this->_mapper = $mapper;
-        $this->_phraseRepository = $phraseRepository;
+        $this->_phraseCategoryRepository = $phraseCategoryRepository;
     }
 
-    public function getAll(PhrasePageableFilter $filter, array $include = [])
+    public function getAll(PhraseCategoryPageableFilter $filter, array $include = [])
     {
         $result = $this->_phraseRepository->getAllAsync($filter, $include);
 
@@ -112,13 +94,13 @@ class PhraseService implements IPhraseService
         $resultDto = $result->get()->map(function($phrase) {
 
             //dd($phrase);
-            $phraseDto = new PhraseOut($phrase);
+            $phraseDto = new PhraseCategoryOut($phrase);
 
             //dd($phrase->toArray());
 
             $phraseDto = $this->_mapper->Map((object)$phrase->toArray(), $phraseDto);
 
-            $categoryDto = new CategoryOut();
+            $categoryDto = new PhraseCategoryOut();
 
             $phraseDto->category = $this->_mapper->Map((object)$phrase->category->toArray(), $categoryDto);
 
@@ -140,9 +122,9 @@ class PhraseService implements IPhraseService
         return $resultDto;
     }
 
-    public function getCount(PhrasePageableFilter $filter) : int
+    public function getCount(PhraseCategoryPageableFilter $filter) : int
     {
-        $result = $this->_phraseRepository->getAllAsync();
+        $result = $this->_phraseCategoryRepository->getAllAsync();
 
         if(isset($filter->phrase))
         {
@@ -172,16 +154,16 @@ class PhraseService implements IPhraseService
 
     public function viewAsync($id)
     {
-        return User::find($id);
+        return PhraseCategory::find($id);
     }
 
     public function viewByEmail($email)
     {
-        return User::find($email);
+        return PhraseCategory::find($email);
     }
 
     public function deleteAsync($id)
     {
-        return User::find($id)->deleteAsync();
+        return PhraseCategory::find($id)->deleteAsync();
     }
 }

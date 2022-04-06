@@ -52,17 +52,6 @@ class ProjectOut extends IDto
 
     /**
      * @OA\Property(
-     *      title="Icon",
-     *      description="Icon",
-     *      example="fa fa-explore"
-     * )
-     *
-     * @var string
-     */
-    public $icon;
-
-    /**
-     * @OA\Property(
      *     title="Created at",
      *     description="Created at",
      *     example="2020-01-27 17:50:45",
@@ -100,16 +89,27 @@ class ProjectOut extends IDto
      */
     public $deleted_at;
 
-
-    /************************* Models **********************/
-        /**
+    /**
      * @OA\Property(
-     *      title="PhraseCategory",
-     *      description="Phrase Category Model",
+     *     title="Author ID",
+     *     description="Author ID",
+     *     format="int64",
+     *     example=1
      * )
      *
-     * @var \App\Services\Project\Models\ProjectOut
+     * @var integer
      */
-    public $project;
+    public $author_id;
 
+
+    /************************* Models **********************/
+    /**
+     * @OA\Property(
+     *      title="Author",
+     *      description="Author Model",
+     * )
+     *
+     * @var \App\Services\Project\Models\UserOUt
+     */
+    public $author;
 }

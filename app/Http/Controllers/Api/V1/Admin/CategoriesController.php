@@ -4,40 +4,40 @@ namespace App\Http\Controllers\Api\V1\Admin;
 
 use App\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use App\Http\Requests\Api\Phrases\StorePhraseRequest;
-use App\Http\Requests\Api\Phrases\UpdatePhraseRequest;
-use App\Http\Resources\Admin\PhraseResource;
-use App\Repositories\PhraseRepository;
+use App\Http\Requests\Api\Categories\StoreCategoryRequest;
+use App\Http\Requests\Api\Categories\UpdateCategoryRequest;
+use App\Http\Resources\Admin\CategoryResource;
+use App\Repositories\CategoryRepository;
 use App\Services\Base\Mapper;
-use App\Services\Phrase\PhraseService;
-use App\Services\Phrase\Models\PhrasePageableFilter;
+use App\Services\Category\CategoryService;
+use App\Services\Category\Models\CategoryPageableFilter;
 use Illuminate\Http\Request;
 
-class PhrasesController extends Controller
+class CategoriesController extends Controller
 {
-    private $_phraseRepository;
-    private $_phraseService;
+    private $_categoryRepository;
+    private $_categoryService;
     private $_mapper;
 
     public function __construct(
-        PhraseRepository $phraseRepository,
-        PhraseService $phraseService,
+        CategoryRepository $categoryRepository,
+        CategoryService $categoryService,
         Mapper $mapper
         )
     {
-        $this->_phraseRepository = $phraseRepository;
-        $this->_phraseService = $phraseService;
+        $this->_categoryRepository = $categoryRepository;
+        $this->_categoryService = $categoryService;
         $this->_mapper = $mapper;
     }
 
     /**
      * @OA\Get(
-     *      path="/phrases",
-     *      operationId="getPhrasesList",
-     *      tags={"Phrases"},
+     *      path="/categories",
+     *      operationId="getCategoriesList",
+     *      tags={"Categories"},
      *      security={{"passport": {*}}},
-     *      summary="Get list of phrases",
-     *      description="Returns list of phrases",
+     *      summary="Get list of categories",
+     *      description="Returns list of categories",
      *      @OA\Parameter(
      *          name="page",
      *          description="Page number",
@@ -85,14 +85,6 @@ class PhrasesController extends Controller
      *          )
      *      ),
      *      @OA\Parameter(
-     *          name="phrase",
-     *          description="Phrase",
-     *          in="query",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Parameter(
      *          name="category",
      *          description="Category name",
      *          in="query",
@@ -101,8 +93,8 @@ class PhrasesController extends Controller
      *          )
      *      ),
      *      @OA\Parameter(
-     *          name="phraseCategory",
-     *          description="Phrase category name",
+     *          name="project",
+     *          description="Project name",
      *          in="query",
      *          @OA\Schema(
      *              type="string",
@@ -111,7 +103,7 @@ class PhrasesController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/PhraseResource")
+     *          @OA\JsonContent(ref="#/components/schemas/CategoryResource")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -129,7 +121,7 @@ class PhrasesController extends Controller
     {
         $filterObject = json_decode(json_encode($request->all()), false);
 
-        $filter = new phrasePageableFilter();
+        $filter = new categoryPageableFilter();
 
         foreach ($filterObject as $key => $value)
         {
@@ -142,28 +134,28 @@ class PhrasesController extends Controller
                 $filter->$key = False;
         }
 
-        $phrases = $this->_phraseService->getAll($filter, ['category', 'phraseCategory', 'translations']);
-        $phrasesTotal = $this->_phraseService->getCount($filter);
+        $categories = $this->_categoryService->getAll($filter, ['category', 'categoryCategory', 'translations']);
+        $categoriesTotal = $this->_categoryService->getCount($filter);
 
-        return new PhraseResource([ 'data' => $phrases, 'total' => $phrasesTotal]);
+        return new CategoryResource([ 'data' => $categories, 'total' => $categoriesTotal]);
     }
 
     /**
      * @OA\Post(
-     *      path="/phrases",
-     *      operationId="storePhrase",
-     *      tags={"Phrases"},
+     *      path="/categories",
+     *      operationId="storeCategory",
+     *      tags={"Categories"},
      *      security={{"passport": {"*"}}},
-     *      summary="Store new phrase",
-     *      description="Returns phrase data",
+     *      summary="Store new category",
+     *      description="Returns category data",
      *      @OA\RequestBody(
      *          required=true,
-     *          @OA\JsonContent(ref="#/components/schemas/StorePhraseRequest")
+     *          @OA\JsonContent(ref="#/components/schemas/StoreCategoryRequest")
      *      ),
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/Phrase")
+     *          @OA\JsonContent(ref="#/components/schemas/Category")
      *       ),
      *      @OA\Response(
      *          response="400",
@@ -187,26 +179,26 @@ class PhrasesController extends Controller
      *      ),
      * )
      */
-    public function store(StorePhraseRequest $request)
+    public function store(StoreCategoryRequest $request)
     {
-        $phrase = $this->_phraseRepository->storeAsync($request->all());
+        $category = $this->_categoryRepository->storeAsync($request->all());
 
-        return (new PhraseResource($phrase))
+        return (new CategoryResource($category))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
     /**
      * @OA\Get(
-     *      path="/phrases/{id}",
-     *      operationId="getPhraseById",
-     *      tags={"Phrases"},
+     *      path="/categories/{id}",
+     *      operationId="getCategoryById",
+     *      tags={"Categories"},
      *      security={{"passport": {"*"}}},
-     *      summary="Get phrase information",
-     *      description="Returns phrase data",
+     *      summary="Get category information",
+     *      description="Returns category data",
      *      @OA\Parameter(
      *          name="id",
-     *          description="Phrase id",
+     *          description="Category id",
      *          required=true,
      *          in="path",
      *          @OA\Schema(
@@ -216,7 +208,7 @@ class PhrasesController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/Phrase")
+     *          @OA\JsonContent(ref="#/components/schemas/Category")
      *       ),
      *      @OA\Response(
      *          response="400",
@@ -243,22 +235,22 @@ class PhrasesController extends Controller
      */
     public function show($id)
     {
-        $phrase = $this->_phraseRepository->viewAsync($id);
+        $category = $this->_categoryRepository->viewAsync($id);
 
-        return new PhraseResource($phrase);
+        return new CategoryResource($category);
     }
 
     /**
      * @OA\Put(
-     *      path="/phrases/{id}",
-     *      operationId="updatePhrase",
-     *      tags={"Phrases"},
+     *      path="/categories/{id}",
+     *      operationId="updateCategory",
+     *      tags={"Categories"},
      *      security={{"passport": {"*"}}},
-     *      summary="Update existing phrase",
-     *      description="Returns updated phrase data",
+     *      summary="Update existing category",
+     *      description="Returns updated category data",
      *      @OA\Parameter(
      *          name="id",
-     *          description="Phrase id",
+     *          description="Category id",
      *          required=true,
      *          in="path",
      *          @OA\Schema(
@@ -267,12 +259,12 @@ class PhrasesController extends Controller
      *      ),
      *      @OA\RequestBody(
      *          required=true,
-     *          @OA\JsonContent(ref="#/components/schemas/UpdatePhraseRequest")
+     *          @OA\JsonContent(ref="#/components/schemas/UpdateCategoryRequest")
      *      ),
      *      @OA\Response(
      *          response=202,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/Phrase")
+     *          @OA\JsonContent(ref="#/components/schemas/Category")
      *       ),
      *      @OA\Response(
      *          response="400",
@@ -296,26 +288,26 @@ class PhrasesController extends Controller
      *      ),
      * )
      */
-    public function update(UpdatePhraseRequest $request, $id)
+    public function update(UpdateCategoryRequest $request, $id)
     {
-        $phrase = $this->_phraseRepository->updateAsync($id, $request->all());
+        $category = $this->_categoryRepository->updateAsync($id, $request->all());
 
-        return (new PhraseResource($phrase))
+        return (new CategoryResource($category))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
     /**
      * @OA\Delete(
-     *      path="/phrases/{id}",
-     *      operationId="deletePhrase",
-     *      tags={"Phrases"},
+     *      path="/categories/{id}",
+     *      operationId="deleteCategory",
+     *      tags={"Categories"},
      *      security={{"passport": {"*"}}},
-     *      summary="Delete existing phrase",
+     *      summary="Delete existing category",
      *      description="Deletes a record and returns no content",
      *      @OA\Parameter(
      *          name="id",
-     *          description="Phrase id",
+     *          description="Category id",
      *          required=true,
      *          in="path",
      *          @OA\Schema(
@@ -346,7 +338,7 @@ class PhrasesController extends Controller
      */
     public function destroy($id)
     {
-        $result = $this->_phraseRepository->deleteAsync($id);
+        $result = $this->_categoryRepository->deleteAsync($id);
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

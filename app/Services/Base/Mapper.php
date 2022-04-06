@@ -2,6 +2,8 @@
 
 namespace App\Services\Base;
 
+use ReflectionClass;
+
 class Mapper
 {
     /**
@@ -19,8 +21,12 @@ class Mapper
      */
     public static function Map($source, $target)
     {
+        //$t = new ReflectionClass($target);
+        //$targetProperties = !get_object_vars($target) ? get_object_vars($target) : $t->getProperties();
         $targetProperties = get_object_vars($target);
         $sourceProperties = get_object_vars($source);
+
+        //dd($t->getProperties());
 
         foreach ($targetProperties as $name => $value)
         {
