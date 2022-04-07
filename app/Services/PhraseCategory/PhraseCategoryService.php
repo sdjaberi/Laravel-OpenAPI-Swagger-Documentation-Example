@@ -1,36 +1,19 @@
 <?php
 
-namespace App\Services\Phrase;
+namespace App\Services\PhraseCategory;
 
 use App\Models\PhraseCategory;
-use App\Services\PhraseCategory\Models\PhraseCategoryFilter;
 use App\Services\PhraseCategory\Models\PhraseCategoryPageableFilter;
 use App\Services\PhraseCategory\Models\PhraseCategoryOut;
 use App\Services\Base\Mapper;
 use App\Repositories\PhraseCategoryRepository;
+use App\Services\Project\Models\ProjectOut;
+use Illuminate\Database\Eloquent\Builder;
 
 interface IPhraseCategoryService
 {
     public function getAll(PhraseCategoryPageableFilter $filter, array $include= []);
     public function getCount(PhraseCategoryPageableFilter $filter) : int;
-    /*
-        IEnumerable<botOut> GetAll(botPageableFilter filter);
-
-        int Count(botFilter filter);
-
-        Task<botOut> GetByIdAsync(int id);
-
-        Task<botOut> CreateAsync(botIn model);
-
-        Task<botOut> UpdateAsync(int id, botIn model);
-
-        Task DeleteAsync(int id);
-
-        Task PauseAsync(int id);
-
-        Task ResumeAsync(int id);
-    */
-
 }
 
 class PhraseCategoryService implements IPhraseCategoryService
@@ -47,76 +30,54 @@ class PhraseCategoryService implements IPhraseCategoryService
         $this->_phraseCategoryRepository = $phraseCategoryRepository;
     }
 
-    public function getAll(PhraseCategoryPageableFilter $filter, array $include = [])
+    public function filter(Builder $result, PhraseCategoryPageableFilter $filter)
     {
-        $result = $this->_phraseRepository->getAllAsync($filter, $include);
-
-        if(isset($filter->phrase))
-        {
-            $result = $result
-                ->where('phrase', 'like', '%' .$filter->phrase. '%');
-        }
-
-        if(isset($filter->category))
-        {
-            //dd($filter->category);
-            $result = $result
-                ->join('categories', 'phrases.category_name', '=', 'categories.name')
-                ->select('categories.name', 'phrases.*')
-                ->where('categories.name' , 'like', '%' .$filter->category. '%');
-        }
-
         if(isset($filter->phraseCategory))
         {
             $result = $result
-                ->join('phrase_categories', 'phrases.phrase_category_id', '=', 'phrase_categories.id')
-                ->select('phrase_categories.name', 'phrases.*')
-                ->where('phrase_categories.name' , 'like', '%' .$filter->phraseCategory. '%');
+                ->where('name', '=', $filter->phraseCategory);
         }
 
-        /*
-        foreach ($includeSearch as $key => $search) {
-            # code...
-            $table = explode(".", $search)[0];
-            $column = explode(".", $search)[1];
-
-            $valueCol = $include[$key];
-
-            $query = $query
-            ->join($table, $this->model->getTable().'.'.$include[$key].'_'.$column, '=', $table.'.'.$column)
-            ->select($table.'.*', $this->model->getTable().'.*')
-            ->orWhere($table.'.'.$column, 'like', '%' .$filter->$valueCol. '%');
-
-            //dd($table.'.'.$column);
+        if(isset($filter->project))
+        {
+            $result = $result
+                ->join('projects', 'phraseCategories.project_id', '=', 'projects.id')
+                ->select('projects.name as projectName', 'phraseCategories.*')
+                ->where('projects.name' , '=', $filter->project);
         }
-        */
 
-        $resultDto = $result->get()->map(function($phrase) {
+        if(isset($filter->q))
+        {
+            $result = $result
+                ->where('phraseCategories.name', 'like', '%' .$filter->q. '%')
 
-            //dd($phrase);
-            $phraseDto = new PhraseCategoryOut($phrase);
+                ->join('projects', 'phraseCategories.project_id', '=', 'projects.id')
+                ->select('projects.name as projectName', 'phraseCategories.*')
+                ->orWhere('projects.name' , 'like', '%' .$filter->q. '%');;
+        }
 
-            //dd($phrase->toArray());
+        return $result;
+    }
 
-            $phraseDto = $this->_mapper->Map((object)$phrase->toArray(), $phraseDto);
+    public function getAll(PhraseCategoryPageableFilter $filter, array $include = [])
+    {
+        $result = $this->_phraseCategoryRepository->getAllAsync($filter, $include)->withCount('phrases');
 
-            $categoryDto = new PhraseCategoryOut();
+        $result = $this->filter($result, $filter);
 
-            $phraseDto->category = $this->_mapper->Map((object)$phrase->category->toArray(), $categoryDto);
+        $resultDto = $result->get()->map(function($phraseCategory) {
 
-            dd($phraseDto->category);
+            $phraseCategoryDto = new PhraseCategoryOut();
 
-            /*
-            $phraseDto->category  = $phrase->id;
-            $phraseDto->base_id  = $phrase->base_id;
-            $phraseDto->phrase  = $phrase->phrase;
-            $phraseDto->category_name  = $phrase->category_name;
-            $phraseDto->phrase_category_id  = $phrase->phrase_category_id;
-            $phraseDto->phrase_category_name  = $phrase->name;
-            $phraseDto->created_at  = $phrase->created_at;
-            */
+            $phraseCategoryDto = $this->_mapper->Map((object)$phraseCategory->toArray(), $phraseCategoryDto);
 
-            return $phraseDto;
+            if(isset($phraseCategory->project))
+            {
+                $projectDto = new ProjectOut();
+                $phraseCategoryDto->project = $this->_mapper->Map((object)$phraseCategory->project->toArray(), $projectDto);
+            }
+
+            return $phraseCategoryDto;
         });
 
         return $resultDto;
@@ -126,28 +87,7 @@ class PhraseCategoryService implements IPhraseCategoryService
     {
         $result = $this->_phraseCategoryRepository->getAllAsync();
 
-        if(isset($filter->phrase))
-        {
-            $result = $result
-                ->where('phrase', 'like', '%' .$filter->phrase. '%');
-        }
-
-        if(isset($filter->category))
-        {
-            //dd($filter->category);
-            $result = $result
-                ->join('categories', 'phrases.category_name', '=', 'categories.name')
-                ->select('categories.name', 'phrases.*')
-                ->where('categories.name' , 'like', '%' .$filter->category. '%');
-        }
-
-        if(isset($filter->phraseCategory))
-        {
-            $result = $result
-                ->join('phrase_categories', 'phrases.phrase_category_id', '=', 'phrase_categories.id')
-                ->select('phrase_categories.name', 'phrases.*')
-                ->where('phrase_categories.name' , 'like', '%' .$filter->phraseCategory. '%');
-        }
+        $result = $this->filter($result, $filter);
 
         return $result->count();
     }

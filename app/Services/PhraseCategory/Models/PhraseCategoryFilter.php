@@ -2,7 +2,7 @@
 
 namespace App\Services\PhraseCategory\Models;
 
-use App\Services\Base\IPageableFilter;
+use App\Services\Base\IFilter;
 
 /**
  * @OA\Schema(
@@ -13,15 +13,11 @@ use App\Services\Base\IPageableFilter;
  *     )
  * )
  */
-class PhraseCategoryFilter extends IPageableFilter
+class PhraseCategoryFilter extends IFilter
 {
     public int $id;
 
-    public int $base_id;
+    public int $name;
 
-    public int $phrase_category_id;
-
-    public string $phrase;
-
-    public string $category_name;
+    public int $filename;
 }

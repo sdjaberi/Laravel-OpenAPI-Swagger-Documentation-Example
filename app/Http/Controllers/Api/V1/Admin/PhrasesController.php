@@ -101,6 +101,14 @@ class PhrasesController extends Controller
      *          )
      *      ),
      *      @OA\Parameter(
+     *          name="phraseCategoryId",
+     *          description="Phrase Category Id",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
      *          name="phraseCategory",
      *          description="Phrase category name",
      *          in="query",

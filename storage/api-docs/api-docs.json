@@ -258,7 +258,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "id"
+                        "example": "name"
                     },
                     {
                         "name": "sortDesc",
@@ -645,6 +645,420 @@
                 ]
             }
         },
+        "/phraseCategories": {
+            "get": {
+                "tags": [
+                    "PhraseCategories"
+                ],
+                "summary": "Get list of phraseCategories",
+                "description": "Returns list of phraseCategories",
+                "operationId": "getPhraseCategoriesList",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "Number of item per page",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 20
+                    },
+                    {
+                        "name": "sortBy",
+                        "in": "query",
+                        "description": "Column name to sort by",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "name"
+                    },
+                    {
+                        "name": "sortDesc",
+                        "in": "query",
+                        "description": "Column name to sort descending",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": true
+                    },
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Search Query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "phraseCategory",
+                        "in": "query",
+                        "description": "Phrase Category Name",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PhraseCategoryResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnAuthException"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid scope(s) provided.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiAccessDeniedException"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "PhraseCategories"
+                ],
+                "summary": "Store new phraseCategory",
+                "description": "Returns phraseCategory data",
+                "operationId": "storePhraseCategory",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StorePhraseCategoryRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PhraseCategory"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiRequestException"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnAuthException"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid scope(s) provided.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiAccessDeniedException"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnprocessableEntityException"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": [
+                            "*"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/phraseCategories/{id}": {
+            "get": {
+                "tags": [
+                    "PhraseCategories"
+                ],
+                "summary": "Get phraseCategory information",
+                "description": "Returns phraseCategory data",
+                "operationId": "getPhraseCategoryById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "PhraseCategory id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PhraseCategory"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiRequestException"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnAuthException"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid scope(s) provided.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiAccessDeniedException"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": [
+                            "*"
+                        ]
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "PhraseCategories"
+                ],
+                "summary": "Update existing phraseCategory",
+                "description": "Returns updated phraseCategory data",
+                "operationId": "updatePhraseCategory",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "PhraseCategory id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdatePhraseCategoryRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PhraseCategory"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiRequestException"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnAuthException"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid scope(s) provided.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiAccessDeniedException"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": [
+                            "*"
+                        ]
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "PhraseCategories"
+                ],
+                "summary": "Delete existing phraseCategory",
+                "description": "Deletes a record and returns no content",
+                "operationId": "deletePhraseCategory",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "PhraseCategory id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnAuthException"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid scope(s) provided.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiAccessDeniedException"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": [
+                            "*"
+                        ]
+                    }
+                ]
+            }
+        },
         "/phrases": {
             "get": {
                 "tags": [
@@ -714,6 +1128,14 @@
                         "description": "Category name",
                         "schema": {
                             "type": "string"
+                        }
+                    },
+                    {
+                        "name": "phraseCategoryId",
+                        "in": "query",
+                        "description": "Phrase Category Id",
+                        "schema": {
+                            "type": "integer"
                         }
                     },
                     {
@@ -1635,6 +2057,35 @@
                     }
                 ]
             },
+            "PhraseCategory": {
+                "title": " Phrase Category ",
+                "description": " Phrase Category  model",
+                "xml": {
+                    "name": " Phrase Category "
+                },
+                "allOf": [
+                    {
+                        "properties": {
+                            "name": {
+                                "title": "Name",
+                                "description": "Name",
+                                "type": "string",
+                                "format": "string",
+                                "example": "Setting"
+                            },
+                            "filename": {
+                                "title": "Filename",
+                                "description": "Filename",
+                                "type": "string",
+                                "example": "A new Filename"
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "#/components/schemas/Model"
+                    }
+                ]
+            },
             "Project": {
                 "title": "Project",
                 "description": "Project model",
@@ -1736,6 +2187,28 @@
                         "description": "Icon",
                         "type": "string",
                         "example": "fa fa-user"
+                    }
+                },
+                "type": "object"
+            },
+            "StorePhraseCategoryRequest": {
+                "title": "Store Phrase Category request",
+                "description": "Store Phrase Category request body data",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "description": "Name",
+                        "type": "string",
+                        "example": "A new phrase category name"
+                    },
+                    "filename": {
+                        "title": "Description",
+                        "description": "Description",
+                        "type": "string",
+                        "example": "A phrase category description"
                     }
                 },
                 "type": "object"
@@ -1846,6 +2319,28 @@
                 },
                 "type": "object"
             },
+            "UpdatePhraseCategoryRequest": {
+                "title": "Update phrase category request",
+                "description": "Update phrase category request body data",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "description": "Name",
+                        "type": "string",
+                        "example": "A new phrase phrase category name"
+                    },
+                    "filename": {
+                        "title": "Description",
+                        "description": "Description",
+                        "type": "string",
+                        "example": "A phrase category description"
+                    }
+                },
+                "type": "object"
+            },
             "UpdatePhraseRequest": {
                 "title": "Update Phrase request",
                 "description": "Update Phrase request body data",
@@ -1951,6 +2446,24 @@
                 "type": "object",
                 "xml": {
                     "name": "CategoryResource"
+                }
+            },
+            "PhraseCategoryResource": {
+                "title": "PhraseCategoryResource",
+                "description": "Phrase Category resource",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "ref": null
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "PhraseCategoryResource"
                 }
             },
             "PhraseResource": {
@@ -2370,6 +2883,12 @@
                         "type": "string",
                         "example": "Website"
                     },
+                    "phraseCategoryId": {
+                        "title": "phraseCategoryId",
+                        "description": "phrase Category Id",
+                        "type": "integer",
+                        "example": 1
+                    },
                     "phraseCategory": {
                         "title": "PhraseCategory",
                         "description": "PhraseCategory",
@@ -2385,6 +2904,60 @@
             "PhraseCategoryFilter": {
                 "title": "PhraseCategoryFilter",
                 "description": "PhraseCategoryFilter model",
+                "properties": {
+                    "q": {
+                        "title": "SearchQuery",
+                        "description": "A Search Query",
+                        "type": "string",
+                        "example": "search query"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "PhraseCategoryFilter"
+                }
+            },
+            "PhraseCategoryOut": {
+                "title": "PhraseCategoryOut",
+                "description": "PhraseCategoryOut model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "Name",
+                        "type": "string",
+                        "format": "string",
+                        "example": "Notes"
+                    },
+                    "filename": {
+                        "title": "File Name",
+                        "description": "File Name",
+                        "type": "integer",
+                        "format": "string",
+                        "example": "[{'@attributes':{'filename':'..\\/flux\\/views\\/settings\\/dataschemes\\/AccountScheme.qml','line':'26'}}]"
+                    },
+                    "phrases_count": {
+                        "title": "Phrase Count",
+                        "description": "Phrases Count",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "PhraseCategoryOut"
+                }
+            },
+            "PhraseCategoryPageableFilter": {
+                "title": "PhraseCategoryPageableFilter",
+                "description": "PhraseCategoryPageableFilter model",
                 "properties": {
                     "page": {
                         "title": "Page",
@@ -2415,115 +2988,18 @@
                         "description": "A Search Query",
                         "type": "string",
                         "example": "search query"
+                    },
+                    "phraseCategory": {
+                        "title": "Phrase Category Name",
+                        "description": "Phrase Category Name",
+                        "type": "string",
+                        "example": "A phrase category name"
                     }
                 },
                 "type": "object",
-                "xml": {
-                    "name": "PhraseCategoryFilter"
-                }
-            },
-            "PhraseCategoryOut": {
-                "title": "PhraseCategoryOut",
-                "description": "PhraseCategoryOut model",
-                "properties": {
-                    "name": {
-                        "title": "Name",
-                        "description": "Name",
-                        "type": "string",
-                        "format": "string",
-                        "example": "Notes"
-                    },
-                    "": {
-                        "title": "File Name",
-                        "description": "File Name",
-                        "type": "integer",
-                        "format": "string",
-                        "example": "[{'@attributes':{'filename':'..\\/flux\\/views\\/settings\\/dataschemes\\/AccountScheme.qml','line':'26'}}]"
-                    },
-                    "created_at": {
-                        "title": "Created at",
-                        "description": "Created at",
-                        "type": "string",
-                        "format": "datetime",
-                        "example": "2020-01-27 17:50:45"
-                    },
-                    "updated_at": {
-                        "title": "Updated at",
-                        "description": "Updated at",
-                        "type": "string",
-                        "format": "datetime",
-                        "example": "2020-01-27 17:50:45"
-                    },
-                    "deleted_at": {
-                        "title": "Deleted at",
-                        "description": "Deleted at",
-                        "type": "string",
-                        "format": "datetime",
-                        "example": "2020-01-27 17:50:45"
-                    }
-                },
-                "type": "object",
-                "xml": {
-                    "name": "PhraseCategoryOut"
-                }
-            },
-            "PhraseCategoryPageableFilter": {
-                "title": "PhraseCategoryPageableFilter",
-                "description": "PhraseCategoryPageableFilter model",
                 "xml": {
                     "name": "PhraseCategoryPageableFilter"
-                },
-                "allOf": [
-                    {
-                        "properties": {
-                            "page": {
-                                "title": "Page",
-                                "description": "Page",
-                                "type": "integer",
-                                "example": "2"
-                            },
-                            "perPage": {
-                                "title": "PerPage",
-                                "description": "PerPage",
-                                "type": "integer",
-                                "example": "100"
-                            },
-                            "sortBy": {
-                                "title": "SortBY",
-                                "description": "SortBy",
-                                "type": "string",
-                                "example": "id"
-                            },
-                            "sortDesc": {
-                                "title": "SortDesc",
-                                "description": "SortDesc",
-                                "type": "boolean",
-                                "example": "true"
-                            },
-                            "phrase": {
-                                "title": "Phrase",
-                                "description": "Phrase",
-                                "type": "string",
-                                "example": "Homepage"
-                            },
-                            "category": {
-                                "title": "Category",
-                                "description": "Category",
-                                "type": "string",
-                                "example": "Website"
-                            },
-                            "phraseCategory": {
-                                "title": "PhraseCategory",
-                                "description": "PhraseCategory",
-                                "type": "string",
-                                "example": "Setting"
-                            }
-                        }
-                    },
-                    {
-                        "$ref": "#/components/schemas/PhraseCategoryFilter"
-                    }
-                ]
+                }
             },
             "ProjectFilter": {
                 "title": "ProjectFilter",

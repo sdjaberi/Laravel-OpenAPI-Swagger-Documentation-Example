@@ -37,16 +37,21 @@ class PhraseService implements IPhraseService
         if(isset($filter->phrase))
         {
             $result = $result
-                ->where('phrase', 'like', '%' .$filter->phrase. '%');
+                ->where('phrase', '=', $filter->phrase);
         }
 
         if(isset($filter->category))
         {
-            //dd($filter->category);
             $result = $result
                 ->join('categories', 'phrases.category_name', '=', 'categories.name')
                 ->select('categories.name', 'phrases.*')
-                ->where('categories.name' , 'like', '%' .$filter->category. '%');
+                ->where('categories.name' , '=', $filter->category);
+        }
+
+        if(isset($filter->phraseCategoryId))
+        {
+            $result = $result
+                ->where('phrase_category_id', '=', $filter->phraseCategoryId);
         }
 
         if(isset($filter->phraseCategory))
@@ -54,7 +59,7 @@ class PhraseService implements IPhraseService
             $result = $result
                 ->join('phrase_categories', 'phrases.phrase_category_id', '=', 'phrase_categories.id')
                 ->select('phrase_categories.name', 'phrases.*')
-                ->where('phrase_categories.name' , 'like', '%' .$filter->phraseCategory. '%');
+                ->where('phrase_categories.name' , '=', $filter->phraseCategory);
         }
 
         if(isset($filter->q))
@@ -80,23 +85,6 @@ class PhraseService implements IPhraseService
         $result = $this->_phraseRepository->getAllAsync($filter, $include)->withCount('translations');
 
         $result = $this->filter($result, $filter);
-
-        /*
-        foreach ($includeSearch as $key => $search) {
-            # code...
-            $table = explode(".", $search)[0];
-            $column = explode(".", $search)[1];
-
-            $valueCol = $include[$key];
-
-            $query = $query
-            ->join($table, $this->model->getTable().'.'.$include[$key].'_'.$column, '=', $table.'.'.$column)
-            ->select($table.'.*', $this->model->getTable().'.*')
-            ->orWhere($table.'.'.$column, 'like', '%' .$filter->$valueCol. '%');
-
-            //dd($table.'.'.$column);
-        }
-        */
 
         $resultDto = $result->get()->map(function($phrase) {
 

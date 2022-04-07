@@ -17,6 +17,18 @@ class PhraseCategoryOut extends IDto
 {
     /**
      * @OA\Property(
+     *     title="ID",
+     *     description="ID",
+     *     format="int64",
+     *     example=1
+     * )
+     *
+     * @var integer
+     */
+    public $id;
+
+    /**
+     * @OA\Property(
      *     title="Name",
      *     description="Name",
      *     format="string",
@@ -37,44 +49,17 @@ class PhraseCategoryOut extends IDto
      *
      * @var integer
      */
-    //public $filename ;
+    public $filename ;
 
     /**
      * @OA\Property(
-     *     title="Created at",
-     *     description="Created at",
-     *     example="2020-01-27 17:50:45",
-     *     format="datetime",
-     *     type="string"
+     *     title="Phrase Count",
+     *     description="Phrases Count",
+     *     format="int64",
+     *     example=1
      * )
      *
-     * @var \DateTime
+     * @var integer
      */
-    public $created_at;
-
-    /**
-     * @OA\Property(
-     *     title="Updated at",
-     *     description="Updated at",
-     *     example="2020-01-27 17:50:45",
-     *     format="datetime",
-     *     type="string"
-     * )
-     *
-     * @var \DateTime
-     */
-    public $updated_at;
-
-    /**
-     * @OA\Property(
-     *     title="Deleted at",
-     *     description="Deleted at",
-     *     example="2020-01-27 17:50:45",
-     *     format="datetime",
-     *     type="string"
-     * )
-     *
-     * @var \DateTime
-     */
-    public $deleted_at;
+    public $phrases_count;
 }

@@ -75,7 +75,7 @@ class AccountService implements IAccountService
 
     public function login(LoginIn $model) : LoginOut
     {
-        $loginOut = $this->_mapper->Map($model, new LoginOut());
+        $loginOut = new LoginOut();
 
         $credentials = (array) $model;
 

@@ -2,8 +2,6 @@
 
 namespace App\Services\Identity\Models;
 
-use App\Services\Base\IDto;
-
 /**
  * @OA\Schema(
  *     title="LoginIn",
@@ -13,7 +11,7 @@ use App\Services\Base\IDto;
  *     )
  * )
  */
-class LoginIn extends IDto
+class LoginIn
 {
     /**
      * @OA\Property(

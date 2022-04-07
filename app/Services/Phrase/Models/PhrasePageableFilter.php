@@ -42,6 +42,18 @@ class PhrasePageableFilter extends IPageableFilter
 
     /**
      * @OA\Property(
+     *     title="phraseCategoryId",
+     *     description="phrase Category Id",
+     *     example=1
+     * )
+     *
+     * @var integer
+     */
+    public int $phraseCategoryId;
+
+
+    /**
+     * @OA\Property(
      *     title="PhraseCategory",
      *     description="PhraseCategory",
      *     example="Setting"

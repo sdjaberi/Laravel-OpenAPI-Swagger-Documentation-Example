@@ -87,7 +87,7 @@ class BaseRepository implements IBaseRepository
                 if(!is_null($filter))
                 {
                     $query = $query->orderBy(
-                        !isset($filter->sortBy) ? "id" : $filter->sortBy,
+                        !isset($filter->sortBy) ? $this->model->getKeyName() : $filter->sortBy,
                         isset($filter->sortDesc) && $filter->sortDesc  ? "desc" : "asc" );
                     $query = $query->take(
                         !isset($filter->perPage) ? 50 : $filter->perPage);
