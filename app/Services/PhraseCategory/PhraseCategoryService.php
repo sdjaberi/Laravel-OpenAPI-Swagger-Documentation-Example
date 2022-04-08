@@ -30,40 +30,10 @@ class PhraseCategoryService implements IPhraseCategoryService
         $this->_phraseCategoryRepository = $phraseCategoryRepository;
     }
 
-    public function filter(Builder $result, PhraseCategoryPageableFilter $filter)
-    {
-        if(isset($filter->phraseCategory))
-        {
-            $result = $result
-                ->where('name', '=', $filter->phraseCategory);
-        }
-
-        if(isset($filter->project))
-        {
-            $result = $result
-                ->join('projects', 'phraseCategories.project_id', '=', 'projects.id')
-                ->select('projects.name as projectName', 'phraseCategories.*')
-                ->where('projects.name' , '=', $filter->project);
-        }
-
-        if(isset($filter->q))
-        {
-            $result = $result
-                ->where('phraseCategories.name', 'like', '%' .$filter->q. '%')
-
-                ->join('projects', 'phraseCategories.project_id', '=', 'projects.id')
-                ->select('projects.name as projectName', 'phraseCategories.*')
-                ->orWhere('projects.name' , 'like', '%' .$filter->q. '%');;
-        }
-
-        return $result;
-    }
 
     public function getAll(PhraseCategoryPageableFilter $filter, array $include = [])
     {
-        $result = $this->_phraseCategoryRepository->getAllAsync($filter, $include)->withCount('phrases');
-
-        $result = $this->filter($result, $filter);
+        $result = $this->_phraseCategoryRepository->getAllPhraseCategoriesAsync($filter, $include);
 
         $resultDto = $result->get()->map(function($phraseCategory) {
 
@@ -85,9 +55,7 @@ class PhraseCategoryService implements IPhraseCategoryService
 
     public function getCount(PhraseCategoryPageableFilter $filter) : int
     {
-        $result = $this->_phraseCategoryRepository->getAllAsync();
-
-        $result = $this->filter($result, $filter);
+        $result = $this->_phraseCategoryRepository->getAllPhraseCategoriesAsync($filter);
 
         return $result->count();
     }

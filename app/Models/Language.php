@@ -38,4 +38,9 @@ class Language extends Model
     {
         return $this->belongsToMany(User::class, 'user_language');
     }
+
+    public function translations()
+    {
+        return $this->hasMany(Translation::class);
+    }
 }

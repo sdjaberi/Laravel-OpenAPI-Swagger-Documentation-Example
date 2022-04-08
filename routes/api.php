@@ -38,7 +38,6 @@ Route::group([
             Route::put('phrases/{id}', 'PhrasesController@update')->name('update.api')->middleware(['auth:api', 'scopes:phrase_edit']);
             Route::delete('phrases/{id}', 'PhrasesController@destroy')->name('destroy.api')->middleware(['auth:api', 'scopes:phrase_delete']);
 
-
             // Categories
             //Route::apiResource('categories', 'CategoriesController')->middleware(['auth:api', 'scopes:category_edit,category_create,category_delete']);
             Route::get('categories', 'CategoriesController@index')->name('index.api')->middleware(['auth:api', 'scopes:category_access']);
@@ -47,7 +46,6 @@ Route::group([
             Route::put('categories/{id}', 'CategoriesController@update')->name('update.api')->middleware(['auth:api', 'scopes:category_edit']);
             Route::delete('categories/{id}', 'CategoriesController@destroy')->name('destroy.api')->middleware(['auth:api', 'scopes:category_delete']);
 
-
             // PhraseCategories
             //Route::apiResource('phraseCategories', 'PhraseCategoriesController')->middleware(['auth:api', 'scopes:phrase_edit,phrase_create,phrase_delete']);
             Route::get('phraseCategories', 'PhraseCategoriesController@index')->name('index.api')->middleware(['auth:api', 'scopes:phrase_access']);
@@ -55,6 +53,16 @@ Route::group([
             Route::post('phraseCategories', 'PhraseCategoriesController@store')->name('store.api')->middleware(['auth:api', 'scopes:phrase_create']);
             Route::put('phraseCategories/{id}', 'PhraseCategoriesController@update')->name('update.api')->middleware(['auth:api', 'scopes:phrase_edit']);
             Route::delete('phraseCategories/{id}', 'PhraseCategoriesController@destroy')->name('destroy.api')->middleware(['auth:api', 'scopes:phrase_delete']);
+
+            // Languages
+            //Route::apiResource('languages', 'LanguagesController')->middleware(['auth:api', 'scopes:language_edit,language_create,language_delete']);
+            Route::get('languages', 'LanguagesController@index')->name('index.api')->middleware(['auth:api', 'scopes:language_access']);
+            Route::get('languages/{id}', 'LanguagesController@show')->name('show.api')->middleware(['auth:api', 'scopes:language_show']);
+            Route::post('languages', 'LanguagesController@store')->name('store.api')->middleware(['auth:api', 'scopes:language_create']);
+            Route::put('languages/{id}', 'LanguagesController@update')->name('update.api')->middleware(['auth:api', 'scopes:language_edit']);
+            Route::delete('languages/{id}', 'LanguagesController@destroy')->name('destroy.api')->middleware(['auth:api', 'scopes:language_delete']);
+
+
 
 
             // Permissions
@@ -80,13 +88,6 @@ Route::group([
             Route::put('translations/{id}', 'TranslationsController@update')->name('update.api')->middleware(['auth:api', 'scopes:translation_edit']);
             Route::delete('translations/{id}', 'TranslationsController@destroy')->name('destroy.api')->middleware(['auth:api', 'scopes:translation_delete']);
 
-            // Languages
-            //Route::apiResource('languages', 'LanguagesController')->middleware(['auth:api', 'scopes:language_edit,language_create,language_delete']);
-            Route::get('languages', 'LanguagesController@index')->name('index.api')->middleware(['auth:api', 'scopes:language_access']);
-            Route::get('languages/{id}', 'LanguagesController@show')->name('show.api')->middleware(['auth:api', 'scopes:language_show']);
-            Route::post('languages', 'LanguagesController@store')->name('store.api')->middleware(['auth:api', 'scopes:language_create']);
-            Route::put('languages/{id}', 'LanguagesController@update')->name('update.api')->middleware(['auth:api', 'scopes:language_edit']);
-            Route::delete('languages/{id}', 'LanguagesController@destroy')->name('destroy.api')->middleware(['auth:api', 'scopes:language_delete']);
     });
 
 /*

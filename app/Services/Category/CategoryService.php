@@ -31,41 +31,9 @@ class CategoryService implements ICategoryService
         $this->_categoryRepository = $categoryRepository;
     }
 
-    public function filter(Builder $result, CategoryPageableFilter $filter)
-    {
-        if(isset($filter->category))
-        {
-            $result = $result
-                ->where('name', '=', $filter->category);
-        }
-
-        if(isset($filter->project))
-        {
-            $result = $result
-                ->join('projects', 'categories.project_id', '=', 'projects.id')
-                ->select('projects.name as projectName', 'categories.*')
-                ->where('projects.name' , '=', $filter->project);
-        }
-
-        if(isset($filter->q))
-        {
-            $result = $result
-                ->where('categories.name', 'like', '%' .$filter->q. '%')
-
-                ->join('projects', 'categories.project_id', '=', 'projects.id')
-                ->select('projects.name as projectName', 'categories.*')
-                ->orWhere('projects.name' , 'like', '%' .$filter->q. '%');;
-        }
-
-        return $result;
-    }
-
-
     public function getAll(CategoryPageableFilter $filter, array $include = [])
     {
-        $result = $this->_categoryRepository->getAllAsync($filter, $include)->withCount('phrases');
-
-        $result = $this->filter($result, $filter);
+        $result = $this->_categoryRepository->getAllUserCategoriesAsync($filter, $include);
 
         $resultDto = $result->get()->map(function($category) {
 
@@ -87,9 +55,7 @@ class CategoryService implements ICategoryService
 
     public function getCount(CategoryPageableFilter $filter) : int
     {
-        $result = $this->_categoryRepository->getAllAsync();
-
-        $result = $this->filter($result, $filter);
+        $result = $this->_categoryRepository->getAllUserCategoriesAsync($filter);
 
         return $result->count();
     }

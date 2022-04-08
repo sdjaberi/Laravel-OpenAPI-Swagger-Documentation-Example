@@ -3,48 +3,18 @@
 namespace App\Services\Project;
 
 use App\Models\Project;
-use App\Services\Project\Models\ProjectFilter;
+use App\Services\Base\Mapper;
 use App\Services\Project\Models\ProjectPageableFilter;
 use App\Services\Project\Models\ProjectOut;
-use App\Services\Base\Mapper;
+use App\Services\User\Models\UserOut;
+use App\Services\Language\Models\LanguageOut;
 use App\Repositories\ProjectRepository;
+use App\Services\Category\Models\CategoryOut;
 
 interface IProjectService
 {
-    /*
-    public function getAllAsync();
-    public function storeAsyncOrUpdate($id = null,$data);
-    public function viewAsync($id);
-    public function viewByEmail($id);
-    public function deleteAsync($id);
-    */
-
     public function getAll(ProjectPageableFilter $filter, array $include= []);
     public function getCount(ProjectPageableFilter $filter) : int;
-
-    //public function refreshToken(RefreshTokenIn $model) : RefreshTokenOut;
-    //public function me() : User;
-    //public function logout();
-    //public function register(RegisterIn $model) : LoginOut;
-
-    /*
-        IEnumerable<botOut> GetAll(botPageableFilter filter);
-
-        int Count(botFilter filter);
-
-        Task<botOut> GetByIdAsync(int id);
-
-        Task<botOut> CreateAsync(botIn model);
-
-        Task<botOut> UpdateAsync(int id, botIn model);
-
-        Task DeleteAsync(int id);
-
-        Task PauseAsync(int id);
-
-        Task ResumeAsync(int id);
-    */
-
 }
 
 class ProjectService implements IProjectService
@@ -63,74 +33,48 @@ class ProjectService implements IProjectService
 
     public function getAll(ProjectPageableFilter $filter, array $include = [])
     {
-        $result = $this->_projectRepository->getAllAsync($filter, $include);
+        $result = $this->_projectRepository->getAllUserProjectsAsync($filter, $include);
 
-        if(isset($filter->phrase))
-        {
-            $result = $result
-                ->where('phrase', 'like', '%' .$filter->phrase. '%');
-        }
+        $resultDto = $result->get()->map(function($project) {
 
-        if(isset($filter->category))
-        {
-            //dd($filter->category);
-            $result = $result
-                ->join('categories', 'phrases.category_name', '=', 'categories.name')
-                ->select('categories.name', 'phrases.*')
-                ->where('categories.name' , 'like', '%' .$filter->category. '%');
-        }
+            $projectDto = new ProjectOut();
 
-        if(isset($filter->phraseCategory))
-        {
-            $result = $result
-                ->join('phrase_categories', 'phrases.phrase_category_id', '=', 'phrase_categories.id')
-                ->select('phrase_categories.name', 'phrases.*')
-                ->where('phrase_categories.name' , 'like', '%' .$filter->phraseCategory. '%');
-        }
+            $projectDto = $this->_mapper->Map((object)$project->toArray(), $projectDto);
 
-        /*
-        foreach ($includeSearch as $key => $search) {
-            # code...
-            $table = explode(".", $search)[0];
-            $column = explode(".", $search)[1];
+            if(isset($project->author))
+            {
+                $userDto = new UserOut();
 
-            $valueCol = $include[$key];
+                $projectDto->user = $this->_mapper->Map((object)$project->author->toArray(), $userDto);
+            }
 
-            $query = $query
-            ->join($table, $this->model->getTable().'.'.$include[$key].'_'.$column, '=', $table.'.'.$column)
-            ->select($table.'.*', $this->model->getTable().'.*')
-            ->orWhere($table.'.'.$column, 'like', '%' .$filter->$valueCol. '%');
+            if(isset($project->languages))
+            {
+                $projectDto->languages = $project->languages->map(
+                    function ($language) {
+                        $languageDto = new LanguageOut();
 
-            //dd($table.'.'.$column);
-        }
-        */
+                        $languageDto = $this->_mapper->Map((object)$language->toArray(), $languageDto);
 
-        $resultDto = $result->get()->map(function($phrase) {
+                        return $languageDto;
+                    }
+                );
+            }
 
-            //dd($phrase);
-            $phraseDto = new ProjectOut($phrase);
+            if(isset($project->categories))
+            {
+                $projectDto->categories = $project->categories->map(
+                    function ($category) {
+                        $categoryDto = new CategoryOut();
 
-            //dd($phrase->toArray());
+                        $categoryDto = $this->_mapper->Map((object)$category->toArray(), $categoryDto);
 
-            $phraseDto = $this->_mapper->Map((object)$phrase->toArray(), $phraseDto);
+                        return $categoryDto;
+                    }
+                );
+            }
 
-            $categoryDto = new ProjectOut();
-
-            $phraseDto->category = $this->_mapper->Map((object)$phrase->category->toArray(), $categoryDto);
-
-            dd($phraseDto->category);
-
-            /*
-            $phraseDto->category  = $phrase->id;
-            $phraseDto->base_id  = $phrase->base_id;
-            $phraseDto->phrase  = $phrase->phrase;
-            $phraseDto->category_name  = $phrase->category_name;
-            $phraseDto->phrase_category_id  = $phrase->phrase_category_id;
-            $phraseDto->phrase_category_name  = $phrase->name;
-            $phraseDto->created_at  = $phrase->created_at;
-            */
-
-            return $phraseDto;
+            return $projectDto;
         });
 
         return $resultDto;
@@ -138,30 +82,7 @@ class ProjectService implements IProjectService
 
     public function getCount(ProjectPageableFilter $filter) : int
     {
-        $result = $this->_phraseRepository->getAllAsync();
-
-        if(isset($filter->phrase))
-        {
-            $result = $result
-                ->where('phrase', 'like', '%' .$filter->phrase. '%');
-        }
-
-        if(isset($filter->category))
-        {
-            //dd($filter->category);
-            $result = $result
-                ->join('categories', 'phrases.category_name', '=', 'categories.name')
-                ->select('categories.name', 'phrases.*')
-                ->where('categories.name' , 'like', '%' .$filter->category. '%');
-        }
-
-        if(isset($filter->phraseCategory))
-        {
-            $result = $result
-                ->join('phrase_categories', 'phrases.phrase_category_id', '=', 'phrase_categories.id')
-                ->select('phrase_categories.name', 'phrases.*')
-                ->where('phrase_categories.name' , 'like', '%' .$filter->phraseCategory. '%');
-        }
+        $result = $this->_projectRepository->getAllUserProjectsAsync($filter);
 
         return $result->count();
     }

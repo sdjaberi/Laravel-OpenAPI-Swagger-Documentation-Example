@@ -4,36 +4,40 @@ namespace App\Http\Controllers\Api\V1\Admin;
 
 use App\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use App\Http\Requests\Api\Projects\StoreProjectRequest;
-use App\Http\Requests\Api\Projects\UpdateProjectRequest;
-use App\Http\Resources\Admin\ProjectResource;
-use App\Repositories\ProjectRepository;
-use App\Services\Project\ProjectService;
-use App\Services\Project\Models\ProjectPageableFilter;
+use App\Http\Requests\Api\Languages\StoreLanguageRequest;
+use App\Http\Requests\Api\Languages\UpdateLanguageRequest;
+use App\Http\Resources\Admin\LanguageResource;
+use App\Repositories\LanguageRepository;
+use App\Services\Base\Mapper;
+use App\Services\Language\LanguageService;
+use App\Services\Language\Models\LanguagePageableFilter;
 use Illuminate\Http\Request;
 
-
-class ProjectsController extends Controller
+class LanguagesController extends Controller
 {
-    private $_projectRepository;
-    private $_projectService;
+    private $_languageRepository;
+    private $_languageService;
+    private $_mapper;
 
     public function __construct(
-        ProjectRepository $projectRepository,
-        ProjectService $projectService)
+        LanguageRepository $languageRepository,
+        LanguageService $languageService,
+        Mapper $mapper
+        )
     {
-        $this->_projectRepository = $projectRepository;
-        $this->_projectService = $projectService;
+        $this->_languageRepository = $languageRepository;
+        $this->_languageService = $languageService;
+        $this->_mapper = $mapper;
     }
 
     /**
      * @OA\Get(
-     *      path="/projects",
-     *      operationId="getProjectsList",
-     *      tags={"Projects"},
+     *      path="/languages",
+     *      operationId="getLanguagesList",
+     *      tags={"Languages"},
      *      security={{"passport": {*}}},
-     *      summary="Get list of projects",
-     *      description="Returns list of projects",
+     *      summary="Get list of languages",
+     *      description="Returns list of languages",
      *      @OA\Parameter(
      *          name="page",
      *          description="Page number",
@@ -81,17 +85,65 @@ class ProjectsController extends Controller
      *          )
      *      ),
      *      @OA\Parameter(
-     *          name="project",
-     *          description="Project Name",
+     *          name="language",
+     *          description="Language",
      *          in="query",
      *          @OA\Schema(
      *              type="string"
      *          )
      *      ),
+     *      @OA\Parameter(
+     *          name="user",
+     *          description="User name",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="userId",
+     *          description="User Id",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="project",
+     *          description="Project name",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="projectId",
+     *          description="Project Id",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="translation",
+     *          description="Translation",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="translationId",
+     *          description="Translation Id",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/ProjectResource")
+     *          @OA\JsonContent(ref="#/components/schemas/LanguageResource")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -109,7 +161,7 @@ class ProjectsController extends Controller
     {
         $filterObject = json_decode(json_encode($request->all()), false);
 
-        $filter = new projectPageableFilter();
+        $filter = new languagePageableFilter();
 
         foreach ($filterObject as $key => $value)
         {
@@ -122,28 +174,28 @@ class ProjectsController extends Controller
                 $filter->$key = False;
         }
 
-        $projects = $this->_projectService->getAll($filter, ['languages', 'categories']);
-        $projectsTotal = $this->_projectService->getCount($filter);
+        $languages = $this->_languageService->getAll($filter);
+        $languagesTotal = $this->_languageService->getCount($filter);
 
-        return new ProjectResource([ 'data' => $projects, 'total' => $projectsTotal]);
+        return new LanguageResource([ 'data' => $languages, 'total' => $languagesTotal]);
     }
 
     /**
      * @OA\Post(
-     *      path="/projects",
-     *      operationId="storeProject",
-     *      tags={"Projects"},
+     *      path="/languages",
+     *      operationId="storeLanguage",
+     *      tags={"Languages"},
      *      security={{"passport": {"*"}}},
-     *      summary="Store new project",
-     *      description="Returns project data",
+     *      summary="Store new language",
+     *      description="Returns language data",
      *      @OA\RequestBody(
      *          required=true,
-     *          @OA\JsonContent(ref="#/components/schemas/StoreProjectRequest")
+     *          @OA\JsonContent(ref="#/components/schemas/StoreLanguageRequest")
      *      ),
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/Project")
+     *          @OA\JsonContent(ref="#/components/schemas/Language")
      *       ),
      *      @OA\Response(
      *          response="400",
@@ -167,26 +219,26 @@ class ProjectsController extends Controller
      *      ),
      * )
      */
-    public function store(StoreProjectRequest $request)
+    public function store(StoreLanguageRequest $request)
     {
-        $project = $this->_projectRepository->storeAsync($request->all());
+        $language = $this->_languageRepository->storeAsync($request->all());
 
-        return (new ProjectResource($project))
+        return (new LanguageResource($language))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
     /**
      * @OA\Get(
-     *      path="/projects/{id}",
-     *      operationId="getProjectById",
-     *      tags={"Projects"},
+     *      path="/languages/{id}",
+     *      operationId="getLanguageById",
+     *      tags={"Languages"},
      *      security={{"passport": {"*"}}},
-     *      summary="Get project information",
-     *      description="Returns project data",
+     *      summary="Get language information",
+     *      description="Returns language data",
      *      @OA\Parameter(
      *          name="id",
-     *          description="Project id",
+     *          description="Language id",
      *          required=true,
      *          in="path",
      *          @OA\Schema(
@@ -196,7 +248,7 @@ class ProjectsController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/Project")
+     *          @OA\JsonContent(ref="#/components/schemas/Language")
      *       ),
      *      @OA\Response(
      *          response="400",
@@ -223,22 +275,22 @@ class ProjectsController extends Controller
      */
     public function show($id)
     {
-        $project = $this->_projectRepository->viewAsync($id);
+        $language = $this->_languageRepository->viewAsync($id);
 
-        return new ProjectResource($project);
+        return new LanguageResource($language);
     }
 
     /**
      * @OA\Put(
-     *      path="/projects/{id}",
-     *      operationId="updateProject",
-     *      tags={"Projects"},
+     *      path="/languages/{id}",
+     *      operationId="updateLanguage",
+     *      tags={"Languages"},
      *      security={{"passport": {"*"}}},
-     *      summary="Update existing project",
-     *      description="Returns updated project data",
+     *      summary="Update existing language",
+     *      description="Returns updated language data",
      *      @OA\Parameter(
      *          name="id",
-     *          description="Project id",
+     *          description="Language id",
      *          required=true,
      *          in="path",
      *          @OA\Schema(
@@ -247,12 +299,12 @@ class ProjectsController extends Controller
      *      ),
      *      @OA\RequestBody(
      *          required=true,
-     *          @OA\JsonContent(ref="#/components/schemas/UpdateProjectRequest")
+     *          @OA\JsonContent(ref="#/components/schemas/UpdateLanguageRequest")
      *      ),
      *      @OA\Response(
      *          response=202,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/Project")
+     *          @OA\JsonContent(ref="#/components/schemas/Language")
      *       ),
      *      @OA\Response(
      *          response="400",
@@ -276,26 +328,26 @@ class ProjectsController extends Controller
      *      ),
      * )
      */
-    public function update(UpdateProjectRequest $request, $id)
+    public function update(UpdateLanguageRequest $request, $id)
     {
-        $project = $this->_projectRepository->updateAsync($id, $request->all());
+        $language = $this->_languageRepository->updateAsync($id, $request->all());
 
-        return (new ProjectResource($project))
+        return (new LanguageResource($language))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
     /**
      * @OA\Delete(
-     *      path="/projects/{id}",
-     *      operationId="deleteProject",
-     *      tags={"Projects"},
+     *      path="/languages/{id}",
+     *      operationId="deleteLanguage",
+     *      tags={"Languages"},
      *      security={{"passport": {"*"}}},
-     *      summary="Delete existing project",
+     *      summary="Delete existing language",
      *      description="Deletes a record and returns no content",
      *      @OA\Parameter(
      *          name="id",
-     *          description="Project id",
+     *          description="Language id",
      *          required=true,
      *          in="path",
      *          @OA\Schema(
@@ -326,7 +378,7 @@ class ProjectsController extends Controller
      */
     public function destroy($id)
     {
-        $result = $this->_projectRepository->deleteAsync($id);
+        $result = $this->_languageRepository->deleteAsync($id);
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

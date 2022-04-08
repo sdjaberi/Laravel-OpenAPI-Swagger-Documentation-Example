@@ -645,6 +645,468 @@
                 ]
             }
         },
+        "/languages": {
+            "get": {
+                "tags": [
+                    "Languages"
+                ],
+                "summary": "Get list of languages",
+                "description": "Returns list of languages",
+                "operationId": "getLanguagesList",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "Number of item per page",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 20
+                    },
+                    {
+                        "name": "sortBy",
+                        "in": "query",
+                        "description": "Column name to sort by",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "id"
+                    },
+                    {
+                        "name": "sortDesc",
+                        "in": "query",
+                        "description": "Column name to sort descending",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": true
+                    },
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Search Query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "language",
+                        "in": "query",
+                        "description": "Language",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "user",
+                        "in": "query",
+                        "description": "User name",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "description": "User Id",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "project",
+                        "in": "query",
+                        "description": "Project name",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "projectId",
+                        "in": "query",
+                        "description": "Project Id",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "translation",
+                        "in": "query",
+                        "description": "Translation",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "translationId",
+                        "in": "query",
+                        "description": "Translation Id",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LanguageResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnAuthException"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid scope(s) provided.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiAccessDeniedException"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Languages"
+                ],
+                "summary": "Store new language",
+                "description": "Returns language data",
+                "operationId": "storeLanguage",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreLanguageRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Language"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiRequestException"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnAuthException"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid scope(s) provided.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiAccessDeniedException"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnprocessableEntityException"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": [
+                            "*"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/languages/{id}": {
+            "get": {
+                "tags": [
+                    "Languages"
+                ],
+                "summary": "Get language information",
+                "description": "Returns language data",
+                "operationId": "getLanguageById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Language id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Language"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiRequestException"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnAuthException"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid scope(s) provided.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiAccessDeniedException"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": [
+                            "*"
+                        ]
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Languages"
+                ],
+                "summary": "Update existing language",
+                "description": "Returns updated language data",
+                "operationId": "updateLanguage",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Language id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateLanguageRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Language"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiRequestException"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnAuthException"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid scope(s) provided.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiAccessDeniedException"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": [
+                            "*"
+                        ]
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Languages"
+                ],
+                "summary": "Delete existing language",
+                "description": "Deletes a record and returns no content",
+                "operationId": "deleteLanguage",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Language id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnAuthException"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid scope(s) provided.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiAccessDeniedException"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": [
+                            "*"
+                        ]
+                    }
+                ]
+            }
+        },
         "/phraseCategories": {
             "get": {
                 "tags": [
@@ -1505,6 +1967,62 @@
                 "summary": "Get list of projects",
                 "description": "Returns list of projects",
                 "operationId": "getProjectsList",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "Number of item per page",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 20
+                    },
+                    {
+                        "name": "sortBy",
+                        "in": "query",
+                        "description": "Column name to sort by",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "id"
+                    },
+                    {
+                        "name": "sortDesc",
+                        "in": "query",
+                        "description": "Column name to sort descending",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": true
+                    },
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Search Query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "project",
+                        "in": "query",
+                        "description": "Project Name",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -2015,6 +2533,41 @@
                     }
                 ]
             },
+            "Language": {
+                "title": "Language",
+                "description": "Language model",
+                "xml": {
+                    "name": "Language"
+                },
+                "allOf": [
+                    {
+                        "properties": {
+                            "phrase": {
+                                "title": "Language",
+                                "description": "Language",
+                                "type": "string",
+                                "example": "A new phrase"
+                            },
+                            "category_name": {
+                                "title": "Category Name",
+                                "description": "Category Name",
+                                "type": "string",
+                                "example": "A category name"
+                            },
+                            "phrase_category_id": {
+                                "title": "Language Category ID",
+                                "description": "Language Category ID",
+                                "type": "integer",
+                                "format": "int64",
+                                "example": 1
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "#/components/schemas/Model"
+                    }
+                ]
+            },
             "Phrase": {
                 "title": "Phrase",
                 "description": "Phrase model",
@@ -2191,6 +2744,56 @@
                 },
                 "type": "object"
             },
+            "StoreLanguageRequest": {
+                "title": "Store Language request",
+                "description": "Store Language request body data",
+                "required": [
+                    "title",
+                    "iso_code",
+                    "is_primary",
+                    "text_direction",
+                    "active"
+                ],
+                "properties": {
+                    "title": {
+                        "title": "Title",
+                        "description": "Title",
+                        "type": "string",
+                        "example": "A new language title"
+                    },
+                    "iso_code": {
+                        "title": "IsoCode",
+                        "description": "ISO Code",
+                        "type": "string",
+                        "example": "A language iso code like en / de /.."
+                    },
+                    "is_primary": {
+                        "title": "IsPrimary",
+                        "description": "Is Primary",
+                        "type": "boolean",
+                        "example": "1"
+                    },
+                    "text_direction": {
+                        "title": "TextDirection",
+                        "description": "Text Direction",
+                        "type": "string",
+                        "example": "ltr or rtl"
+                    },
+                    "local_name": {
+                        "title": "LocalName",
+                        "description": "Local Name",
+                        "type": "string",
+                        "example": "english / deutsche / .."
+                    },
+                    "active": {
+                        "title": "Active",
+                        "description": "Active",
+                        "type": "boolean",
+                        "example": "1"
+                    }
+                },
+                "type": "object"
+            },
             "StorePhraseCategoryRequest": {
                 "title": "Store Phrase Category request",
                 "description": "Store Phrase Category request body data",
@@ -2315,6 +2918,63 @@
                         "description": "Icon",
                         "type": "string",
                         "example": "fa fa-user"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateLanguageRequest": {
+                "title": "Update Language request",
+                "description": "Update Language request body data",
+                "required": [
+                    "id",
+                    "iso_code",
+                    "is_primary",
+                    "text_direction",
+                    "active"
+                ],
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "description": "Id",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "title": {
+                        "title": "Title",
+                        "description": "Title",
+                        "type": "string",
+                        "example": "A new language title"
+                    },
+                    "iso_code": {
+                        "title": "IsoCode",
+                        "description": "ISO Code",
+                        "type": "string",
+                        "example": "A language iso code like en / de /.."
+                    },
+                    "is_primary": {
+                        "title": "IsPrimary",
+                        "description": "Is Primary",
+                        "type": "boolean",
+                        "example": "1"
+                    },
+                    "text_direction": {
+                        "title": "TextDirection",
+                        "description": "Text Direction",
+                        "type": "string",
+                        "example": "ltr or rtl"
+                    },
+                    "local_name": {
+                        "title": "LocalName",
+                        "description": "Local Name",
+                        "type": "string",
+                        "example": "english / deutsche / .."
+                    },
+                    "active": {
+                        "title": "Active",
+                        "description": "Active",
+                        "type": "boolean",
+                        "example": "1"
                     }
                 },
                 "type": "object"
@@ -2446,6 +3106,24 @@
                 "type": "object",
                 "xml": {
                     "name": "CategoryResource"
+                }
+            },
+            "LanguageResource": {
+                "title": "LanguageResource",
+                "description": "Language resource",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "ref": null
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "LanguageResource"
                 }
             },
             "PhraseCategoryResource": {
@@ -2744,6 +3422,178 @@
                     "name": "RegisterIn"
                 }
             },
+            "LanguageFilter": {
+                "title": "LanguageFilter",
+                "description": "LanguageFilter model",
+                "properties": {
+                    "q": {
+                        "title": "SearchQuery",
+                        "description": "A Search Query",
+                        "type": "string",
+                        "example": "search query"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "LanguageFilter"
+                }
+            },
+            "LanguageOut": {
+                "title": "LanguageOut",
+                "description": "LanguageOut model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "title": {
+                        "title": "Title",
+                        "description": "Title",
+                        "type": "string",
+                        "example": "A new language title"
+                    },
+                    "iso_code": {
+                        "title": "IsoCode",
+                        "description": "ISO Code",
+                        "type": "string",
+                        "example": "A language iso code like en / de /.."
+                    },
+                    "is_primary": {
+                        "title": "IsPrimary",
+                        "description": "Is Primary",
+                        "type": "boolean",
+                        "example": "1"
+                    },
+                    "text_direction": {
+                        "title": "TextDirection",
+                        "description": "Text Direction",
+                        "type": "string",
+                        "example": "ltr or rtl"
+                    },
+                    "local_name": {
+                        "title": "LocalName",
+                        "description": "Local Name",
+                        "type": "string",
+                        "example": "english / deutsche / .."
+                    },
+                    "active": {
+                        "title": "Active",
+                        "description": "Active",
+                        "type": "boolean",
+                        "example": "1"
+                    },
+                    "users_count": {
+                        "title": "UsersCount",
+                        "description": "Users Count",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "projects_count": {
+                        "title": "ProjectsCount",
+                        "description": "Projects Count",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "translations_count": {
+                        "title": "TranslationsCount",
+                        "description": "Translations Count",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "LanguageOut"
+                }
+            },
+            "LanguagePageableFilter": {
+                "title": "LanguagePageableFilter",
+                "description": "LanguagePageableFilter model",
+                "properties": {
+                    "page": {
+                        "title": "Page",
+                        "description": "Page",
+                        "type": "integer",
+                        "example": "2"
+                    },
+                    "perPage": {
+                        "title": "PerPage",
+                        "description": "PerPage",
+                        "type": "integer",
+                        "example": "100"
+                    },
+                    "sortBy": {
+                        "title": "SortBY",
+                        "description": "SortBy",
+                        "type": "string",
+                        "example": "id"
+                    },
+                    "sortDesc": {
+                        "title": "SortDesc",
+                        "description": "SortDesc",
+                        "type": "boolean",
+                        "example": "true"
+                    },
+                    "q": {
+                        "title": "SearchQuery",
+                        "description": "A Search Query",
+                        "type": "string",
+                        "example": "search query"
+                    },
+                    "language": {
+                        "title": "Language",
+                        "description": "Language",
+                        "type": "string",
+                        "example": "Homepage"
+                    },
+                    "user": {
+                        "title": "User",
+                        "description": "User",
+                        "type": "string",
+                        "example": "John Smith"
+                    },
+                    "userId": {
+                        "title": "UserId",
+                        "description": "User Id",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "project": {
+                        "title": "Project",
+                        "description": "Project",
+                        "type": "string",
+                        "example": "PrimeLabe 2.0"
+                    },
+                    "projectId": {
+                        "title": "ProjectId",
+                        "description": "Project Id",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "translation": {
+                        "title": "Translation",
+                        "description": "Translation",
+                        "type": "string",
+                        "example": "John Smith"
+                    },
+                    "translationId": {
+                        "title": "TranslationId",
+                        "description": "Translation Id",
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "LanguagePageableFilter"
+                }
+            },
             "PhraseFilter": {
                 "title": "PhraseFilter",
                 "description": "PhraseFilter model",
@@ -3005,6 +3855,71 @@
                 "title": "ProjectFilter",
                 "description": "Project Filter model",
                 "properties": {
+                    "q": {
+                        "title": "SearchQuery",
+                        "description": "A Search Query",
+                        "type": "string",
+                        "example": "search query"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "ProjectFilter"
+                }
+            },
+            "ProjectOut": {
+                "title": "ProjectOut",
+                "description": "ProjectOut model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "Name",
+                        "type": "string",
+                        "format": "string",
+                        "example": "Notes"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "description": "Description",
+                        "type": "string",
+                        "example": "A new description"
+                    },
+                    "author_id": {
+                        "title": "Author ID",
+                        "description": "Author ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "author": {
+                        "title": "Author",
+                        "description": "Author Model"
+                    },
+                    "languages": {
+                        "title": "Languages",
+                        "description": "Languages",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/LanguageOut"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "ProjectOut"
+                }
+            },
+            "ProjectPageableFilter": {
+                "title": "ProjectPageableFilter",
+                "description": "Project Pageable Filter model",
+                "properties": {
                     "page": {
                         "title": "Page",
                         "description": "Page",
@@ -3034,132 +3949,18 @@
                         "description": "A Search Query",
                         "type": "string",
                         "example": "search query"
+                    },
+                    "project": {
+                        "title": "Project",
+                        "description": "Project Name",
+                        "type": "string",
+                        "example": "Poollab 1.0"
                     }
                 },
                 "type": "object",
-                "xml": {
-                    "name": "ProjectFilter"
-                }
-            },
-            "ProjectOut": {
-                "title": "ProjectOut",
-                "description": "ProjectOut model",
-                "properties": {
-                    "name": {
-                        "title": "Name",
-                        "description": "Name",
-                        "type": "string",
-                        "format": "string",
-                        "example": "Notes"
-                    },
-                    "project_id": {
-                        "title": "Project ID",
-                        "description": "Project ID",
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 1
-                    },
-                    "description": {
-                        "title": "Description",
-                        "description": "Description",
-                        "type": "string",
-                        "example": "A new description"
-                    },
-                    "created_at": {
-                        "title": "Created at",
-                        "description": "Created at",
-                        "type": "string",
-                        "format": "datetime",
-                        "example": "2020-01-27 17:50:45"
-                    },
-                    "updated_at": {
-                        "title": "Updated at",
-                        "description": "Updated at",
-                        "type": "string",
-                        "format": "datetime",
-                        "example": "2020-01-27 17:50:45"
-                    },
-                    "deleted_at": {
-                        "title": "Deleted at",
-                        "description": "Deleted at",
-                        "type": "string",
-                        "format": "datetime",
-                        "example": "2020-01-27 17:50:45"
-                    },
-                    "author_id": {
-                        "title": "Author ID",
-                        "description": "Author ID",
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 1
-                    },
-                    "author": {
-                        "title": "Author",
-                        "description": "Author Model"
-                    }
-                },
-                "type": "object",
-                "xml": {
-                    "name": "ProjectOut"
-                }
-            },
-            "ProjectPageableFilter": {
-                "title": "ProjectPageableFilter",
-                "description": "Project Pageable Filter model",
                 "xml": {
                     "name": "ProjectPageableFilter"
-                },
-                "allOf": [
-                    {
-                        "properties": {
-                            "page": {
-                                "title": "Page",
-                                "description": "Page",
-                                "type": "integer",
-                                "example": "2"
-                            },
-                            "perPage": {
-                                "title": "PerPage",
-                                "description": "PerPage",
-                                "type": "integer",
-                                "example": "100"
-                            },
-                            "sortBy": {
-                                "title": "SortBY",
-                                "description": "SortBy",
-                                "type": "string",
-                                "example": "id"
-                            },
-                            "sortDesc": {
-                                "title": "SortDesc",
-                                "description": "SortDesc",
-                                "type": "boolean",
-                                "example": "true"
-                            },
-                            "phrase": {
-                                "title": "Phrase",
-                                "description": "Phrase",
-                                "type": "string",
-                                "example": "Homepage"
-                            },
-                            "category": {
-                                "title": "Category",
-                                "description": "Category",
-                                "type": "string",
-                                "example": "Website"
-                            },
-                            "phraseCategory": {
-                                "title": "PhraseCategory",
-                                "description": "PhraseCategory",
-                                "type": "string",
-                                "example": "Setting"
-                            }
-                        }
-                    },
-                    {
-                        "$ref": "#/components/schemas/ProjectFilter"
-                    }
-                ]
+                }
             }
         },
         "securitySchemes": {

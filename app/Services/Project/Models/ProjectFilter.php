@@ -2,6 +2,7 @@
 
 namespace App\Services\Project\Models;
 
+use App\Services\Base\IFilter;
 use App\Services\Base\IPageableFilter;
 
 
@@ -14,15 +15,13 @@ use App\Services\Base\IPageableFilter;
  *     )
  * )
  */
-class ProjectFilter extends IPageableFilter
+class ProjectFilter extends IFilter
 {
     public int $id;
 
-    public int $base_id;
+    public int $name;
 
-    public int $phrase_category_id;
+    public int $author_id;
 
-    public string $phrase;
-
-    public string $category_name;
+    public string $description;
 }

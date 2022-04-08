@@ -17,6 +17,18 @@ class ProjectOut extends IDto
 {
     /**
      * @OA\Property(
+     *     title="ID",
+     *     description="ID",
+     *     format="int64",
+     *     example=1
+     * )
+     *
+     * @var integer
+     */
+    public $id;
+
+    /**
+     * @OA\Property(
      *     title="Name",
      *     description="Name",
      *     format="string",
@@ -29,18 +41,6 @@ class ProjectOut extends IDto
 
     /**
      * @OA\Property(
-     *     title="Project ID",
-     *     description="Project ID",
-     *     format="int64",
-     *     example=1
-     * )
-     *
-     * @var integer
-     */
-    public $project_id;
-
-    /**
-     * @OA\Property(
      *      title="Description",
      *      description="Description",
      *      example="A new description"
@@ -49,45 +49,6 @@ class ProjectOut extends IDto
      * @var string
      */
     public $description;
-
-    /**
-     * @OA\Property(
-     *     title="Created at",
-     *     description="Created at",
-     *     example="2020-01-27 17:50:45",
-     *     format="datetime",
-     *     type="string"
-     * )
-     *
-     * @var \DateTime
-     */
-    public $created_at;
-
-    /**
-     * @OA\Property(
-     *     title="Updated at",
-     *     description="Updated at",
-     *     example="2020-01-27 17:50:45",
-     *     format="datetime",
-     *     type="string"
-     * )
-     *
-     * @var \DateTime
-     */
-    public $updated_at;
-
-    /**
-     * @OA\Property(
-     *     title="Deleted at",
-     *     description="Deleted at",
-     *     example="2020-01-27 17:50:45",
-     *     format="datetime",
-     *     type="string"
-     * )
-     *
-     * @var \DateTime
-     */
-    public $deleted_at;
 
     /**
      * @OA\Property(
@@ -109,7 +70,27 @@ class ProjectOut extends IDto
      *      description="Author Model",
      * )
      *
-     * @var \App\Services\Project\Models\UserOUt
+     * @var \App\Services\User\Models\UserOut
      */
     public $author;
+
+    /**
+     * @OA\Property(
+     *      title="Languages",
+     *      description="Languages",
+     * )
+     *
+     * @var \App\Services\Language\Models\LanguageOut[]
+     */
+    public $languages;
+
+    /**
+     * @OA\Property(
+     *      title="Categories",
+     *      description="Categories",
+     * )
+     *
+     * @var \App\Services\Category\Models\CategoryOut[]
+     */
+    public $categories;
 }
