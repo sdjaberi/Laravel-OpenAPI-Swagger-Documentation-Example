@@ -13,6 +13,7 @@ interface IProjectRepository
 {
     public function getAllWithAuthor(): Collection;
     public function getAllUserProjectsAsync($filter, $include = []): Builder;
+    public function count($filter = null): int;
 }
 
 class ProjectRepository extends BaseRepository implements IProjectRepository
@@ -49,24 +50,28 @@ class ProjectRepository extends BaseRepository implements IProjectRepository
         return
             parent::asyncExecution(function() use($filter, $include) {
 
-                $result = parent::getAllAsync($filter, $include)->withCount('languages', 'categories');
+                $result = parent::getAllAsync($filter, $include);
+
+                $result = self::filter($result, $filter)->withCount('languages', 'categories');
+
+                return $result;
+            });
+    }
+
+    /**
+    *
+    * @return integer
+    */
+    public function count($filter = null): int
+    {
+        return
+            parent::asyncExecution(function() use($filter) {
+
+                $result = parent::getCount();
 
                 $result = self::filter($result, $filter);
 
-                $user = Auth::user();
-
-                if($user)
-                {
-                    $result = $result
-                        ->whereIn('id', $user->categories->map(
-                            function ($category) {
-                                return $category->project_id;
-                            }
-                        )
-                    );
-                }
-
-                return $result;
+                return $result->count();
             });
     }
 
@@ -89,6 +94,20 @@ class ProjectRepository extends BaseRepository implements IProjectRepository
             $query = $query
                 ->where('name', 'like', '%' .$filter->q. '%');
         }
+
+        $user = Auth::user();
+
+        if($user)
+        {
+            $query = $query
+                ->whereIn('id', $user->categories->map(
+                    function ($category) {
+                        return $category->project_id;
+                    }
+                )
+            );
+        }
+
 
         return $query;
     }

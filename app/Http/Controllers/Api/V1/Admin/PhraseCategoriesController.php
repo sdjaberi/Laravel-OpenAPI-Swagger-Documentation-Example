@@ -147,7 +147,7 @@ class PhraseCategoriesController extends Controller
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/PhraseCategory")
+     *          @OA\JsonContent(ref="#/components/schemas/PhraseCategoryOut")
      *       ),
      *      @OA\Response(
      *          response="400",
@@ -200,7 +200,7 @@ class PhraseCategoriesController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/PhraseCategory")
+     *          @OA\JsonContent(ref="#/components/schemas/PhraseCategoryOut")
      *       ),
      *      @OA\Response(
      *          response="400",
@@ -256,7 +256,7 @@ class PhraseCategoriesController extends Controller
      *      @OA\Response(
      *          response=202,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/PhraseCategory")
+     *          @OA\JsonContent(ref="#/components/schemas/PhraseCategoryOut")
      *       ),
      *      @OA\Response(
      *          response="400",

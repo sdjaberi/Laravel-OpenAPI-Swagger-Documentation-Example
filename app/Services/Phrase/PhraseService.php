@@ -65,9 +65,9 @@ class PhraseService implements IPhraseService
 
     public function getCount(PhrasePageableFilter $filter) : int
     {
-        $result = $this->_phraseRepository->getAllUserPhrasesAsync($filter);
+        $result = $this->_phraseRepository->count($filter);
 
-        return $result->count();
+        return $result;
     }
 
     public function viewAsync($id)

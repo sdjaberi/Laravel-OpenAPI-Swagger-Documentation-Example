@@ -13,6 +13,7 @@ interface ILanguageRepository
     public function getAllNotPrimaryAsync(): Builder;
     public function getAllActiveAsync(): Builder;
     public function getAllUserLanguagesAsync($filter, $include = []): Builder;
+    public function count($filter = null): int;
     public function getPrimaryAsync(): Language;
 }
 
@@ -61,24 +62,28 @@ class LanguageRepository extends BaseRepository implements ILanguageRepository
         return
             parent::asyncExecution(function() use($filter, $include) {
 
-                $result = parent::getAllAsync($filter, $include)->withCount(['translations', 'projects', 'users']);
+                $result = parent::getAllAsync($filter, $include);
+
+                $result = self::filter($result, $filter)->withCount(['translations', 'projects', 'users']);
+
+                return $result;
+            });
+    }
+
+    /**
+    *
+    * @return integer
+    */
+    public function count($filter = null): int
+    {
+        return
+            parent::asyncExecution(function() use($filter) {
+
+                $result = parent::getCount();
 
                 $result = self::filter($result, $filter);
 
-                $user = Auth::user();
-
-                if($user)
-                {
-                    $result = $result
-                        ->whereIn('id', $user->languages->map(
-                            function ($item) {
-                                return $item->id;
-                            }
-                        )
-                    );
-                }
-
-                return $result;
+                return $result->count();
             });
     }
 
@@ -111,63 +116,64 @@ class LanguageRepository extends BaseRepository implements ILanguageRepository
         if(isset($filter->userId))
         {
             $query = $query
-                ->users->where('id', $filter->userId);
-        }
-
-        if(isset($filter->user))
-        {
-            $query = $query
-                ->users->where('name', $filter->user);
+                ->join('user_language', 'languages.id', '=', 'user_language.language_id')
+                ->select('user_language.user_id', 'languages.*')
+                ->where('user_language.user_id' , '=', $filter->userId);
         }
 
         if(isset($filter->projectId))
         {
             $query = $query
-                ->join('language_project', 'phrases.phrase_category_id', '=', 'language_project.project_id')
-                ->select('phrase_categories.name', 'phrases.*')
-                ->where('phrase_categories.name' , '=', $filter->phraseCategory);
-
-                ->projects->where('id', $filter->projectId);
-        }
-
-        if(isset($filter->project))
-        {
-            $query = $query
-                ->projects->where('name', $filter->project);
+                ->join('language_project', 'languages.id', '=', 'language_project.language_id')
+                ->select('language_project.project_id', 'languages.*')
+                ->where('language_project.project_id' , '=', $filter->projectId);
         }
 
         if(isset($filter->translationId))
         {
-            $query = $query
-                ->translations->where('id', $filter->translationId);
-        }
+            $translationId = $filter->translationId;
 
-        if(isset($filter->translation))
-        {
             $query = $query
-                ->translations->where('translation', $filter->translation);
-        }
-
-        if(isset($filter->phraseCategory))
-        {
-            $query = $query
-                ->join('phrase_categories', 'phrases.phrase_category_id', '=', 'phrase_categories.id')
-                ->select('phrase_categories.name', 'phrases.*')
-                ->where('phrase_categories.name' , '=', $filter->phraseCategory);
+                ->whereHas('translations', function($q) use($translationId) {
+                    $q->where('id', $translationId);
+                });
         }
 
         if(isset($filter->q))
         {
             $query = $query
-                ->where('phrase', 'like', '%' .$filter->q. '%')
+                ->where('title', 'like', '%' .$filter->q. '%')
+                ->orWhere('id', $filter->q)
+                ->orWhere('iso_code', 'like', '%' .$filter->q. '%')
+                ->orWhere('text_direction', 'like', '%' .$filter->q. '%');
 
-                ->join('categories', 'phrases.category_name', '=', 'categories.name')
-                ->select('categories.name', 'phrases.*')
-                ->orWhere('categories.name' , 'like', '%' .$filter->q. '%')
+                //->join('user_language', 'languages.id', '=', 'user_language.language_id')
+                //->select('user_language.user_id', 'languages.*')
+                //->orWhere('user_language.user_id' , '=', $filter->q)
 
-                ->join('phrase_categories', 'phrases.phrase_category_id', '=', 'phrase_categories.id')
-                ->select('phrase_categories.name', 'phrases.*')
-                ->orWhere('phrase_categories.name' , 'like', '%' .$filter->q. '%');
+                //->join('language_project', 'languages.id', '=', 'language_project.language_id')
+                //->select('language_project.project_id', 'languages.*')
+                //->orWhere('language_project.project_id' , '=', $filter->q)
+
+                //->orWhereHas('translations', function($q1) use($translationQ) {
+                    //$q1->where('id', $translationQ);
+                //})
+
+                //->distinct(['languages.id' , 'id']);
+
+        }
+
+        $user = Auth::user();
+
+        if($user)
+        {
+            $query = $query
+                ->whereIn('id', $user->languages->map(
+                    function ($item) {
+                        return $item->id;
+                    }
+                )
+            );
         }
 
         return $query;

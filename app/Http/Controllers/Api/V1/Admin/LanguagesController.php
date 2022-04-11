@@ -174,7 +174,7 @@ class LanguagesController extends Controller
                 $filter->$key = False;
         }
 
-        $languages = $this->_languageService->getAll($filter);
+        $languages = $this->_languageService->getAll($filter, ['users']);
         $languagesTotal = $this->_languageService->getCount($filter);
 
         return new LanguageResource([ 'data' => $languages, 'total' => $languagesTotal]);
@@ -195,7 +195,7 @@ class LanguagesController extends Controller
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/Language")
+     *          @OA\JsonContent(ref="#/components/schemas/LanguageOut")
      *       ),
      *      @OA\Response(
      *          response="400",
@@ -248,7 +248,7 @@ class LanguagesController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/Language")
+     *          @OA\JsonContent(ref="#/components/schemas/LanguageOut")
      *       ),
      *      @OA\Response(
      *          response="400",
@@ -304,7 +304,7 @@ class LanguagesController extends Controller
      *      @OA\Response(
      *          response=202,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/Language")
+     *          @OA\JsonContent(ref="#/components/schemas/LanguageOut")
      *       ),
      *      @OA\Response(
      *          response="400",

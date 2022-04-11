@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Phrase\Models;
+namespace App\Services\User\Models;
 
 use App\Services\Base\IFilter;
 use App\Services\Base\IPageableFilter;
@@ -8,14 +8,14 @@ use App\Services\Base\IPageableFilter;
 
 /**
  * @OA\Schema(
- *     title="PhraseFilter",
- *     description="PhraseFilter model",
+ *     title="UserFilter",
+ *     description="UserFilter model",
  *     @OA\Xml(
- *         name="PhraseFilter"
+ *         name="UserFilter"
  *     )
  * )
  */
-class PhraseFilter extends IFilter
+class UserFilter extends IFilter
 {
     public int $id;
 

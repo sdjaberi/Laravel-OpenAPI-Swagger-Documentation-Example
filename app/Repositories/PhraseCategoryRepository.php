@@ -11,6 +11,7 @@ interface IPhraseCategoryRepository
 {
     public function getByNameAsync($phraseCategoryName): PhraseCategory;
     public function getAllPhraseCategoriesAsync($filter, $include = []): Builder;
+    public function count($filter = null): int;
 }
 
 class PhraseCategoryRepository extends BaseRepository implements IPhraseCategoryRepository
@@ -47,11 +48,28 @@ class PhraseCategoryRepository extends BaseRepository implements IPhraseCategory
         return
             parent::asyncExecution(function() use($filter, $include) {
 
-                $result = parent::getAllAsync($filter, $include)->withCount('phrases');
+                $result = parent::getAllAsync($filter, $include);
+
+                $result = self::filter($result, $filter)->withCount('phrases');
+
+                return $result;
+            });
+    }
+
+    /**
+    *
+    * @return integer
+    */
+    public function count($filter = null): int
+    {
+        return
+            parent::asyncExecution(function() use($filter) {
+
+                $result = parent::getCount();
 
                 $result = self::filter($result, $filter);
 
-                return $result;
+                return $result->count();
             });
     }
 

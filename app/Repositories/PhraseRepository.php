@@ -12,6 +12,7 @@ interface IPhraseRepository
 {
     public function getAllWithCategoryAsync(): Builder;
     public function getAllUserPhrasesAsync($filter, $include = []): Builder;
+    public function count($filter = null): int;
     public function findAsync($phrase, $categoryName, $phraseCategoryName): Phrase;
     public function phrasesHasPhraseCategoryAsync($categoryName): Builder;
 }
@@ -52,24 +53,28 @@ class PhraseRepository extends BaseRepository implements IPhraseRepository
         return
             parent::asyncExecution(function() use($filter, $include) {
 
-                $result = parent::getAllAsync($filter, $include)->withCount('translations');
+                $result = parent::getAllAsync($filter, $include);
+
+                $result = self::filter($result, $filter)->withCount('translations');
+
+                return $result;
+            });
+    }
+
+    /**
+    *
+    * @return integer
+    */
+    public function count($filter = null): int
+    {
+        return
+            parent::asyncExecution(function() use($filter) {
+
+                $result = parent::getCount();
 
                 $result = self::filter($result, $filter);
 
-                $user = Auth::user();
-
-                if($user)
-                {
-                    $result = $result
-                        ->whereIn('category_name', $user->categories->map(
-                            function ($item) {
-                                return $item->name;
-                            }
-                        )
-                    );
-                }
-
-                return $result;
+                return $result->count();
             });
     }
 
@@ -160,6 +165,19 @@ class PhraseRepository extends BaseRepository implements IPhraseRepository
                 ->join('phrase_categories', 'phrases.phrase_category_id', '=', 'phrase_categories.id')
                 ->select('phrase_categories.name', 'phrases.*')
                 ->orWhere('phrase_categories.name' , 'like', '%' .$filter->q. '%');
+        }
+
+        $user = Auth::user();
+
+        if($user)
+        {
+            $query = $query
+                ->whereIn('category_name', $user->categories->map(
+                    function ($item) {
+                        return $item->name;
+                    }
+                )
+            );
         }
 
         return $query;

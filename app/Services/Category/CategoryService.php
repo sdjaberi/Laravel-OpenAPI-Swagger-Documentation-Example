@@ -55,9 +55,9 @@ class CategoryService implements ICategoryService
 
     public function getCount(CategoryPageableFilter $filter) : int
     {
-        $result = $this->_categoryRepository->getAllUserCategoriesAsync($filter);
+        $result = $this->_categoryRepository->count($filter);
 
-        return $result->count();
+        return $result;
     }
 
     public function viewAsync($id)

@@ -356,7 +356,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Category"
+                                    "$ref": "#/components/schemas/CategoryOut"
                                 }
                             }
                         }
@@ -436,7 +436,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Category"
+                                    "$ref": "#/components/schemas/CategoryOut"
                                 }
                             }
                         }
@@ -524,7 +524,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Category"
+                                    "$ref": "#/components/schemas/CategoryOut"
                                 }
                             }
                         }
@@ -818,7 +818,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Language"
+                                    "$ref": "#/components/schemas/LanguageOut"
                                 }
                             }
                         }
@@ -898,7 +898,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Language"
+                                    "$ref": "#/components/schemas/LanguageOut"
                                 }
                             }
                         }
@@ -986,7 +986,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Language"
+                                    "$ref": "#/components/schemas/LanguageOut"
                                 }
                             }
                         }
@@ -1232,7 +1232,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PhraseCategory"
+                                    "$ref": "#/components/schemas/PhraseCategoryOut"
                                 }
                             }
                         }
@@ -1312,7 +1312,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PhraseCategory"
+                                    "$ref": "#/components/schemas/PhraseCategoryOut"
                                 }
                             }
                         }
@@ -1400,7 +1400,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PhraseCategory"
+                                    "$ref": "#/components/schemas/PhraseCategoryOut"
                                 }
                             }
                         }
@@ -1670,7 +1670,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Phrase"
+                                    "$ref": "#/components/schemas/PhraseOut"
                                 }
                             }
                         }
@@ -1750,7 +1750,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Phrase"
+                                    "$ref": "#/components/schemas/PhraseOut"
                                 }
                             }
                         }
@@ -1838,7 +1838,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Phrase"
+                                    "$ref": "#/components/schemas/PhraseOut"
                                 }
                             }
                         }
@@ -2084,7 +2084,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Project"
+                                    "$ref": "#/components/schemas/ProjectOut"
                                 }
                             }
                         }
@@ -2164,7 +2164,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Project"
+                                    "$ref": "#/components/schemas/ProjectOut"
                                 }
                             }
                         }
@@ -2252,7 +2252,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Project"
+                                    "$ref": "#/components/schemas/ProjectOut"
                                 }
                             }
                         }
@@ -2318,6 +2318,468 @@
                         "name": "id",
                         "in": "path",
                         "description": "Project id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnAuthException"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid scope(s) provided.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiAccessDeniedException"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": [
+                            "*"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/translations": {
+            "get": {
+                "tags": [
+                    "Translations"
+                ],
+                "summary": "Get list of translations",
+                "description": "Returns list of translations",
+                "operationId": "getTranslationsList",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "Number of item per page",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 20
+                    },
+                    {
+                        "name": "sortBy",
+                        "in": "query",
+                        "description": "Column name to sort by",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "id"
+                    },
+                    {
+                        "name": "sortDesc",
+                        "in": "query",
+                        "description": "Column name to sort descending",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": true
+                    },
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Search Query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "translation",
+                        "in": "query",
+                        "description": "Translation",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "phrase",
+                        "in": "query",
+                        "description": "Phrase",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "phraseId",
+                        "in": "query",
+                        "description": "Phrase Id",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "language",
+                        "in": "query",
+                        "description": "Language Title",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "languageId",
+                        "in": "query",
+                        "description": "Language Id",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "user",
+                        "in": "query",
+                        "description": "User Name",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "description": "User Id",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TranslationResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnAuthException"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid scope(s) provided.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiAccessDeniedException"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Translations"
+                ],
+                "summary": "Store new translation",
+                "description": "Returns translation data",
+                "operationId": "storeTranslation",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreTranslationRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TranslationOut"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiRequestException"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnAuthException"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid scope(s) provided.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiAccessDeniedException"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnprocessableEntityException"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": [
+                            "*"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/translations/{id}": {
+            "get": {
+                "tags": [
+                    "Translations"
+                ],
+                "summary": "Get translation information",
+                "description": "Returns translation data",
+                "operationId": "getTranslationById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Translation id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TranslationOut"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiRequestException"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnAuthException"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid scope(s) provided.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiAccessDeniedException"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": [
+                            "*"
+                        ]
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Translations"
+                ],
+                "summary": "Update existing translation",
+                "description": "Returns updated translation data",
+                "operationId": "updateTranslation",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Translation id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateTranslationRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TranslationOut"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiRequestException"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnAuthException"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid scope(s) provided.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiAccessDeniedException"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": [
+                            "*"
+                        ]
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Translations"
+                ],
+                "summary": "Delete existing translation",
+                "description": "Deletes a record and returns no content",
+                "operationId": "deleteTranslation",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Translation id",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -2887,6 +3349,44 @@
                 },
                 "type": "object"
             },
+            "StoreTranslationRequest": {
+                "title": "Store Translation request",
+                "description": "Store Translation request body data",
+                "required": [
+                    "title",
+                    "iso_code",
+                    "is_primary",
+                    "text_direction",
+                    "active"
+                ],
+                "properties": {
+                    "translation": {
+                        "title": "Translation",
+                        "description": "Translation",
+                        "type": "string",
+                        "example": "A new translation"
+                    },
+                    "phrase_id": {
+                        "title": "PhraseID",
+                        "description": "Phrase ID",
+                        "type": "integer",
+                        "example": "A phrase id"
+                    },
+                    "language_id": {
+                        "title": "LanguageID",
+                        "description": "Language ID",
+                        "type": "integer",
+                        "example": "A language id"
+                    },
+                    "user_id": {
+                        "title": "UserID",
+                        "description": "User ID",
+                        "type": "integer",
+                        "example": "A user id"
+                    }
+                },
+                "type": "object"
+            },
             "UpdateCategoryRequest": {
                 "title": "Update category request",
                 "description": "Update category request body data",
@@ -3072,6 +3572,51 @@
                 },
                 "type": "object"
             },
+            "UpdateTranslationRequest": {
+                "title": "Update Translation request",
+                "description": "Update Translation request body data",
+                "required": [
+                    "id",
+                    "iso_code",
+                    "is_primary",
+                    "text_direction",
+                    "active"
+                ],
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "description": "Id",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "translation": {
+                        "title": "Translation",
+                        "description": "Translation",
+                        "type": "string",
+                        "example": "A new translation"
+                    },
+                    "phrase_id": {
+                        "title": "PhraseID",
+                        "description": "Phrase ID",
+                        "type": "integer",
+                        "example": "A phrase id"
+                    },
+                    "language_id": {
+                        "title": "LanguageID",
+                        "description": "Language ID",
+                        "type": "integer",
+                        "example": "A language id"
+                    },
+                    "user_id": {
+                        "title": "UserID",
+                        "description": "User ID",
+                        "type": "integer",
+                        "example": "A user id"
+                    }
+                },
+                "type": "object"
+            },
             "AuthResource": {
                 "title": "AuthResource",
                 "description": "Auth resource",
@@ -3178,6 +3723,24 @@
                 "type": "object",
                 "xml": {
                     "name": "ProjectResource"
+                }
+            },
+            "TranslationResource": {
+                "title": "TranslationResource",
+                "description": "Translation resource",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "ref": null
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "TranslationResource"
                 }
             },
             "CategoryFilter": {
@@ -3899,8 +4462,7 @@
                         "example": 1
                     },
                     "author": {
-                        "title": "Author",
-                        "description": "Author Model"
+                        "$ref": "#/components/schemas/UserOut"
                     },
                     "languages": {
                         "title": "Languages",
@@ -3908,6 +4470,14 @@
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/LanguageOut"
+                        }
+                    },
+                    "categories": {
+                        "title": "Categories",
+                        "description": "Categories",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CategoryOut"
                         }
                     }
                 },
@@ -3960,6 +4530,273 @@
                 "type": "object",
                 "xml": {
                     "name": "ProjectPageableFilter"
+                }
+            },
+            "TranslationFilter": {
+                "title": "TranslationFilter",
+                "description": "TranslationFilter model",
+                "properties": {
+                    "q": {
+                        "title": "SearchQuery",
+                        "description": "A Search Query",
+                        "type": "string",
+                        "example": "search query"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "TranslationFilter"
+                }
+            },
+            "TranslationOut": {
+                "title": "TranslationOut",
+                "description": "TranslationOut model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "translation": {
+                        "title": "Translation",
+                        "description": "Translation",
+                        "type": "string",
+                        "example": "A new translation"
+                    },
+                    "phrase_id": {
+                        "title": "Phrase ID",
+                        "description": "Phrase ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "language_id": {
+                        "title": "Language ID",
+                        "description": "Language ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "user_id": {
+                        "title": "User ID",
+                        "description": "User ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "language": {
+                        "$ref": "#/components/schemas/LanguageOut"
+                    },
+                    "phrase": {
+                        "$ref": "#/components/schemas/PhraseOut"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/UserOut"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "TranslationOut"
+                }
+            },
+            "TranslationPageableFilter": {
+                "title": "TranslationPageableFilter",
+                "description": "TranslationPageableFilter model",
+                "properties": {
+                    "page": {
+                        "title": "Page",
+                        "description": "Page",
+                        "type": "integer",
+                        "example": "2"
+                    },
+                    "perPage": {
+                        "title": "PerPage",
+                        "description": "PerPage",
+                        "type": "integer",
+                        "example": "100"
+                    },
+                    "sortBy": {
+                        "title": "SortBY",
+                        "description": "SortBy",
+                        "type": "string",
+                        "example": "id"
+                    },
+                    "sortDesc": {
+                        "title": "SortDesc",
+                        "description": "SortDesc",
+                        "type": "boolean",
+                        "example": "true"
+                    },
+                    "q": {
+                        "title": "SearchQuery",
+                        "description": "A Search Query",
+                        "type": "string",
+                        "example": "search query"
+                    },
+                    "translation": {
+                        "title": "Translation",
+                        "description": "Translation",
+                        "type": "string",
+                        "example": "Homepage"
+                    },
+                    "phrase": {
+                        "title": "Phrase",
+                        "description": "Phrase",
+                        "type": "string",
+                        "example": "Homepage"
+                    },
+                    "language": {
+                        "title": "Language",
+                        "description": "Language",
+                        "type": "string",
+                        "example": "English / German"
+                    },
+                    "user": {
+                        "title": "User",
+                        "description": "User",
+                        "type": "string",
+                        "example": "John smith"
+                    },
+                    "phraseId": {
+                        "title": "phraseId",
+                        "description": "phrase Id",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "languageId": {
+                        "title": "languageId",
+                        "description": "language Id",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "userId": {
+                        "title": "userId",
+                        "description": "user Id",
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "TranslationPageableFilter"
+                }
+            },
+            "UserFilter": {
+                "title": "UserFilter",
+                "description": "UserFilter model",
+                "properties": {
+                    "q": {
+                        "title": "SearchQuery",
+                        "description": "A Search Query",
+                        "type": "string",
+                        "example": "search query"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "UserFilter"
+                }
+            },
+            "UserOut": {
+                "title": "UserOut",
+                "description": "UserOut model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "name": {
+                        "title": "User",
+                        "description": "User",
+                        "type": "string",
+                        "example": "A new user"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "description": "Usert Email",
+                        "type": "string",
+                        "example": "example\\@example.example"
+                    },
+                    "email_verified_at": {
+                        "title": "Email Verified at",
+                        "description": "Email Verified at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "UserOut"
+                }
+            },
+            "UserPageableFilter": {
+                "title": "UserPageableFilter",
+                "description": "UserPageableFilter model",
+                "properties": {
+                    "page": {
+                        "title": "Page",
+                        "description": "Page",
+                        "type": "integer",
+                        "example": "2"
+                    },
+                    "perPage": {
+                        "title": "PerPage",
+                        "description": "PerPage",
+                        "type": "integer",
+                        "example": "100"
+                    },
+                    "sortBy": {
+                        "title": "SortBY",
+                        "description": "SortBy",
+                        "type": "string",
+                        "example": "id"
+                    },
+                    "sortDesc": {
+                        "title": "SortDesc",
+                        "description": "SortDesc",
+                        "type": "boolean",
+                        "example": "true"
+                    },
+                    "q": {
+                        "title": "SearchQuery",
+                        "description": "A Search Query",
+                        "type": "string",
+                        "example": "search query"
+                    },
+                    "phrase": {
+                        "title": "User",
+                        "description": "User",
+                        "type": "string",
+                        "example": "Homepage"
+                    },
+                    "category": {
+                        "title": "Category",
+                        "description": "Category",
+                        "type": "string",
+                        "example": "Website"
+                    },
+                    "phraseCategoryId": {
+                        "title": "phraseCategoryId",
+                        "description": "phrase Category Id",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "phraseCategory": {
+                        "title": "UserCategory",
+                        "description": "UserCategory",
+                        "type": "string",
+                        "example": "Setting"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "UserPageableFilter"
                 }
             }
         },

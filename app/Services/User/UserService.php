@@ -1,43 +1,43 @@
 <?php
 
-namespace App\Services\Phrase;
+namespace App\Services\User;
 
-use App\Models\Phrase;
-use App\Services\Phrase\Models\PhrasePageableFilter;
-use App\Services\Phrase\Models\PhraseOut;
+use App\Models\User;
+use App\Services\User\Models\UserPageableFilter;
+use App\Services\User\Models\UserOut;
 use App\Services\Category\Models\CategoryOut;
-use App\Services\PhraseCategory\Models\PhraseCategoryOut;
+use App\Services\UserCategory\Models\UserCategoryOut;
 use App\Services\Base\Mapper;
-use App\Repositories\PhraseRepository;
+use App\Repositories\UserRepository;
 use App\Services\Project\Models\ProjectOut;
 
-interface IPhraseService
+interface IUserService
 {
-    public function getAll(PhrasePageableFilter $filter, array $include= []);
-    public function getCount(PhrasePageableFilter $filter) : int;
+    public function getAll(UserPageableFilter $filter, array $include= []);
+    public function getCount(UserPageableFilter $filter) : int;
 }
 
-class PhraseService implements IPhraseService
+class UserService implements IUserService
 {
     private $_mapper;
     private $_phraseRepository;
 
     public function __construct(
         Mapper $mapper,
-        PhraseRepository $phraseRepository
+        UserRepository $phraseRepository
         )
     {
         $this->_mapper = $mapper;
         $this->_phraseRepository = $phraseRepository;
     }
 
-    public function getAll(PhrasePageableFilter $filter, array $include = [])
+    public function getAll(UserPageableFilter $filter, array $include = [])
     {
-        $result = $this->_phraseRepository->getAllUserPhrasesAsync($filter, $include);
+        $result = $this->_phraseRepository->getAllUserUsersAsync($filter, $include);
 
         $resultDto = $result->get()->map(function($phrase) {
 
-            $phraseDto = new PhraseOut();
+            $phraseDto = new UserOut();
 
             $phraseDto = $this->_mapper->Map((object)$phrase->toArray(), $phraseDto);
 
@@ -53,7 +53,7 @@ class PhraseService implements IPhraseService
 
             if(isset($phrase->phraseCategory))
             {
-                $phraseCategoryDto = new PhraseCategoryOut();
+                $phraseCategoryDto = new UserCategoryOut();
                 $phraseDto->phraseCategory = $this->_mapper->Map((object)$phrase->phraseCategory->toArray(), $phraseCategoryDto);
             }
 
@@ -63,25 +63,25 @@ class PhraseService implements IPhraseService
         return $resultDto;
     }
 
-    public function getCount(PhrasePageableFilter $filter) : int
+    public function getCount(UserPageableFilter $filter) : int
     {
-        $result = $this->_phraseRepository->getAllUserPhrasesAsync($filter);
+        $result = $this->_phraseRepository->getAllUserUsersAsync($filter);
 
         return $result->count();
     }
 
     public function viewAsync($id)
     {
-        return Phrase::find($id);
+        return User::find($id);
     }
 
     public function viewByEmail($email)
     {
-        return Phrase::find($email);
+        return User::find($email);
     }
 
     public function deleteAsync($id)
     {
-        return Phrase::find($id)->deleteAsync();
+        return User::find($id)->deleteAsync();
     }
 }

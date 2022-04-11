@@ -19,6 +19,12 @@ interface IBaseRepository
    public function getAllAsync(IPageableFilter $filter = null, array $include = []): Builder;
 
     /**
+    *
+    * @return Builder
+    */
+    public function getCount(): Builder;
+
+    /**
     * @param array $attributes
     * @return Model
     */
@@ -96,6 +102,21 @@ class BaseRepository implements IBaseRepository
                 }
 
                 $query = $query->with($include);
+
+                return $query;
+            });
+    }
+
+    /**
+    *
+    * @return Builder
+    */
+    public function getCount(): Builder
+    {
+        return
+            $this->asyncExecution(function() {
+
+                $query = $this->model->orderBy($this->model->getKeyName());
 
                 return $query;
             });

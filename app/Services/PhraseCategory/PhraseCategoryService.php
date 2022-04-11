@@ -55,9 +55,9 @@ class PhraseCategoryService implements IPhraseCategoryService
 
     public function getCount(PhraseCategoryPageableFilter $filter) : int
     {
-        $result = $this->_phraseCategoryRepository->getAllPhraseCategoriesAsync($filter);
+        $result = $this->_phraseCategoryRepository->count($filter);
 
-        return $result->count();
+        return $result;
     }
 
     public function viewAsync($id)

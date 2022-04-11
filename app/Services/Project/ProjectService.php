@@ -82,9 +82,9 @@ class ProjectService implements IProjectService
 
     public function getCount(ProjectPageableFilter $filter) : int
     {
-        $result = $this->_projectRepository->getAllUserProjectsAsync($filter);
+        $result = $this->_projectRepository->count($filter);
 
-        return $result->count();
+        return $result;
     }
 
     public function viewAsync($id)

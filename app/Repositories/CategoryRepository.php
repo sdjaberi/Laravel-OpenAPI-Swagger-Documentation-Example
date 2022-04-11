@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 interface ICategoryRepository
 {
     public function getAllUserCategoriesAsync($filter, $include = []): Builder;
+    public function count($filter = null): int;
 }
 
 class CategoryRepository extends BaseRepository implements ICategoryRepository
@@ -34,24 +35,28 @@ class CategoryRepository extends BaseRepository implements ICategoryRepository
         return
             parent::asyncExecution(function() use($filter, $include) {
 
-                $result = parent::getAllAsync($filter, $include)->withCount('phrases');
+                $result = parent::getAllAsync($filter, $include);
+
+                $result = self::filter($result, $filter)->withCount('phrases');
+
+                return $result;
+            });
+    }
+
+    /**
+    *
+    * @return integer
+    */
+    public function count($filter = null): int
+    {
+        return
+            parent::asyncExecution(function() use($filter) {
+
+                $result = parent::getCount();
 
                 $result = self::filter($result, $filter);
 
-                $user = Auth::user();
-
-                if($user)
-                {
-                    $result = $result
-                        ->whereIn('name', $user->categories->map(
-                            function ($item) {
-                                return $item->name;
-                            }
-                        )
-                    );
-                }
-
-                return $result;
+                return $result->count();
             });
     }
 
@@ -85,6 +90,19 @@ class CategoryRepository extends BaseRepository implements ICategoryRepository
                 ->join('projects', 'categories.project_id', '=', 'projects.id')
                 ->select('projects.name as projectName', 'categories.*')
                 ->orWhere('projects.name' , 'like', '%' .$filter->q. '%');;
+        }
+
+        $user = Auth::user();
+
+        if($user)
+        {
+            $result = $result
+                ->whereIn('name', $user->categories->map(
+                    function ($item) {
+                        return $item->name;
+                    }
+                )
+            );
         }
 
         return $result;

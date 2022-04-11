@@ -62,7 +62,13 @@ Route::group([
             Route::put('languages/{id}', 'LanguagesController@update')->name('update.api')->middleware(['auth:api', 'scopes:language_edit']);
             Route::delete('languages/{id}', 'LanguagesController@destroy')->name('destroy.api')->middleware(['auth:api', 'scopes:language_delete']);
 
-
+            // Translations
+            //Route::apiResource('translations', 'TranslationsController')->middleware(['auth:api', 'scopes:translation_edit,translation_create,translation_delete']);
+            Route::get('translations', 'TranslationsController@index')->name('index.api')->middleware(['auth:api', 'scopes:translation_access']);
+            Route::get('translations/{id}', 'TranslationsController@show')->name('show.api')->middleware(['auth:api', 'scopes:translation_show']);
+            Route::post('translations', 'TranslationsController@store')->name('store.api')->middleware(['auth:api', 'scopes:translation_create']);
+            Route::put('translations/{id}', 'TranslationsController@update')->name('update.api')->middleware(['auth:api', 'scopes:translation_edit']);
+            Route::delete('translations/{id}', 'TranslationsController@destroy')->name('destroy.api')->middleware(['auth:api', 'scopes:translation_delete']);
 
 
             // Permissions
@@ -80,13 +86,6 @@ Route::group([
             Route::delete('users/{id}', 'UsersController@destroy')->name('destroy.api')->middleware(['auth:api', 'scopes:user_delete']);
 
 
-            // Translations
-            //Route::apiResource('translations', 'TranslationsController')->middleware(['auth:api', 'scopes:translation_edit,translation_create,translation_delete']);
-            Route::get('translations', 'TranslationsController@index')->name('index.api')->middleware(['auth:api', 'scopes:translation_access']);
-            Route::get('translations/{id}', 'TranslationsController@show')->name('show.api')->middleware(['auth:api', 'scopes:translation_show']);
-            Route::post('translations', 'TranslationsController@store')->name('store.api')->middleware(['auth:api', 'scopes:translation_create']);
-            Route::put('translations/{id}', 'TranslationsController@update')->name('update.api')->middleware(['auth:api', 'scopes:translation_edit']);
-            Route::delete('translations/{id}', 'TranslationsController@destroy')->name('destroy.api')->middleware(['auth:api', 'scopes:translation_delete']);
 
     });
 

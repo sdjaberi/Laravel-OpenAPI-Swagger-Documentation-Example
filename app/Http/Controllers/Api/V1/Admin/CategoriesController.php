@@ -155,7 +155,7 @@ class CategoriesController extends Controller
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/Category")
+     *          @OA\JsonContent(ref="#/components/schemas/CategoryOut")
      *       ),
      *      @OA\Response(
      *          response="400",
@@ -208,7 +208,7 @@ class CategoriesController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/Category")
+     *          @OA\JsonContent(ref="#/components/schemas/CategoryOut")
      *       ),
      *      @OA\Response(
      *          response="400",
@@ -264,7 +264,7 @@ class CategoriesController extends Controller
      *      @OA\Response(
      *          response=202,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/Category")
+     *          @OA\JsonContent(ref="#/components/schemas/CategoryOut")
      *       ),
      *      @OA\Response(
      *          response="400",

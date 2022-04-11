@@ -171,7 +171,7 @@ class PhrasesController extends Controller
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/Phrase")
+     *          @OA\JsonContent(ref="#/components/schemas/PhraseOut")
      *       ),
      *      @OA\Response(
      *          response="400",
@@ -224,7 +224,7 @@ class PhrasesController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/Phrase")
+     *          @OA\JsonContent(ref="#/components/schemas/PhraseOut")
      *       ),
      *      @OA\Response(
      *          response="400",
@@ -280,7 +280,7 @@ class PhrasesController extends Controller
      *      @OA\Response(
      *          response=202,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/Phrase")
+     *          @OA\JsonContent(ref="#/components/schemas/PhraseOut")
      *       ),
      *      @OA\Response(
      *          response="400",

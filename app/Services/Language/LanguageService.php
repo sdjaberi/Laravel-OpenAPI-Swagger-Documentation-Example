@@ -46,9 +46,9 @@ class LanguageService implements ILanguageService
 
     public function getCount(LanguagePageableFilter $filter) : int
     {
-        $result = $this->_languageRepository->getAllUserLanguagesAsync($filter);
+        $result = $this->_languageRepository->count($filter, []);
 
-        return $result->count();
+        return $result;
     }
 
     public function viewAsync($id)

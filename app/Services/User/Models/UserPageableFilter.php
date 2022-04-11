@@ -1,25 +1,25 @@
 <?php
 
-namespace App\Services\Phrase\Models;
+namespace App\Services\User\Models;
 
 use App\Services\Base\IPageableFilter;
 
 /**
  * @OA\Schema(
- *     title="PhrasePageableFilter",
- *     description="PhrasePageableFilter model",
+ *     title="UserPageableFilter",
+ *     description="UserPageableFilter model",
  *     @OA\Xml(
- *         name="PhrasePageableFilter"
+ *         name="UserPageableFilter"
  *     )
  * )
  */
 
-class PhrasePageableFilter extends IPageableFilter
+class UserPageableFilter extends IPageableFilter
 {
     /**
      * @OA\Property(
-     *     title="Phrase",
-     *     description="Phrase",
+     *     title="User",
+     *     description="User",
      *     example="Homepage"
      * )
      *
@@ -53,8 +53,8 @@ class PhrasePageableFilter extends IPageableFilter
 
     /**
      * @OA\Property(
-     *     title="PhraseCategory",
-     *     description="PhraseCategory",
+     *     title="UserCategory",
+     *     description="UserCategory",
      *     example="Setting"
      * )
      *
