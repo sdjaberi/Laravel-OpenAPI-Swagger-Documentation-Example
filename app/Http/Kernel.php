@@ -20,7 +20,6 @@ class Kernel extends HttpKernel
 
     protected $middlewareGroups = [
         'api' => [
-            'throttle:60,1',
             'bindings',
             //\Fruitcake\Cors\HandleCors::class,
             //\App\Http\Middleware\Cors::class,

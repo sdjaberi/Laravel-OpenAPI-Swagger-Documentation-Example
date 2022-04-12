@@ -21,6 +21,8 @@ class TranslationFilter extends IFilter
 
     public string $translation;
 
+    public string $category;
+
     public int $phrase_id;
 
     public int $language_id;

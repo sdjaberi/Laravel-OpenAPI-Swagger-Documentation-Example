@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\TranslationStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\Translations\IndexTranslationRequest;
 use App\Http\Requests\Web\Translations\StoreTranslationRequest;
@@ -189,6 +190,7 @@ class TranslationsController extends Controller
             $base_id = $record->base_id;
             $translation = $record->translation;
             $phrase = $record->phrase;
+            $status = $record->status;
             $language = $record->language;
             $author = $record->author;
 
@@ -197,6 +199,7 @@ class TranslationsController extends Controller
                 "base_id" => $base_id,
                 "translation" => $translation,
                 "phrase" => $phrase,
+                "status" => !$status ? TranslationStatus::Approved()->key : TranslationStatus::Pending()->key,
                 "language" => $language,
                 "author" => $author,
             );

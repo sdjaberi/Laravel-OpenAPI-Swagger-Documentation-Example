@@ -33,6 +33,8 @@ class TranslationService implements ITranslationService
 
     public function getAll(TranslationPageableFilter $filter, array $include = [])
     {
+        ini_set('max_execution_time', '300');
+
         $result = $this->_translationRepository->getAllUserTranslationsAsync($filter, $include);
 
         $resultDto = $result->get()->map(function($translation) {

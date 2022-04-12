@@ -29,6 +29,17 @@ class TranslationPageableFilter extends IPageableFilter
 
     /**
      * @OA\Property(
+     *     title="Category",
+     *     description="Category Name",
+     *     example="Website"
+     * )
+     *
+     * @var string
+     */
+    public string $category;
+
+    /**
+     * @OA\Property(
      *     title="Phrase",
      *     description="Phrase",
      *     example="Homepage"

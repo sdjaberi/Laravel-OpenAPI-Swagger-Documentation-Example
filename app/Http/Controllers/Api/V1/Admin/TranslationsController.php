@@ -70,7 +70,6 @@ class TranslationsController extends Controller
      *          name="sortDesc",
      *          description="Column name to sort descending",
      *          example=true,
-     *          required=true,
      *          in="query",
      *          @OA\Schema(
      *              type="boolean",
@@ -87,6 +86,14 @@ class TranslationsController extends Controller
      *      @OA\Parameter(
      *          name="translation",
      *          description="Translation",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="category",
+     *          description="Category name",
      *          in="query",
      *          @OA\Schema(
      *              type="string"
@@ -158,6 +165,164 @@ class TranslationsController extends Controller
      * )
      */
     public function index(Request $request)
+    {
+        $filterObject = json_decode(json_encode($request->all()), false);
+
+        $filter = new translationPageableFilter();
+
+        foreach ($filterObject as $key => $value)
+        {
+            if(!$value)
+                continue;
+
+            $filter->$key = $value;
+
+            if($key == "sortDesc" && $value == "false")
+                $filter->$key = False;
+        }
+
+        $translations = $this->_translationService->getAll($filter, ['phrase', 'language', 'author']);
+        $translationsTotal = $this->_translationService->getCount($filter);
+
+        return new TranslationResource([ 'data' => $translations, 'total' => $translationsTotal]);
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/translations/user",
+     *      operationId="getTranslationsUserList",
+     *      tags={"Translations"},
+     *      security={{"passport": {*}}},
+     *      summary="Get list of user translations",
+     *      description="Returns list of user translations",
+     *      @OA\Parameter(
+     *          name="page",
+     *          description="Page number",
+     *          example=1,
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="perPage",
+     *          description="Number of item per page",
+     *          example=20,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="sortBy",
+     *          description="Column name to sort by",
+     *          example="id",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="sortDesc",
+     *          description="Column name to sort descending",
+     *          example=true,
+     *          required=true,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="boolean",
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="q",
+     *          description="Search Query",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="translation",
+     *          description="Translation",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="category",
+     *          description="Category Name",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="phrase",
+     *          description="Phrase",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="phraseId",
+     *          description="Phrase Id",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="language",
+     *          description="Language Title",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="languageId",
+     *          description="Language Id",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="user",
+     *          description="User Name",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="userId",
+     *          description="User Id",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/TranslationResource")
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiUnAuthException")
+     *      ),
+     *      @OA\Response(
+     *          response="403",
+     *          description="Invalid scope(s) provided.",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiAccessDeniedException")
+     *      ),
+     * )
+     */
+    public function userTranslations(Request $request)
     {
         $filterObject = json_decode(json_encode($request->all()), false);
 

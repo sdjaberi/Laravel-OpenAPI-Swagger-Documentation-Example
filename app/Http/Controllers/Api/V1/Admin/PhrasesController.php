@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Requests\Api\Phrases\StorePhraseRequest;
 use App\Http\Requests\Api\Phrases\UpdatePhraseRequest;
+use App\Http\Requests\Api\Phrases\UpsertPhraseRequest;
 use App\Http\Resources\Admin\PhraseResource;
 use App\Repositories\PhraseRepository;
 use App\Services\Base\Mapper;
@@ -307,6 +308,59 @@ class PhrasesController extends Controller
     public function update(UpdatePhraseRequest $request, $id)
     {
         $phrase = $this->_phraseRepository->updateAsync($id, $request->all());
+
+        return (new PhraseResource($phrase))
+            ->response()
+            ->setStatusCode(Response::HTTP_ACCEPTED);
+    }
+
+    /**
+     * @OA\Put(
+     *      path="/phrases",
+     *      operationId="upsertPhrase",
+     *      tags={"Phrases"},
+     *      security={{"passport": {"*"}}},
+     *      summary="Upsert phrase and persist it into the data source",
+     *      description="Returns upserted phrase data",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/UpsertPhraseRequest")
+     *      ),
+     *      @OA\Response(
+     *          response=202,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/PhraseOut")
+     *       ),
+     *      @OA\Response(
+     *          response="400",
+     *          description="Bad Request",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiRequestException")
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiUnAuthException")
+     *      ),
+     *      @OA\Response(
+     *          response="403",
+     *          description="Invalid scope(s) provided.",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiAccessDeniedException")
+     *      ),
+     *      @OA\Response(
+     *          response="404",
+     *          description="Resource Not Found",
+     *          @OA\JsonContent(ref="#/components/schemas/ApiNotFoundException")
+     *      ),
+     * )
+     */
+    public function upsert(UpsertPhraseRequest $request)
+    {
+        $phrase = $this->_phraseRepository->upsertPhraseAsync(
+            $request->phrase,
+            $request->category_name,
+            $request->phrase_category_name,
+            $request->base_id
+        );
 
         return (new PhraseResource($phrase))
             ->response()

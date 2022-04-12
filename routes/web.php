@@ -1,5 +1,11 @@
 <?php
 
+use App\Models\Category;
+use App\Models\Translation;
+use App\Repositories\TranslationRepository;
+use App\Services\Base\Mapper;
+use App\Services\Translation\Models\TranslationPageableFilter;
+use App\Services\Translation\TranslationService;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,6 +17,20 @@ Route::get('/home', function () {
     }
 
     return redirect()->route('admin.home');
+});
+
+Route::get('/debug', function () {
+
+    $translationRepository = new TranslationService(new Mapper(), new TranslationRepository(new Translation));
+    $translations = $translationRepository->getAll(new TranslationPageableFilter(), []);
+
+    dd($translations);
+
+    dd(Category::find('Groups')->phrases()->getQuery());
+    $phraseIds = Category::find('Groups')->phrases()->get()->pluck('id')->toArray();
+
+    $translations = Translation::whereIn('phrase_id', $phraseIds)->get();
+    dd($translations);
 });
 
 Auth::routes(['register' => true]);

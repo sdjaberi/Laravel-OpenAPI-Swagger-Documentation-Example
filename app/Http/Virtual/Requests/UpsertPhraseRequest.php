@@ -4,14 +4,14 @@ namespace App\Http\Virtual\Requests;
 
 /**
  * @OA\Schema(
- *      title="Update Phrase request",
- *      description="Update Phrase request body data",
+ *      title="Upsert Phrase request",
+ *      description="Upsert Phrase request body data",
  *      type="object",
- *      required={"phrase","category_name"}
+ *      required={"base_id", "phrase", "category_name"}
  * )
  */
 
-class UpdatePhraseRequest
+class UpsertPhraseRequest
 {
     /**
      * @OA\Property(
@@ -49,13 +49,13 @@ class UpdatePhraseRequest
 
     /**
      * @OA\Property(
-     *     title="Phrase Category ID",
-     *     description="Phrase Category ID",
-     *     format="int64",
-     *     example=1
+     *     title="Phrase Category Name",
+     *     description="Phrase Category Name",
+     *     format="string",
+     *     example="Settings"
      * )
      *
      * @var integer
      */
-    private $phrase_category_id;
+    private $phrase_category_name;
 }

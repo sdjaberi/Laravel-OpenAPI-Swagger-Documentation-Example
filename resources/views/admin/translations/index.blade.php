@@ -35,6 +35,9 @@
                             {{ trans('cruds.translation.fields.phrase') }}
                         </th>
                         <th>
+                            {{ trans('cruds.translation.fields.status') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.translation.fields.language') }}
                         </th>
                         <th>
@@ -102,6 +105,7 @@
             { data: 'base_id' },
             { data: 'translation' },
             { data: 'phrase' },
+            { data: 'status' },
             { data: 'language' },
             { data: 'author' },
             { data: 'id', orderable: false },
@@ -115,7 +119,7 @@
                 defaultContent: ""
             },
             {
-                targets: 7,
+                targets: 8,
                 render: function (data) {
                     return '<a class="btn btn-xs btn-primary" href="/admin/translations/' + data + '">{{ trans('global.view') }}</a> ' +
                     '<a class="btn btn-xs btn-info" href="/admin/translations/' + data + '/edit">{{ trans('global.edit') }}</a> ' +

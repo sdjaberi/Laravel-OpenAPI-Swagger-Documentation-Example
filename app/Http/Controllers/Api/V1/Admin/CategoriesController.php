@@ -190,19 +190,19 @@ class CategoriesController extends Controller
 
     /**
      * @OA\Get(
-     *      path="/categories/{id}",
-     *      operationId="getCategoryById",
+     *      path="/categories/{name}",
+     *      operationId="getCategoryByName",
      *      tags={"Categories"},
      *      security={{"passport": {"*"}}},
      *      summary="Get category information",
      *      description="Returns category data",
      *      @OA\Parameter(
-     *          name="id",
-     *          description="Category id",
+     *          name="name",
+     *          description="Category name",
      *          required=true,
      *          in="path",
      *          @OA\Schema(
-     *              type="integer"
+     *              type="string"
      *          )
      *      ),
      *      @OA\Response(
@@ -242,19 +242,19 @@ class CategoriesController extends Controller
 
     /**
      * @OA\Put(
-     *      path="/categories/{id}",
+     *      path="/categories/{name}",
      *      operationId="updateCategory",
      *      tags={"Categories"},
      *      security={{"passport": {"*"}}},
      *      summary="Update existing category",
      *      description="Returns updated category data",
      *      @OA\Parameter(
-     *          name="id",
-     *          description="Category id",
+     *          name="name",
+     *          description="Category name",
      *          required=true,
      *          in="path",
      *          @OA\Schema(
-     *              type="integer"
+     *              type="string"
      *          )
      *      ),
      *      @OA\RequestBody(
@@ -299,19 +299,19 @@ class CategoriesController extends Controller
 
     /**
      * @OA\Delete(
-     *      path="/categories/{id}",
+     *      path="/categories/{name}",
      *      operationId="deleteCategory",
      *      tags={"Categories"},
      *      security={{"passport": {"*"}}},
      *      summary="Delete existing category",
      *      description="Deletes a record and returns no content",
      *      @OA\Parameter(
-     *          name="id",
-     *          description="Category id",
+     *          name="name",
+     *          description="Category name",
      *          required=true,
      *          in="path",
      *          @OA\Schema(
-     *              type="integer"
+     *              type="string"
      *          )
      *      ),
      *      @OA\Response(

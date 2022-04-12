@@ -32,9 +32,9 @@ class PhraseCategoriesController extends Controller
 
     /**
      * @OA\Get(
-     *      path="/phraseCategories",
+     *      path="/phrase-categories",
      *      operationId="getPhraseCategoriesList",
-     *      tags={"PhraseCategories"},
+     *      tags={"Phrase Categories"},
      *      security={{"passport": {*}}},
      *      summary="Get list of phraseCategories",
      *      description="Returns list of phraseCategories",
@@ -134,9 +134,9 @@ class PhraseCategoriesController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/phraseCategories",
+     *      path="/phrase-categories",
      *      operationId="storePhraseCategory",
-     *      tags={"PhraseCategories"},
+     *      tags={"Phrase Categories"},
      *      security={{"passport": {"*"}}},
      *      summary="Store new phraseCategory",
      *      description="Returns phraseCategory data",
@@ -182,9 +182,9 @@ class PhraseCategoriesController extends Controller
 
     /**
      * @OA\Get(
-     *      path="/phraseCategories/{id}",
+     *      path="/phrase-categories/{id}",
      *      operationId="getPhraseCategoryById",
-     *      tags={"PhraseCategories"},
+     *      tags={"Phrase Categories"},
      *      security={{"passport": {"*"}}},
      *      summary="Get phraseCategory information",
      *      description="Returns phraseCategory data",
@@ -234,9 +234,9 @@ class PhraseCategoriesController extends Controller
 
     /**
      * @OA\Put(
-     *      path="/phraseCategories/{id}",
+     *      path="/phrase-categories/{id}",
      *      operationId="updatePhraseCategory",
-     *      tags={"PhraseCategories"},
+     *      tags={"Phrase Categories"},
      *      security={{"passport": {"*"}}},
      *      summary="Update existing phraseCategory",
      *      description="Returns updated phraseCategory data",
@@ -291,9 +291,9 @@ class PhraseCategoriesController extends Controller
 
     /**
      * @OA\Delete(
-     *      path="/phraseCategories/{id}",
+     *      path="/phrase-categories/{id}",
      *      operationId="deletePhraseCategory",
-     *      tags={"PhraseCategories"},
+     *      tags={"Phrase Categories"},
      *      security={{"passport": {"*"}}},
      *      summary="Delete existing phraseCategory",
      *      description="Deletes a record and returns no content",

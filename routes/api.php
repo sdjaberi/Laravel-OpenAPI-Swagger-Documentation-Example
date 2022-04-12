@@ -36,6 +36,8 @@ Route::group([
             Route::get('phrases/{id}', 'PhrasesController@show')->name('show.api')->middleware(['auth:api', 'scopes:phrase_show']);
             Route::post('phrases', 'PhrasesController@store')->name('store.api')->middleware(['auth:api', 'scopes:phrase_create']);
             Route::put('phrases/{id}', 'PhrasesController@update')->name('update.api')->middleware(['auth:api', 'scopes:phrase_edit']);
+            Route::put('phrases', 'PhrasesController@upsert')->name('upsert.api')->middleware(['auth:api', 'scopes:phrase_create,phrase_edit']);
+            //Route::patch('phrases', 'PhrasesController@upsert2')->name('upsert2.api')->middleware(['auth:api', 'scopes:phrase_create,phrase_edit']);
             Route::delete('phrases/{id}', 'PhrasesController@destroy')->name('destroy.api')->middleware(['auth:api', 'scopes:phrase_delete']);
 
             // Categories
@@ -64,6 +66,7 @@ Route::group([
 
             // Translations
             //Route::apiResource('translations', 'TranslationsController')->middleware(['auth:api', 'scopes:translation_edit,translation_create,translation_delete']);
+            Route::get('translations/user', 'TranslationsController@userTranslations')->name('userTranslations.api')->middleware(['auth:api', 'scopes:translation_access']);
             Route::get('translations', 'TranslationsController@index')->name('index.api')->middleware(['auth:api', 'scopes:translation_access']);
             Route::get('translations/{id}', 'TranslationsController@show')->name('show.api')->middleware(['auth:api', 'scopes:translation_show']);
             Route::post('translations', 'TranslationsController@store')->name('store.api')->middleware(['auth:api', 'scopes:translation_create']);

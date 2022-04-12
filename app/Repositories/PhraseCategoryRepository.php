@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 interface IPhraseCategoryRepository
 {
-    public function getByNameAsync($phraseCategoryName): PhraseCategory;
+    public function getByNameAsync($phraseCategoryName);
     public function getAllPhraseCategoriesAsync($filter, $include = []): Builder;
     public function count($filter = null): int;
 }
@@ -31,7 +31,7 @@ class PhraseCategoryRepository extends BaseRepository implements IPhraseCategory
     *
     * @return PhraseCategory
     */
-    public function getByNameAsync($phraseCategoryName): PhraseCategory
+    public function getByNameAsync($phraseCategoryName)
     {
         return
             parent::asyncExecution(function() use($phraseCategoryName) {

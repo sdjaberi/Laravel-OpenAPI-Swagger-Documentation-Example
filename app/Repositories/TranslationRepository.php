@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Category;
 use App\Models\Translation;
 use App\Repositories\Base\BaseRepository;
 use App\Services\Translation\Models\TranslationPageableFilter;
@@ -174,7 +175,7 @@ class TranslationRepository extends BaseRepository implements ITranslationReposi
         if(isset($filter->user))
         {
             $query = $query
-                ->join('useres', 'phrase_translations.user_id', '=', 'useres.id')
+                ->join('useres', 'phrase_translations.user_id', '=', 'users.id')
                 ->select('users.name', 'phrase_translations.*')
                 ->where('users.name' , '=', $filter->user);
         }
@@ -203,20 +204,33 @@ class TranslationRepository extends BaseRepository implements ITranslationReposi
                 ->orWhere('users.name' , 'like', '%' .$filter->q. '%');
         }
 
-        /*
         $user = Auth::user();
-
         if($user)
         {
+            $userCategories = $user->categories->pluck('name')->toArray();
+
+            //dd($filter->category, in_array($filter->category, (array)$userCategories, false));
+
+            //$phraseIds = Category::find($filter->category)->phrases()->get()->pluck('id')->toArray();
+            //dd($phraseIds);
+            //$translations = Translation::whereIn('phrase_id', $phraseIds)->get();
+            //dd($translations);
+
             $query = $query
-                ->whereIn('category_name', $user->categories->map(
-                    function ($item) {
-                        return $item->name;
-                    }
-                )
-            );
+                    ->join('phrases', 'phrase_translations.phrase_id', '=', 'phrases.id')
+                    ->select('phrases.category_name', 'phrase_translations.*');
+
+            if(isset($filter->category) && in_array($filter->category, $userCategories))
+            {
+                $query = $query
+                    ->where('phrases.category_name' , $filter->category);
+            }
+            else
+            {
+                $query = $query
+                    ->whereIn('phrases.category_name' , $userCategories);
+            }
         }
-        */
 
         return $query;
     }

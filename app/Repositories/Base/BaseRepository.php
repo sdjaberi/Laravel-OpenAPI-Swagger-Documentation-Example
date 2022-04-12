@@ -92,13 +92,22 @@ class BaseRepository implements IBaseRepository
 
                 if(!is_null($filter))
                 {
+                    ini_set('memory_limit', '-1');
+
                     $query = $query->orderBy(
                         !isset($filter->sortBy) ? $this->model->getKeyName() : $filter->sortBy,
                         isset($filter->sortDesc) && $filter->sortDesc  ? "desc" : "asc" );
-                    $query = $query->take(
-                        !isset($filter->perPage) ? 50 : $filter->perPage);
-                    $query = $query->skip(
-                        !isset($filter->page) ? 1 : $filter->perPage * ($filter->page - 1));
+
+                    if(isset($filter->perPage))
+                    {
+                        $query = $query->take($filter->perPage);
+                    }
+
+                    if(isset($filter->perPage))
+                    {
+                        $query = $query->skip(
+                            !isset($filter->page) ? 0 : $filter->perPage * ($filter->page - 1));
+                    }
                 }
 
                 $query = $query->with($include);
@@ -167,6 +176,29 @@ class BaseRepository implements IBaseRepository
                 }
 
                 $model->update($attributes);
+
+                return $model;
+            });
+    }
+
+
+    /**
+    * @param array $attributes
+    * @param array $relations
+    * @param string $id
+    *
+    * @return bool
+    */
+    public function updateEntityAsync($entityModel, array $relations = []): ?Model
+    {
+        return
+            $this->asyncExecution(function() use($entityModel, $relations) {
+
+                $model = $this->model->with($relations)->find($entityModel->getKey());
+
+                $model = $entityModel;
+
+                $model->update();
 
                 return $model;
             });

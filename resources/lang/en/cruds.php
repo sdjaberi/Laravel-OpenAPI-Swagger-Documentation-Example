@@ -201,6 +201,8 @@ return [
             'id_helper'               => '',
             'translation'             => 'Translation',
             'translation_helper'      => '',
+            'status'                  => 'Status',
+            'status_helper'           => '',
             'phrase'                  => 'Phrase',
             'phrase_helper'           => '',
             'language'                => 'Language',

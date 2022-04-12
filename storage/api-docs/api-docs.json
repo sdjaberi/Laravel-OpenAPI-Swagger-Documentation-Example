@@ -411,22 +411,22 @@
                 ]
             }
         },
-        "/categories/{id}": {
+        "/categories/{name}": {
             "get": {
                 "tags": [
                     "Categories"
                 ],
                 "summary": "Get category information",
                 "description": "Returns category data",
-                "operationId": "getCategoryById",
+                "operationId": "getCategoryByName",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "name",
                         "in": "path",
-                        "description": "Category id",
+                        "description": "Category name",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -499,12 +499,12 @@
                 "operationId": "updateCategory",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "name",
                         "in": "path",
-                        "description": "Category id",
+                        "description": "Category name",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -587,12 +587,12 @@
                 "operationId": "deleteCategory",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "name",
                         "in": "path",
-                        "description": "Category id",
+                        "description": "Category name",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -1107,10 +1107,10 @@
                 ]
             }
         },
-        "/phraseCategories": {
+        "/phrase-categories": {
             "get": {
                 "tags": [
-                    "PhraseCategories"
+                    "Phrase Categories"
                 ],
                 "summary": "Get list of phraseCategories",
                 "description": "Returns list of phraseCategories",
@@ -1211,7 +1211,7 @@
             },
             "post": {
                 "tags": [
-                    "PhraseCategories"
+                    "Phrase Categories"
                 ],
                 "summary": "Store new phraseCategory",
                 "description": "Returns phraseCategory data",
@@ -1287,10 +1287,10 @@
                 ]
             }
         },
-        "/phraseCategories/{id}": {
+        "/phrase-categories/{id}": {
             "get": {
                 "tags": [
-                    "PhraseCategories"
+                    "Phrase Categories"
                 ],
                 "summary": "Get phraseCategory information",
                 "description": "Returns phraseCategory data",
@@ -1368,7 +1368,7 @@
             },
             "put": {
                 "tags": [
-                    "PhraseCategories"
+                    "Phrase Categories"
                 ],
                 "summary": "Update existing phraseCategory",
                 "description": "Returns updated phraseCategory data",
@@ -1456,7 +1456,7 @@
             },
             "delete": {
                 "tags": [
-                    "PhraseCategories"
+                    "Phrase Categories"
                 ],
                 "summary": "Delete existing phraseCategory",
                 "description": "Deletes a record and returns no content",
@@ -1644,6 +1644,83 @@
                 "security": [
                     {
                         "passport": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Phrases"
+                ],
+                "summary": "Upsert phrase and persist it into the data source",
+                "description": "Returns upserted phrase data",
+                "operationId": "upsertPhrase",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpsertPhraseRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PhraseOut"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiRequestException"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnAuthException"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid scope(s) provided.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiAccessDeniedException"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiNotFoundException"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": [
+                            "*"
+                        ]
                     }
                 ]
             },
@@ -2414,7 +2491,6 @@
                         "name": "sortDesc",
                         "in": "query",
                         "description": "Column name to sort descending",
-                        "required": true,
                         "schema": {
                             "type": "boolean"
                         },
@@ -2432,6 +2508,14 @@
                         "name": "translation",
                         "in": "query",
                         "description": "Translation",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Category name",
                         "schema": {
                             "type": "string"
                         }
@@ -2597,6 +2681,165 @@
                         "passport": [
                             "*"
                         ]
+                    }
+                ]
+            }
+        },
+        "/translations/user": {
+            "get": {
+                "tags": [
+                    "Translations"
+                ],
+                "summary": "Get list of user translations",
+                "description": "Returns list of user translations",
+                "operationId": "getTranslationsUserList",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "Number of item per page",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 20
+                    },
+                    {
+                        "name": "sortBy",
+                        "in": "query",
+                        "description": "Column name to sort by",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "id"
+                    },
+                    {
+                        "name": "sortDesc",
+                        "in": "query",
+                        "description": "Column name to sort descending",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": true
+                    },
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Search Query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "translation",
+                        "in": "query",
+                        "description": "Translation",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Category Name",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "phrase",
+                        "in": "query",
+                        "description": "Phrase",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "phraseId",
+                        "in": "query",
+                        "description": "Phrase Id",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "language",
+                        "in": "query",
+                        "description": "Language Title",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "languageId",
+                        "in": "query",
+                        "description": "Language Id",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "user",
+                        "in": "query",
+                        "description": "User Name",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "description": "User Id",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TranslationResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiUnAuthException"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid scope(s) provided.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiAccessDeniedException"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
                     }
                 ]
             }
@@ -3505,7 +3748,8 @@
                 "title": "Update Phrase request",
                 "description": "Update Phrase request body data",
                 "required": [
-                    "name"
+                    "phrase",
+                    "category_name"
                 ],
                 "properties": {
                     "base_id": {
@@ -3613,6 +3857,44 @@
                         "description": "User ID",
                         "type": "integer",
                         "example": "A user id"
+                    }
+                },
+                "type": "object"
+            },
+            "UpsertPhraseRequest": {
+                "title": "Upsert Phrase request",
+                "description": "Upsert Phrase request body data",
+                "required": [
+                    "base_id",
+                    "phrase",
+                    "category_name"
+                ],
+                "properties": {
+                    "base_id": {
+                        "title": "Base ID",
+                        "description": "Base ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "phrase": {
+                        "title": "Phrase",
+                        "description": "Phrase",
+                        "type": "string",
+                        "example": "A new phrase"
+                    },
+                    "category_name": {
+                        "title": "Category Name",
+                        "description": "Category Name",
+                        "type": "string",
+                        "example": "A category name"
+                    },
+                    "phrase_category_name": {
+                        "title": "Phrase Category Name",
+                        "description": "Phrase Category Name",
+                        "type": "integer",
+                        "format": "string",
+                        "example": "Settings"
                     }
                 },
                 "type": "object"
@@ -4640,6 +4922,12 @@
                         "description": "Translation",
                         "type": "string",
                         "example": "Homepage"
+                    },
+                    "category": {
+                        "title": "Category",
+                        "description": "Category Name",
+                        "type": "string",
+                        "example": "Website"
                     },
                     "phrase": {
                         "title": "Phrase",
